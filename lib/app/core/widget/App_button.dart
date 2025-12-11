@@ -11,10 +11,12 @@ class AppButton extends StatelessWidget {
   bool ? child;
   String ? iconPath ;
   Color? color ;
+  Color? bodycolor ;
   int? containerColor;
   double? borderRadius ;
 
-   AppButton({super.key,this.width,this.hight,this.titel,this.onPress,this.child,this.iconPath,this.color,this.containerColor = 0,this.textSize,this.borderRadius});
+
+   AppButton({super.key,this.width,this.hight,this.titel,this.onPress,this.child,this.iconPath,this.color,this.containerColor = 0,this.textSize,this.borderRadius,this.bodycolor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class AppButton extends StatelessWidget {
       child: Container(
         height: hight ?? 52.h,
         width: width ?? double.infinity,
-        decoration: BoxDecoration(color:  containerColor == 0 ? AppColors.secoundaryColor : AppColors.onPrimaryColor,borderRadius: BorderRadius.all(Radius.circular(borderRadius ??  08.r))),
+        decoration: BoxDecoration( color: bodycolor ?? ( containerColor == 0 ? AppColors.secoundaryColor : AppColors.onPrimaryColor),borderRadius: BorderRadius.all(Radius.circular(borderRadius ??  08.r))),
         child: child == true ? Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

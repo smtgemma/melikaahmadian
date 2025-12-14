@@ -14,7 +14,7 @@ import '../controllers/set_new_password_controller.dart';
 class SetNewPasswordView extends GetView<SetNewPasswordController> {
    SetNewPasswordView({super.key});
   final _globalKey = GlobalKey<FormState>();
-  final roleSelectionController = Get.find<RoleSelectionController>();
+  final roleSelectionController = Get.put(RoleSelectionController());
   @override
   Widget build(BuildContext context) {
     var textStyle = TextTheme.of(context);
@@ -77,7 +77,7 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
 
                           if(roleSelectionController.roleSelection.value == "service_provider"){
                             Get.toNamed(Routes.BIO);
-                          }
+                          }Get.toNamed(Routes.LOG_IN);
 
                         }
 

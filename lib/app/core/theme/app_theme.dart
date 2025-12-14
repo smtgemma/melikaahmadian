@@ -21,7 +21,7 @@ class AppTheme {
           headlineMedium:TextStyle(fontSize: 18.sp,color:AppColors.textPrimaryColor,fontFamily: "uber" ,fontWeight: FontWeight.bold),
 
           titleLarge: TextStyle(fontSize: 20.sp,color:AppColors.textPrimaryColor,fontFamily: "uber" ,fontWeight: FontWeight.bold),
-          titleMedium:TextStyle(fontSize: 18.sp,color:AppColors.textPrimaryColor,fontFamily: "uber" ,fontWeight: FontWeight.w500),
+          titleMedium:TextStyle(fontSize: 18.sp,color:AppColors.textPrimaryColor,fontFamily: "uber" ,fontWeight: FontWeight.bold),
           titleSmall:TextStyle(fontSize: 16.sp,color:AppColors.textPrimaryColor,fontFamily: "uber" ,fontWeight: FontWeight.w500) ,
 
           bodyLarge:TextStyle(fontSize: 18.sp,color:AppColors.textSecoundaryColor,fontFamily: "uber" ,fontWeight: FontWeight.w400) ,

@@ -76,6 +76,7 @@ class LogInView extends GetView<LogInController> {
                     SizedBox(height: 24.h,),
                     AppButton(titel: "Continue",onPress: (){
                       if(_globalKey.currentState!.validate()){
+                        Get.toNamed(Routes.NAVBAR);
         
                       }
         

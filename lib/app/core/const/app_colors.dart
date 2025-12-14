@@ -7,6 +7,9 @@ class AppColors {
   static Color onPrimaryColor = Color(0xffEFEFEF);
   static Color errorColor = Color(0xffFF6565);
   static Color dartRed = Color(0xffDD352E);
+  static Color cardColor = Color(0xffF5F5F5);
+  static Color greenColor = Color(0xff008001);
+  static Color orangeColor = Color(0xffA65F00);
 
 
   //text

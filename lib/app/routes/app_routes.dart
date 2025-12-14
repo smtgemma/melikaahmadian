@@ -14,7 +14,25 @@ abstract class Routes {
   static const SET_NEW_PASSWORD = _Paths.SET_NEW_PASSWORD;
   static const CREATE_ACCOUNT_WITH_EMAIL = _Paths.CREATE_ACCOUNT_WITH_EMAIL;
   static const BIO = _Paths.BIO;
-  static const SPECIALTY =  _Paths.SPECIALTY;
+  static const SPECIALTY = _Paths.SPECIALTY;
+  static const DOCUMENT_UPLOD_PAGE = _Paths.DOCUMENT_UPLOD_PAGE;
+  static const DOCUMENT_UPLOD = _Paths.DOCUMENT_UPLOD;
+  static const IMAGE_UPLOD = _Paths.IMAGE_UPLOD;
+  static const REVIEW_EVRYTHING = _Paths.REVIEW_EVRYTHING;
+  static const APPLICATION_SUBMIT = _Paths.APPLICATION_SUBMIT;
+  static const HOME = _Paths.HOME;
+  static const MOVE = _Paths.MOVE;
+  static const CHAT = _Paths.CHAT;
+  static const MENU = _Paths.MENU;
+  static const SETTING = _Paths.SETTING;
+  static const VIDEO_CMERA =  _Paths.VIDEO_CMERA;
+  static const REVIEW_VIDEO =_Paths.REVIEW_VIDEO;
+  static const ADD_DETAILS =  _Paths.ADD_DETAILS;
+  static const AI_ANALIZED_FURNITURE = _Paths.AI_ANALIZED_FURNITURE;
+  static const CUSTOM_FURNITURE =  _Paths.CUSTOM_FURNITURE;
+  static const ALL_ITEM =  _Paths.ALL_ITEM;
+  static const AI_ANALYE = _Paths.AI_ANALYE;
+  static const AI_GENARED_PRICE =  _Paths.AI_GENARED_PRICE;
 }
 
 abstract class _Paths {
@@ -31,4 +49,22 @@ abstract class _Paths {
   static const CREATE_ACCOUNT_WITH_EMAIL = '/create-account-with-email';
   static const BIO = '/bio';
   static const SPECIALTY = '/specialty';
+  static const DOCUMENT_UPLOD_PAGE = '/document-uplod-page';
+  static const DOCUMENT_UPLOD = '/document-uplod';
+  static const IMAGE_UPLOD = '/image-uplod';
+  static const REVIEW_EVRYTHING = '/review-evrything';
+  static const APPLICATION_SUBMIT = '/application-submit';
+  static const HOME = '/home';
+  static const MOVE = '/move';
+  static const CHAT = '/chat';
+  static const MENU = '/menu';
+  static const SETTING = '/setting';
+  static const VIDEO_CMERA = '/video-cmera';
+  static const REVIEW_VIDEO = '/review-video';
+  static const ADD_DETAILS = '/add-details';
+  static const AI_ANALIZED_FURNITURE = '/ai-analized-furniture';
+  static const CUSTOM_FURNITURE = '/custom-furniture';
+  static const ALL_ITEM = '/all-item';
+  static const AI_ANALYE = '/ai-analye';
+  static const AI_GENARED_PRICE = '/ai-genared-price';
 }

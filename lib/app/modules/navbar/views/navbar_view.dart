@@ -14,23 +14,87 @@ class NavbarView extends GetView<NavbarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('NavbarView'),
-        centerTitle: true,
-      ),
-      body:  Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            Center(
-              child: Image.asset(Assets.iconsBack),
+      body: Obx(() => controller.item[controller.selectedIndex.value]),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal: 25.w),
+        height: 84.h,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(12.w),
+            topLeft: Radius.circular(12),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 08,
+              spreadRadius: 0,
+              offset: Offset(0, -0),
             ),
-            AppBackButton(),
-            SizedBox(
-                width: 300,
-                child: TextField()),
-            AppButton(color: AppColors.dartRed,containerColor: 0,titel: "Continue As Service Provider",)
-
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(
+              () => InkWell(
+                onTap: () {
+                  controller.selectedIndex.value = 0;
+                },
+                child: Image.asset(
+                  Assets.iconsHome,
+                  color: controller.selectedIndex.value == 0
+                      ? Colors.black
+                      : Colors.grey,
+                ),
+              ),
+            ),
+            Obx(
+              () => InkWell(
+                onTap: () {
+                  controller.selectedIndex.value = 1;
+                },
+                child: Image.asset(
+                  Assets.iconsMove,
+                  color: controller.selectedIndex.value == 1
+                      ? Colors.black
+                      : Colors.grey,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                controller.selectedIndex.value = 2;
+              },
+              child: Image.asset(Assets.iconsVideoAi),
+            ),
+            Obx(
+              () => InkWell(
+                onTap: () {
+                  controller.selectedIndex.value = 3;
+                },
+                child: Image.asset(
+                  Assets.iconsChat,
+                  color: controller.selectedIndex.value == 3
+                      ? Colors.black
+                      : Colors.grey,
+                ),
+              ),
+            ),
+            Obx(
+              () => InkWell(
+                onTap: () {
+                  controller.selectedIndex.value = 4;
+                },
+                child: Image.asset(
+                  Assets.iconsMenu,
+                  color: controller.selectedIndex.value == 4
+                      ? Colors.black
+                      : Colors.grey,
+                ),
+              ),
+            ),
           ],
         ),
       ),

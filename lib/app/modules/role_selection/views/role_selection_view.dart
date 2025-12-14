@@ -13,7 +13,8 @@ import 'package:melikaahmadian/generated/assets.dart';
 import '../controllers/role_selection_controller.dart';
 
 class RoleSelectionView extends GetView<RoleSelectionController> {
-  const RoleSelectionView({super.key});
+   RoleSelectionView({super.key});
+   final controller = Get.put(RoleSelectionController());
   @override
   Widget build(BuildContext context) {
     var textStyle = TextTheme.of(context);

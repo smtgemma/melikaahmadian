@@ -35,10 +35,6 @@ class VerificationCodeView extends GetView<VerificationCodeController> {
                   length: 4,
                 ),
               ),
-
-
-
-
               SizedBox(height: 24.h,),
              AppButton(titel: "Continue",onPress: (){
                Get.toNamed(Routes.SET_NEW_PASSWORD);

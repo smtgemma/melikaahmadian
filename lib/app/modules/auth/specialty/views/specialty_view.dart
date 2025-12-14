@@ -7,6 +7,7 @@ import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
+import '../../../../routes/app_pages.dart';
 import '../controllers/specialty_controller.dart';
 
 class SpecialtyView extends GetView<SpecialtyController> {
@@ -42,7 +43,9 @@ class SpecialtyView extends GetView<SpecialtyController> {
                   SizedBox(width: 20.w,),
                   Expanded(
                     child: AppButton(titel: "Add",onPress: (){
-                      debugPrint("wfw");
+                      if(controller.specilizTextController.text.isEmpty){
+                        return null ;
+                      }
                       controller.specilized.add(controller.specilizTextController.text.trim());
                       controller.specilizTextController.clear() ;
                     },),
@@ -87,8 +90,7 @@ class SpecialtyView extends GetView<SpecialtyController> {
                ]);
 
              },),)),
-
-            AppButton(titel: "Continue",)
+            AppButton(titel: "Continue",onPress: (){Get.toNamed(Routes.DOCUMENT_UPLOD_PAGE);},)
 
 
 

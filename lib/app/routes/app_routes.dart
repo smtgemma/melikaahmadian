@@ -25,14 +25,20 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const MENU = _Paths.MENU;
   static const SETTING = _Paths.SETTING;
-  static const VIDEO_CMERA =  _Paths.VIDEO_CMERA;
-  static const REVIEW_VIDEO =_Paths.REVIEW_VIDEO;
-  static const ADD_DETAILS =  _Paths.ADD_DETAILS;
+  static const VIDEO_CMERA = _Paths.VIDEO_CMERA;
+  static const REVIEW_VIDEO = _Paths.REVIEW_VIDEO;
+  static const ADD_DETAILS = _Paths.ADD_DETAILS;
   static const AI_ANALIZED_FURNITURE = _Paths.AI_ANALIZED_FURNITURE;
-  static const CUSTOM_FURNITURE =  _Paths.CUSTOM_FURNITURE;
-  static const ALL_ITEM =  _Paths.ALL_ITEM;
+  static const CUSTOM_FURNITURE = _Paths.CUSTOM_FURNITURE;
+  static const ALL_ITEM = _Paths.ALL_ITEM;
   static const AI_ANALYE = _Paths.AI_ANALYE;
-  static const AI_GENARED_PRICE =  _Paths.AI_GENARED_PRICE;
+  static const AI_GENARED_PRICE = _Paths.AI_GENARED_PRICE;
+  static const OFFER_REVIEW = _Paths.OFFER_REVIEW;
+  static const MOVER_PROFILE =  _Paths.MOVER_PROFILE;
+  static const MOVER_PROFIEL_DETAILS = _Paths.MOVER_PROFIEL_DETAILS;
+  static const PRODUCT_DETAILS =  _Paths.PRODUCT_DETAILS;
+  static const PRDUCT_DETAILS =_Paths.PRDUCT_DETAILS;
+  static const PAYMENT_DETAILS =  _Paths.PAYMENT_DETAILS;
 }
 
 abstract class _Paths {
@@ -67,4 +73,10 @@ abstract class _Paths {
   static const ALL_ITEM = '/all-item';
   static const AI_ANALYE = '/ai-analye';
   static const AI_GENARED_PRICE = '/ai-genared-price';
+  static const OFFER_REVIEW = '/offer-review';
+  static const MOVER_PROFILE = '/mover-profile';
+  static const MOVER_PROFIEL_DETAILS = '/mover-profiel-details';
+  static const PRODUCT_DETAILS = '/product-details';
+  static const PRDUCT_DETAILS = '/prduct-details';
+  static const PAYMENT_DETAILS = '/payment-details';
 }

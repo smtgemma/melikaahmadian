@@ -10,6 +10,11 @@ class AppColors {
   static Color cardColor = Color(0xffF5F5F5);
   static Color greenColor = Color(0xff008001);
   static Color orangeColor = Color(0xffA65F00);
+  static Color shadoColor = Color(0xffF5F5F5);
+  static Color blueColor = Color(0xff693EFE1A);
+  static Color BurntOrange = Color(0xffA65F00);
+
+
 
 
   //text

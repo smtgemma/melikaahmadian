@@ -12,7 +12,7 @@ class ItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<CustomFurnitureController>();
     var textStyele = TextTheme.of(context);
-    return  SizedBox(height: 600.h,
+    return  SizedBox(height: 400.h,
           child: Obx(() => GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 5,
@@ -32,16 +32,26 @@ class ItemList extends StatelessWidget {
               controller.selectedCatagory.value == "Bed Room" ? data = controller.bed_room[index] :
               controller.selectedCatagory.value == "Dining Room" ? data = controller.dining_room[index] :
               controller.selectedCatagory.value == "Kitchen" ? data = controller.kitcen[index] : data = controller.allItem[index] ;
-              return  Container(
-                  height: 50,
-                  decoration: BoxDecoration(color: controller.itemIndex.value == index ?AppColors.secoundaryColor :  AppColors.onPrimaryColor,borderRadius: BorderRadius.circular(12.w)),
-                  child: Center(child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(data.iconPath.toString(),color: controller.itemIndex.value == index ? AppColors.primaryColor : AppColors.secoundaryColor,),
-                      SizedBox(height: 4.h,),
-                      Text(data.titel.toString(),style: textStyele.bodyMedium!.copyWith(color: controller.itemIndex.value == index ? AppColors.primaryColor : AppColors.secoundaryColor),)
-                    ],))
+
+              return  InkWell(
+                onTap: (){
+                  controller.toggleProduct(data);
+                },
+                child:Obx(() {
+                  final isSelected = controller.addProduct
+                      .any((e) => e.titel == data.titel);
+                  return  Container(
+                      height: 50,
+                      decoration: BoxDecoration(color: isSelected  ?AppColors.secoundaryColor :  AppColors.onPrimaryColor,borderRadius: BorderRadius.circular(12.w)),
+                      child: Center(child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(data.iconPath.toString(),color: isSelected ? AppColors.primaryColor : AppColors.secoundaryColor,),
+                          SizedBox(height: 4.h,),
+                          Text(data.titel.toString(),style: textStyele.bodyMedium!.copyWith(color: isSelected ? AppColors.primaryColor : AppColors.secoundaryColor),)
+                        ],))
+                  ) ;
+                },),
               );
 
             },)));

@@ -8,6 +8,7 @@ class AddDetailsController extends GetxController {
   //TODO: Implement AddDetailsController
 
   final dataEditingController  = TextEditingController();
+
   final timeEditingController  = TextEditingController();
   DateTime ? selectedDate ;
   RxInt selectedHouseType = 0.obs ;

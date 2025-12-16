@@ -9,19 +9,19 @@ import '../controllers/custom_furniture_controller.dart';
 
 class Catagory extends StatelessWidget {
    Catagory({super.key});
-  final controller = Get.find<CustomFurnitureController>();
-  final addItemController = Get.find<AddDetailsController>();
+  final controller = Get.put(CustomFurnitureController());
+  final addItemController = Get.put(AddDetailsController());
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
     return SizedBox(
         height: 40.h,
-        child:  ListView.builder(
-          itemCount: addItemController.selectedDateText.value == "Commercial" ? controller.commersialCatagory.length : controller.catagory.length,
+        child: ListView.builder(
+          itemCount: addItemController.selectedDateText.value == "Commercial" ? controller.commersialCatagory.length : addItemController.selectedDateText.value == "mover" ? controller.moverCatagory.length : controller.catagory.length,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            var data =  addItemController.selectedDateText.value == "Commercial" ? controller.commersialCatagory[index] : controller.catagory[index] ;
+            var data =  addItemController.selectedDateText.value == "Commercial" ? controller.commersialCatagory[index] :  addItemController.selectedDateText.value == "mover" ? controller.moverCatagory[index]: controller.catagory[index] ;
             return GestureDetector(
               onTap: (){
                 controller.catagoryIndex.value = index ;
@@ -38,7 +38,9 @@ class Catagory extends StatelessWidget {
               ),
             );
 
-          },),
+          },
+        ),
+
     );
   }
 }

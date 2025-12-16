@@ -1,12 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AiGenaredPriceController extends GetxController {
   //TODO: Implement AiGenaredPriceController
 
-  final count = 0.obs;
+  final priceTextEditignControoler = TextEditingController();
+  RxString price = "".obs;
+
   @override
   void onInit() {
     super.onInit();
+    priceTextEditignControoler.addListener(() {
+      price.value = priceTextEditignControoler.text;
+    });
   }
 
   @override
@@ -18,6 +24,4 @@ class AiGenaredPriceController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

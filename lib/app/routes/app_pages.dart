@@ -47,6 +47,16 @@ import '../modules/home/video_cmera/bindings/video_cmera_binding.dart';
 import '../modules/home/video_cmera/views/video_cmera_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/move/bindings/move_binding.dart';
+import '../modules/move/mover_profiel_details/bindings/mover_profiel_details_binding.dart';
+import '../modules/move/mover_profiel_details/views/mover_profiel_details_view.dart';
+import '../modules/move/mover_profile/bindings/mover_profile_binding.dart';
+import '../modules/move/mover_profile/views/mover_profile_view.dart';
+import '../modules/move/offer_review/bindings/offer_review_binding.dart';
+import '../modules/move/offer_review/views/offer_review_view.dart';
+import '../modules/move/payment_details/bindings/payment_details_binding.dart';
+import '../modules/move/payment_details/views/payment_details_view.dart';
+import '../modules/move/prduct_details/bindings/prduct_details_binding.dart';
+import '../modules/move/prduct_details/views/prduct_details_view.dart';
 import '../modules/move/views/move_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
@@ -64,7 +74,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.NAVBAR;
 
   static final routes = [
     GetPage(
@@ -193,17 +203,41 @@ class AppPages {
       page: () => const AiGenaredPriceView(),
       binding: AiGenaredPriceBinding(),
     ),
-
     GetPage(
       name: _Paths.ALL_ITEM,
       page: () => const AllItemView(),
       binding: AllItemBinding(),
     ),
-
     GetPage(
       name: _Paths.MOVE,
       page: () => const MoveView(),
       binding: MoveBinding(),
+
+    ),
+    GetPage(
+      name: _Paths.OFFER_REVIEW,
+      page: () => const OfferReviewView(),
+      binding: OfferReviewBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_PROFILE,
+      page: () => const MoverProfileView(),
+      binding: MoverProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_PROFIEL_DETAILS,
+      page: () =>  MoverProfielDetailsView(),
+      binding: MoverProfielDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRDUCT_DETAILS,
+      page: () => const PrductDetailsView(),
+      binding: PrductDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYMENT_DETAILS,
+      page: () => const PaymentDetailsView(),
+      binding: PaymentDetailsBinding(),
     ),
     GetPage(
       name: _Paths.CHAT,

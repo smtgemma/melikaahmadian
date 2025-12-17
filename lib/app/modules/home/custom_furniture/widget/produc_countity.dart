@@ -7,7 +7,9 @@ import 'package:melikaahmadian/generated/assets.dart';
 import '../controllers/custom_furniture_controller.dart';
 
 class ProducCountity extends StatelessWidget {
-  const ProducCountity({super.key});
+  bool? isReview ;
+  String? reviewCount ;
+   ProducCountity({super.key,this.isReview,this.reviewCount});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class ProducCountity extends StatelessWidget {
                       child:
                     Row(
                       children: [
-                       InkWell(
+                        isReview == true ? SizedBox() : InkWell(
                            onTap: () {
                              if (controller.addProduct[index].count > 1) {
                                controller.addProduct[index].count--;
@@ -63,9 +65,9 @@ class ProducCountity extends StatelessWidget {
                            },
                            child: itemDecoration(child: Image.asset(Assets.iconsMinize),color: AppColors.cardColor,hight: 40,width: 40)),
                         SizedBox(width: 8.w,),
-                        Text(item.count.toString(),style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),),
+                        Text( reviewCount ??  item.count.toString(),style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),),
                         SizedBox(width: 8.w,),
-                       InkWell(
+                        isReview == true ? SizedBox() : InkWell(
                            onTap: () {
                              controller.addProduct[index].count++;
                              controller.addProduct.refresh();
@@ -74,7 +76,7 @@ class ProducCountity extends StatelessWidget {
                       ],
                     ),),
                     SizedBox(width: 12.w,),
-                    InkWell(onTap: (){
+                    isReview == true ? SizedBox() : InkWell(onTap: (){
                       controller.addProduct.removeAt(index);
                     },child: itemDecoration(child:Image.asset(Assets.iconsDelete)))
                   ],),

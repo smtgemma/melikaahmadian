@@ -99,7 +99,7 @@ class Offer extends StatelessWidget {
                 )
               ],),
               SizedBox(height: 24.h,),
-              AppButton(titel: "Accept Offer",),
+              AppButton(titel: "Accept Offer",onPress: (){Get.toNamed(Routes.PAYMENT_DETAILS);},),
               SizedBox(height: 12.h,),
               AppButton(containerColor: 1,titel: "View Profile",bodycolor: AppColors.primaryColor,borderColor: AppColors.secoundaryColor,onPress: (){Get.toNamed(Routes.MOVER_PROFIEL_DETAILS);},),
               SizedBox(height: 24.h,),

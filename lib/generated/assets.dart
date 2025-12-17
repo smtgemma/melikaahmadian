@@ -13,6 +13,8 @@ class Assets {
   static const String iconsBag = 'assets/icons/bag.png';
   static const String iconsBed = 'assets/icons/bed.png';
   static const String iconsBook = 'assets/icons/book.png';
+  static const String iconsCalender = 'assets/icons/calender.png';
+  static const String iconsCall = 'assets/icons/call.png';
   static const String iconsChair = 'assets/icons/chair.png';
   static const String iconsChat = 'assets/icons/chat.png';
   static const String iconsCoffetable = 'assets/icons/coffetable.png';
@@ -27,12 +29,15 @@ class Assets {
   static const String iconsHomeBook = 'assets/icons/home_book.png';
   static const String iconsHouse = 'assets/icons/house.png';
   static const String iconsMenu = 'assets/icons/menu.png';
+  static const String iconsMessageSend = 'assets/icons/message_send.png';
   static const String iconsMinize = 'assets/icons/minize.png';
   static const String iconsMiror = 'assets/icons/miror.png';
   static const String iconsMove = 'assets/icons/move.png';
   static const String iconsOven = 'assets/icons/oven.png';
   static const String iconsPlant = 'assets/icons/plant.png';
+  static const String iconsQuite = 'assets/icons/quite.png';
   static const String iconsReload = 'assets/icons/reload.png';
+  static const String iconsRoundTik = 'assets/icons/round_tik.png';
   static const String iconsSelfBook = 'assets/icons/self_book.png';
   static const String iconsShelf = 'assets/icons/Shelf.png';
   static const String iconsSidetable = 'assets/icons/sidetable.png';

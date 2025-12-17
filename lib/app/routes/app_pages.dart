@@ -53,6 +53,10 @@ import '../modules/move/mover_profile/bindings/mover_profile_binding.dart';
 import '../modules/move/mover_profile/views/mover_profile_view.dart';
 import '../modules/move/offer_review/bindings/offer_review_binding.dart';
 import '../modules/move/offer_review/views/offer_review_view.dart';
+import '../modules/move/ongoing_move_update/bindings/ongoing_move_update_binding.dart';
+import '../modules/move/ongoing_move_update/views/ongoing_move_update_view.dart';
+import '../modules/move/ongoing_mover_details/bindings/ongoing_mover_details_binding.dart';
+import '../modules/move/ongoing_mover_details/views/ongoing_mover_details_view.dart';
 import '../modules/move/payment_details/bindings/payment_details_binding.dart';
 import '../modules/move/payment_details/views/payment_details_view.dart';
 import '../modules/move/prduct_details/bindings/prduct_details_binding.dart';
@@ -212,7 +216,16 @@ class AppPages {
       name: _Paths.MOVE,
       page: () => const MoveView(),
       binding: MoveBinding(),
-
+    ),
+    GetPage(
+      name: _Paths.ONGOING_MOVER_DETAILS,
+      page: () => const OngoingMoverDetailsView(),
+      binding: OngoingMoverDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ONGOING_MOVE_UPDATE,
+      page: () => const OngoingMoveUpdateView(),
+      binding: OngoingMoveUpdateBinding(),
     ),
     GetPage(
       name: _Paths.OFFER_REVIEW,
@@ -226,7 +239,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MOVER_PROFIEL_DETAILS,
-      page: () =>  MoverProfielDetailsView(),
+      page: () => MoverProfielDetailsView(),
       binding: MoverProfielDetailsBinding(),
     ),
     GetPage(

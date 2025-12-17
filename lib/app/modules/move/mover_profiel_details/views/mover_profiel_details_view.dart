@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/core/widget/app_image_frame_radious_widget.dart';
@@ -12,6 +13,7 @@ import '../../../auth/image_uplod/controllers/image_uplod_controller.dart';
 import '../widget/about.dart';
 import '../widget/experence_box.dart';
 import '../controllers/mover_profiel_details_controller.dart';
+import '../widget/mover_review.dart';
 import '../widget/specialties.dart';
 
 class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
@@ -65,11 +67,7 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                      ),
                    ),
                    SizedBox(height: 41.h,),
-       
-       
-       
-       
-       
+
                  ],
                ),
              ),
@@ -109,11 +107,30 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
            SizedBox(height: 24.h,),
            Text("Upload Photo For Client To See in Profiloe",style: textStyele.titleLarge  ,),
            //image
+           SizedBox(
+             height: 250.h,
+             child: GridView.builder(
+
+               itemCount: 2,
+               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                 crossAxisCount: 2,
+                 crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
+               return ClipRRect(
+                   borderRadius: BorderRadius.circular(12),
+                   child: Image.asset(Assets.imagesTruck)
+               );
+             },),
+           ),
+           //mover review
+           MoverReview(),
+           SizedBox(height: 24.h,),
+           AppButton(titel: "Accept Offer",),
+           SizedBox(height: 24.h,),
 
 
-       
-       
-       
+
+
+
          ],
        ),
      ),),

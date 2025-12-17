@@ -14,6 +14,8 @@ import 'package:melikaahmadian/generated/assets.dart';
 
 import '../../../../core/const/app_argument_string.dart';
 import '../controllers/application_submit_controller.dart';
+import '../widget/mark_compeleted.dart';
+import '../widget/payment.dart';
 
 class ApplicationSubmitView extends GetView<ApplicationSubmitController> {
   const ApplicationSubmitView({super.key});
@@ -25,17 +27,12 @@ class ApplicationSubmitView extends GetView<ApplicationSubmitController> {
     return Scaffold(
      body: AppBackground(child: Column(
        crossAxisAlignment: CrossAxisAlignment.start,
-
        children: [
          AppBackButton(),
          SizedBox(height: 82.h,),
          Image.asset(Assets.iconsCongralation),
          SizedBox(height: 24.h,),
-
-         argu[AppArgumentString.mover] == AppArgumentString.mover ? Mover() : Application()
-
-
-
+         argu[AppArgumentString.mover] == AppArgumentString.mover ? Mover() : argu[AppArgumentString.payment] == AppArgumentString.payment ? Payment() : argu[AppArgumentString.markAsCompleted] == AppArgumentString.markAsCompleted ? MarkCompeleted() : Application()
 
        ],
      ),),

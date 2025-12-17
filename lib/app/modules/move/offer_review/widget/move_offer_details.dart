@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 
 import '../controllers/offer_review_controller.dart';
 class MoveOfferDetails extends StatelessWidget {
-  const MoveOfferDetails({super.key});
+  String? offer;
+  String? details ;
+   MoveOfferDetails({super.key,this.offer,this.details});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<OfferReviewController>() ;
+    final controller = Get.put(OfferReviewController()) ;
     return Container(
       height: 44.h,
       width: double.infinity,
@@ -22,15 +24,15 @@ class MoveOfferDetails extends StatelessWidget {
       ),
       child: Expanded(child: Row(
         children: [
-         Obx(() =>  Expanded(child: AppButton(containerColor: controller.offer.value,titel: "Offers",onPress: (){
-           controller.selectedOfferDetails.value = "offer" ;
+         Obx(() =>  Expanded(child: AppButton(containerColor: controller.offer.value,titel: offer ?? "Offers",onPress: (){
+           controller.selectedOfferDetails.value = offer ?? "offer" ;
            debugPrint(controller.selectedOfferDetails.value);
-           controller.offerDetailsControole() ;
+           controller.offerDetailsControole(isoffer: 1);
          },)),),
-          Obx(() => Expanded(child: AppButton(containerColor: controller.details.value,titel: "Details",onPress: (){
-            controller.selectedOfferDetails.value = "details" ;
+          Obx(() => Expanded(child: AppButton(containerColor: controller.details.value,titel: details ?? "Details",onPress: (){
+            controller.selectedOfferDetails.value = details ?? "details" ;
             debugPrint(controller.selectedOfferDetails.value);
-            controller.offerDetailsControole();
+            controller.offerDetailsControole(isdetails: 1);
           },)),)
         ],
       )),

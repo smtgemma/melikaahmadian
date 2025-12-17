@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class MoverProfielDetailsController extends GetxController {
   //TODO: Implement MoverProfielDetailsController
-
+  final isMore = true.obs ;
   final count = 0.obs;
   @override
   void onInit() {
@@ -20,4 +20,8 @@ class MoverProfielDetailsController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  void more (){
+    isMore.value = !isMore.value ;
+  }
 }

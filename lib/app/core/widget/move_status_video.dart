@@ -11,6 +11,7 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 import 'package:video_player/video_player.dart';
 import '../../modules/move/controllers/move_controller.dart';
+import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
 class MoveStatusVideo extends StatelessWidget {
   String? offer ;
   String? price ;
@@ -18,21 +19,37 @@ class MoveStatusVideo extends StatelessWidget {
   String? to ;
   String? from ;
   bool? isNavigator ;
+  String? titel ;
+  Color? color ;
+  Color? textColor ;
+  String? isType ;
 
-   MoveStatusVideo({super.key,this.price,this.date,this.offer,this.to,this.from,this.isNavigator});
+   MoveStatusVideo({super.key,this.price,this.date,this.offer,this.to,this.from,this.isNavigator,this.titel,this.color,this.textColor,this.isType});
 
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
 
     final controller = Get.put(MoveController());
+    final offercontroller = Get.put(OfferReviewController());
 
     return InkWell(
       onTap: (){
-        if(isNavigator == true){
-          Get.toNamed(Routes.OFFER_REVIEW,arguments: {
-            AppArgumentString.offer : offer ?? 5
-          });
+        if(isNavigator == true ){
+          if(isType == AppArgumentString.posted){
+            Get.toNamed(Routes.OFFER_REVIEW,arguments: {
+              AppArgumentString.offer : offer ?? 5
+            });
+            offercontroller.selectedOfferDetails.value = "offer" ;
+
+          }else if(isType == AppArgumentString.ongoing){
+            Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
+            offercontroller.selectedOfferDetails.value = "Details" ;
+
+            
+          }
+
+          
         }
       },
       child: Container(
@@ -116,7 +133,7 @@ class MoveStatusVideo extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 08,),
-                  Status()
+                  Status(titel: titel,color: color,textColor: textColor,)
       
                 ],
               ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
+import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/core/widget/move_status_video.dart';
 import 'package:melikaahmadian/app/modules/home/custom_furniture/widget/catagory.dart';
@@ -26,7 +28,8 @@ class MoveView extends GetView<MoveController> {
             Text("All your moves at one place",style: textStyele.bodyMedium,),
             SizedBox(height: 24.h,),
             Catagory(),
-            MoveStatusVideo(isNavigator: true,)
+            MoveStatusVideo(isNavigator: true,isType: AppArgumentString.posted,),
+            MoveStatusVideo(isNavigator: true,titel: "Ongoing",color: AppColors.hardBlueColor.withAlpha(10),textColor: AppColors.hardBlueColor,isType: AppArgumentString.ongoing,)
 
           ],
         ),

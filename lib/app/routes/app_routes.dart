@@ -34,11 +34,14 @@ abstract class Routes {
   static const AI_ANALYE = _Paths.AI_ANALYE;
   static const AI_GENARED_PRICE = _Paths.AI_GENARED_PRICE;
   static const OFFER_REVIEW = _Paths.OFFER_REVIEW;
-  static const MOVER_PROFILE =  _Paths.MOVER_PROFILE;
+  static const MOVER_PROFILE = _Paths.MOVER_PROFILE;
   static const MOVER_PROFIEL_DETAILS = _Paths.MOVER_PROFIEL_DETAILS;
-  static const PRODUCT_DETAILS =  _Paths.PRODUCT_DETAILS;
-  static const PRDUCT_DETAILS =_Paths.PRDUCT_DETAILS;
-  static const PAYMENT_DETAILS =  _Paths.PAYMENT_DETAILS;
+  static const PRODUCT_DETAILS = _Paths.PRODUCT_DETAILS;
+  static const PRDUCT_DETAILS = _Paths.PRDUCT_DETAILS;
+  static const PAYMENT_DETAILS = _Paths.PAYMENT_DETAILS;
+  static const ONGOING_MOVER_DETAILS =
+     _Paths.ONGOING_MOVER_DETAILS;
+  static const ONGOING_MOVE_UPDATE =_Paths.ONGOING_MOVE_UPDATE;
 }
 
 abstract class _Paths {
@@ -79,4 +82,6 @@ abstract class _Paths {
   static const PRODUCT_DETAILS = '/product-details';
   static const PRDUCT_DETAILS = '/prduct-details';
   static const PAYMENT_DETAILS = '/payment-details';
+  static const ONGOING_MOVER_DETAILS = '/ongoing-mover-details';
+  static const ONGOING_MOVE_UPDATE = '/ongoing-move-update';
 }

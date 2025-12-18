@@ -39,9 +39,14 @@ abstract class Routes {
   static const PRODUCT_DETAILS = _Paths.PRODUCT_DETAILS;
   static const PRDUCT_DETAILS = _Paths.PRDUCT_DETAILS;
   static const PAYMENT_DETAILS = _Paths.PAYMENT_DETAILS;
-  static const ONGOING_MOVER_DETAILS =
-     _Paths.ONGOING_MOVER_DETAILS;
-  static const ONGOING_MOVE_UPDATE =_Paths.ONGOING_MOVE_UPDATE;
+  static const ONGOING_MOVER_DETAILS = _Paths.ONGOING_MOVER_DETAILS;
+  static const ONGOING_MOVE_UPDATE = _Paths.ONGOING_MOVE_UPDATE;
+  static const CENCEL_MOVE = _Paths.CENCEL_MOVE;
+  static const CENCEL_MOVER_DETAILS = _Paths.CENCEL_MOVER_DETAILS;
+  static const PROFILE_EDIT = _Paths.PROFILE_EDIT;
+  static const PROFILE_CHANGE_PASSWORD = _Paths.PROFILE_CHANGE_PASSWORD;
+  static const PROFILE_TRAMD_CONDITION = _Paths.PROFILE_TRAMD_CONDITION;
+  static const PROFILE_PRIVACY_POLICY = _Paths.PROFILE_PRIVACY_POLICY;
 }
 
 abstract class _Paths {
@@ -84,4 +89,10 @@ abstract class _Paths {
   static const PAYMENT_DETAILS = '/payment-details';
   static const ONGOING_MOVER_DETAILS = '/ongoing-mover-details';
   static const ONGOING_MOVE_UPDATE = '/ongoing-move-update';
+  static const CENCEL_MOVE = '/cencel-move';
+  static const CENCEL_MOVER_DETAILS = '/cencel-mover-details';
+  static const PROFILE_EDIT = '/profile-edit';
+  static const PROFILE_CHANGE_PASSWORD = '/profile-change-password';
+  static const PROFILE_TRAMD_CONDITION = '/profile-tramd-condition';
+  static const PROFILE_PRIVACY_POLICY = '/profile-privacy-policy';
 }

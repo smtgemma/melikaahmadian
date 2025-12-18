@@ -7,6 +7,7 @@ import 'package:melikaahmadian/generated/assets.dart';
 import 'package:get/get.dart';
 import '../../../../core/const/app_argument_string.dart';
 import '../../../../core/const/app_colors.dart';
+import '../views/compeleted_move.dart';
 
 class OngingMoveUpdate extends StatelessWidget {
   const OngingMoveUpdate({super.key});
@@ -50,9 +51,7 @@ class OngingMoveUpdate extends StatelessWidget {
             Text("Do you want to mark the move ascompleted?",textAlign: TextAlign.center,style: textStyele.titleMedium,),
             SizedBox(height: 12.h,),
             AppButton(titel: "Yes, Mark As Completed",onPress: (){
-              Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {
-                AppArgumentString.markAsCompleted : AppArgumentString.markAsCompleted
-              });
+              Get.to(CompeletedMove());
             },),
             SizedBox(height: 12.h,),
             AppButton(titel: "No, Don’t Mark As Completed",containerColor: 1,onPress: (){Get.back();},)

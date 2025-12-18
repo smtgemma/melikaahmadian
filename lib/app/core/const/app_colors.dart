@@ -14,6 +14,7 @@ class AppColors {
   static Color blueColor = Color(0xff693EFE);
   static Color BurntOrange = Color(0xffA65F00);
   static Color hardBlueColor = Color(0xff0077FF);
+  static Color strtoColor = Color(0xffD4D4D4);
 
 
 

@@ -34,24 +34,6 @@ class MoveStatusVideo extends StatelessWidget {
     final offercontroller = Get.put(OfferReviewController());
 
     return InkWell(
-      onTap: (){
-        if(isNavigator == true ){
-          if(isType == AppArgumentString.posted){
-            Get.toNamed(Routes.OFFER_REVIEW,arguments: {
-              AppArgumentString.offer : offer ?? 5
-            });
-            offercontroller.selectedOfferDetails.value = "offer" ;
-
-          }else if(isType == AppArgumentString.ongoing){
-            Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
-            offercontroller.selectedOfferDetails.value = "Details" ;
-
-            
-          }
-
-          
-        }
-      },
       child: Container(
         height: 120,
         padding: const EdgeInsets.all(8),
@@ -133,7 +115,29 @@ class MoveStatusVideo extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 08,),
-                  Status(titel: titel,color: color,textColor: textColor,)
+                  InkWell(
+                    onTap: (){
+                      if(isNavigator == true ){
+                        if(isType == AppArgumentString.posted){
+                          Get.toNamed(Routes.OFFER_REVIEW,arguments: {
+                            AppArgumentString.offer : offer ?? 5
+                          });
+                          offercontroller.selectedOfferDetails.value = "offer" ;
+
+                        }
+                        if(isType == AppArgumentString.ongoing){
+                          Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
+                          offercontroller.selectedOfferDetails.value = "Details" ;
+                        }
+                        } if(isType == AppArgumentString.cancelled){
+                        debugPrint("cencel");
+                          Get.toNamed(Routes.CENCEL_MOVE);
+                        }
+
+
+                      },
+
+                  child: Status(titel: titel,color: color,textColor: textColor,))
       
                 ],
               ),

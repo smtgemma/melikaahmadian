@@ -28,13 +28,18 @@ class Assets {
   static const String iconsHome = 'assets/icons/home.png';
   static const String iconsHomeBook = 'assets/icons/home_book.png';
   static const String iconsHouse = 'assets/icons/house.png';
+  static const String iconsLogout = 'assets/icons/logout.png';
   static const String iconsMenu = 'assets/icons/menu.png';
   static const String iconsMessageSend = 'assets/icons/message_send.png';
   static const String iconsMinize = 'assets/icons/minize.png';
   static const String iconsMiror = 'assets/icons/miror.png';
   static const String iconsMove = 'assets/icons/move.png';
+  static const String iconsMoveCencel = 'assets/icons/move_cencel.png';
   static const String iconsOven = 'assets/icons/oven.png';
+  static const String iconsPassword = 'assets/icons/password.png';
   static const String iconsPlant = 'assets/icons/plant.png';
+  static const String iconsPrivacy = 'assets/icons/privacy.png';
+  static const String iconsProfileEdit = 'assets/icons/profile_edit.png';
   static const String iconsQuite = 'assets/icons/quite.png';
   static const String iconsReload = 'assets/icons/reload.png';
   static const String iconsRoundTik = 'assets/icons/round_tik.png';
@@ -43,6 +48,7 @@ class Assets {
   static const String iconsSidetable = 'assets/icons/sidetable.png';
   static const String iconsTik = 'assets/icons/tik.png';
   static const String iconsTo = 'assets/icons/to.png';
+  static const String iconsTrams = 'assets/icons/trams.png';
   static const String iconsTruckMoves = 'assets/icons/truck_moves.png';
   static const String iconsTv = 'assets/icons/tv.png';
   static const String iconsTvstand = 'assets/icons/tvstand.png';
@@ -50,6 +56,8 @@ class Assets {
   static const String iconsVanTrack = 'assets/icons/van_track.png';
   static const String iconsVideo = 'assets/icons/video.png';
   static const String iconsVideoAi = 'assets/icons/video_ai.png';
+  static const String iconsWhiteStar = 'assets/icons/white_star.png';
+  static const String iconsYellowStar = 'assets/icons/yellow_star.png';
   static const String imagesApple = 'assets/images/apple.png';
   static const String imagesGoole = 'assets/images/goole.png';
   static const String imagesTruck = 'assets/images/truck.png';

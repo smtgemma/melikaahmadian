@@ -12,7 +12,8 @@ class Application extends StatelessWidget {
     return  Container(
       child: Column(
         children: [
-          Center(child: Text("Application Submitted",style: textStyele.headlineLarge,textAlign: TextAlign.center,)),
+          Center(child:
+          Text("Application Submitted",style: textStyele.headlineLarge,textAlign: TextAlign.center,)),
           SizedBox(height: 08.h,),
           Center(child: Text("Your application is under review. You'll be able to provide services after admin approval.",style: textStyele.bodyMedium,textAlign: TextAlign.center,)),
           SizedBox(height: 24.h,),

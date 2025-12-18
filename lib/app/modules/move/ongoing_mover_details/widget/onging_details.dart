@@ -9,10 +9,11 @@ import '../../../../core/widget/move_video.dart';
 import '../../../home/custom_furniture/widget/produc_countity.dart';
 import '../../offer_review/widget/single_information.dart';
 class OngingDetails extends StatelessWidget {
+  bool? isCencel ;
   String? name ;
   String? starRation ;
   String? reviewRating ;
-   OngingDetails({super.key,this.name,this.starRation,this.reviewRating});
+   OngingDetails({super.key,this.name,this.starRation,this.reviewRating,this.isCencel});
 
   @override
   Widget build(BuildContext context) {
@@ -121,12 +122,14 @@ class OngingDetails extends StatelessWidget {
         Text("Selected House Type", style: textStyele.titleLarge),
         SizedBox(height: 12.h),
         ProducCountity(isReview: true),
-        AppButton(
-          titel: "Request To Cancel Move",
-          onPress: () {
-         //   bottomSheet(context);
-          },
-        ),
+       isCencel == true ?  SizedBox(height: 24.h) :  AppButton(
+    titel: "Request To Cancel Move",
+    onPress: () {
+
+    },
+    ),
+
+        SizedBox(height: 24.h),
       ],
     );
   }

@@ -29,7 +29,8 @@ class MoveView extends GetView<MoveController> {
             SizedBox(height: 24.h,),
             Catagory(),
             MoveStatusVideo(isNavigator: true,isType: AppArgumentString.posted,),
-            MoveStatusVideo(isNavigator: true,titel: "Ongoing",color: AppColors.hardBlueColor.withAlpha(10),textColor: AppColors.hardBlueColor,isType: AppArgumentString.ongoing,)
+            MoveStatusVideo(isNavigator: true,titel: "Ongoing",color: AppColors.hardBlueColor.withAlpha(10),textColor: AppColors.hardBlueColor,isType: AppArgumentString.ongoing,),
+            MoveStatusVideo(isNavigator: true,titel: "Cancel Requested",color: AppColors.errorColor.withAlpha(10),textColor: AppColors.errorColor,isType: AppArgumentString.cancelled,)
 
           ],
         ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,9 @@ import 'package:video_player/video_player.dart';
 
 import '../../modules/move/controllers/move_controller.dart';
 class MoveVideo extends StatefulWidget {
-  const MoveVideo({super.key});
+  String? videoPath ;
+  bool? isasset ;
+   MoveVideo({super.key,this.videoPath,this.isasset});
 
   @override
   State<MoveVideo> createState() => _MoveVideoState();
@@ -22,8 +26,14 @@ class _MoveVideoState extends State<MoveVideo> {
 
   @override
   void initState() {
-    super.initState();
 
+    super.initState();
+    if(widget.isasset == true){
+      debugPrint("debugPrint : ${widget.videoPath}");
+      _videoPlayerController = VideoPlayerController.file(
+        File(widget.videoPath.toString()),
+      );
+    }
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
     );

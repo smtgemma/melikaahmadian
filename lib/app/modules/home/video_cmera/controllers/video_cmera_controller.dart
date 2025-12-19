@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
+import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
 
 class VideoCmeraController extends GetxController {
   //TODO: Implement VideoCmeraController
+
 
   final count = 0.obs;
   @override

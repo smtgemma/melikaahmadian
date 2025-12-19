@@ -8,10 +8,12 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
 import '../../../../core/widget/app_back_button.dart';
+import '../../../../core/widget/move_video.dart';
 import '../controllers/review_video_controller.dart';
 
 class ReviewVideoView extends GetView<ReviewVideoController> {
-  const ReviewVideoView({super.key});
+  String? videoPath ;
+   ReviewVideoView({super.key,this.videoPath});
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
@@ -30,6 +32,7 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
            height: 200.h,
            width: double.infinity,
            decoration: BoxDecoration(color: Colors.grey,borderRadius: BorderRadius.circular(12.w)),
+           child: MoveVideo(videoPath: videoPath,isasset: true,),
 
          ),
          SizedBox(height: 24.h,),

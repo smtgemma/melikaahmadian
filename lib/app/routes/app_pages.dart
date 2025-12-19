@@ -186,7 +186,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.REVIEW_VIDEO,
-      page: () => const ReviewVideoView(),
+      page: () =>  ReviewVideoView(),
       binding: ReviewVideoBinding(),
     ),
     GetPage(

@@ -23,6 +23,7 @@ class Assets {
   static const String iconsCongralation = 'assets/icons/congralation.png';
   static const String iconsDelete = 'assets/icons/delete.png';
   static const String iconsDolar = 'assets/icons/dolar.png';
+  static const String iconsFlash = 'assets/icons/flash.png';
   static const String iconsFrizz = 'assets/icons/frizz.png';
   static const String iconsFrom = 'assets/icons/from.png';
   static const String iconsHome = 'assets/icons/home.png';
@@ -42,10 +43,12 @@ class Assets {
   static const String iconsProfileEdit = 'assets/icons/profile_edit.png';
   static const String iconsQuite = 'assets/icons/quite.png';
   static const String iconsReload = 'assets/icons/reload.png';
+  static const String iconsRoudedDolar = 'assets/icons/rouded_dolar.png';
   static const String iconsRoundTik = 'assets/icons/round_tik.png';
   static const String iconsSelfBook = 'assets/icons/self_book.png';
   static const String iconsShelf = 'assets/icons/Shelf.png';
   static const String iconsSidetable = 'assets/icons/sidetable.png';
+  static const String iconsSun = 'assets/icons/sun.png';
   static const String iconsTik = 'assets/icons/tik.png';
   static const String iconsTo = 'assets/icons/to.png';
   static const String iconsTrams = 'assets/icons/trams.png';

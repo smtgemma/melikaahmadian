@@ -47,6 +47,23 @@ abstract class Routes {
   static const PROFILE_CHANGE_PASSWORD = _Paths.PROFILE_CHANGE_PASSWORD;
   static const PROFILE_TRAMD_CONDITION = _Paths.PROFILE_TRAMD_CONDITION;
   static const PROFILE_PRIVACY_POLICY = _Paths.PROFILE_PRIVACY_POLICY;
+  static const MOVER_NAVBAR = _Paths.MOVER_NAVBAR;
+  static const MOVER_HOME = _Paths.MOVER_HOME;
+  static const MOVER_MOVE = _Paths.MOVER_MOVE;
+  static const MOVER_CHAT = _Paths.MOVER_CHAT;
+  static const MOVER_SEARCH_POST = _Paths.MOVER_SEARCH_POST;
+  static const MOVER_LOCATION_CITY = _Paths.MOVER_LOCATION_CITY;
+  static const MOVER_SERCHED_LOCATIONED = _Paths.MOVER_SERCHED_LOCATIONED;
+  static const MOVER_MOVE_DETILS_SEND_OFFER =
+      _Paths.MOVER_MOVE_DETILS_SEND_OFFER;
+  static const MOVER_MOVE_DETILS = _Paths.MOVER_MOVE_DETILS;
+  static const MOVER_MOVE_COMPLEDET_DETILS = _Paths.MOVER_MOVE_COMPLEDET_DETILS;
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION =
+      _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION;
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED =
+      _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED;
+  static const PROFILE_MY_PROFILE = _Paths.PROFILE_MY_PROFILE;
+  static const PROFILE_PROFILE_EDIT = _Paths.PROFILE_PROFILE_EDIT;
 }
 
 abstract class _Paths {
@@ -95,4 +112,20 @@ abstract class _Paths {
   static const PROFILE_CHANGE_PASSWORD = '/profile-change-password';
   static const PROFILE_TRAMD_CONDITION = '/profile-tramd-condition';
   static const PROFILE_PRIVACY_POLICY = '/profile-privacy-policy';
+  static const MOVER_NAVBAR = '/mover-navbar';
+  static const MOVER_HOME = '/mover-home';
+  static const MOVER_MOVE = '/mover-move';
+  static const MOVER_CHAT = '/mover-chat';
+  static const MOVER_SEARCH_POST = '/mover-search-post';
+  static const MOVER_LOCATION_CITY = '/mover-location-city';
+  static const MOVER_SERCHED_LOCATIONED = '/mover-serched-locationed';
+  static const MOVER_MOVE_DETILS_SEND_OFFER = '/mover-move-detils-send-offer';
+  static const MOVER_MOVE_DETILS = '/mover-move-detils';
+  static const MOVER_MOVE_COMPLEDET_DETILS = '/mover-move-compledet-detils';
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION =
+      '/mover-information-about-the-cancalation';
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED =
+      '/mover-information-about-the-cancalation-cenceled';
+  static const PROFILE_MY_PROFILE = '/profile-my-profile';
+  static const PROFILE_PROFILE_EDIT = '/profile-profile-edit';
 }

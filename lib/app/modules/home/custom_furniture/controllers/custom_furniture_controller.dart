@@ -28,6 +28,7 @@ class CustomFurnitureController extends GetxController {
 
   //
   RxList moverCatagory  = [ "Ongoing","All Moves","Posted","Completed","Cancelled"].obs;
+  RxList moverMoveCatagory  = [ "Offered","All Moves","Ongoing","Completed","Cancelled"].obs;
 
 
   RxList<ProductModel> allItem =[

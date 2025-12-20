@@ -17,7 +17,6 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
   Widget build(BuildContext context) {
     final offercontroller = Get.put(OfferReviewController());
     var textStyele = TextTheme.of(context);
-
     return Scaffold(
      body: AppBackground(
        child: SingleChildScrollView(
@@ -33,7 +32,6 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
              MoveOfferDetails(offer: "Details",details: "Move Update",),
              SizedBox(height: 24.h,),
                Obx(() =>  offercontroller.selectedOfferDetails.value == "Details"  ? OngingDetails() :OngingMoveUpdate(),)
-         
            ],
          
          ),

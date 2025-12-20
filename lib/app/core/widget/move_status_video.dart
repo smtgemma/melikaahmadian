@@ -14,6 +14,7 @@ import '../../modules/move/controllers/move_controller.dart';
 import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
 class MoveStatusVideo extends StatelessWidget {
   String? offer ;
+  bool? isOffer ;
   String? price ;
   String? date ;
   String? to ;
@@ -24,7 +25,7 @@ class MoveStatusVideo extends StatelessWidget {
   Color? textColor ;
   String? isType ;
 
-   MoveStatusVideo({super.key,this.price,this.date,this.offer,this.to,this.from,this.isNavigator,this.titel,this.color,this.textColor,this.isType});
+   MoveStatusVideo({super.key,this.price,this.date,this.offer,this.to,this.from,this.isNavigator,this.titel,this.color,this.textColor,this.isType,this.isOffer});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class MoveStatusVideo extends StatelessWidget {
                     },
                   ),
                 ),
-                Positioned(child: AppButton(containerColor: 1,width: 71.w,titel: "${offer ?? "2"} offer",hight: 21.h,textSize: 14,bodycolor: AppColors.primaryColor,)),
+                isOffer == true ? SizedBox() :  Positioned(child: AppButton(containerColor: 1,width: 71.w,titel: "${offer ?? "2"} offer",hight: 21.h,textSize: 14,bodycolor: AppColors.primaryColor,)),
                 Positioned(
                     bottom: 0,
                     child: Column(
@@ -116,28 +117,55 @@ class MoveStatusVideo extends StatelessWidget {
                   ),
                   SizedBox(height: 08,),
                   InkWell(
-                    onTap: (){
-                      if(isNavigator == true ){
-                        if(isType == AppArgumentString.posted){
-                          Get.toNamed(Routes.OFFER_REVIEW,arguments: {
-                            AppArgumentString.offer : offer ?? 5
-                          });
-                          offercontroller.selectedOfferDetails.value = "offer" ;
+                    onTap: () {
+                      if (isNavigator == true) {
 
+                        if (isType == AppArgumentString.posted) {
+                          Get.toNamed(
+                            Routes.OFFER_REVIEW,
+                            arguments: {
+                              AppArgumentString.offer: offer ?? 5,
+                            },
+                          );
+                          offercontroller.selectedOfferDetails.value = "offer";
                         }
-                        if(isType == AppArgumentString.ongoing){
+
+                        else if (isType == AppArgumentString.ongoing) {
                           Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
-                          offercontroller.selectedOfferDetails.value = "Details" ;
+                          offercontroller.selectedOfferDetails.value = "Details";
                         }
-                        } if(isType == AppArgumentString.cancelled){
-                        debugPrint("cencel");
+
+                        else if (isType == AppArgumentString.cancelled) {
+                          debugPrint("cancel");
                           Get.toNamed(Routes.CENCEL_MOVE);
                         }
 
+                        else if (isType == AppArgumentString.Offered) {
+                          debugPrint("offer");
+                          Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER);
+                        }
+                        else if (isType == AppArgumentString.moverOngoing) {
+                          debugPrint("offer");
+                          Get.toNamed(Routes.MOVER_MOVE_DETILS);
+                        }
+                        else if (isType == AppArgumentString.movercompeleted) {
+                          debugPrint("offer");
+                          Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS);
+                        }
+                        else if (isType == AppArgumentString.movercenceled) {
+                          debugPrint("offer");
+                          Get.toNamed(Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION);
+                        }
+                        else {
+                          debugPrint("Unknown type: $isType");
+                        }
+                      } else {
+                        debugPrint("Navigator disabled");
+                      }
+                    },
 
-                      },
 
-                  child: Status(titel: titel,color: color,textColor: textColor,))
+                    child: Status(titel: titel,color: color,textColor: textColor,))
       
                 ],
               ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
+import 'package:melikaahmadian/app/modules/move/offer_review/widget/detils.dart';
 
 import '../../../../core/const/app_argument_string.dart';
 import '../../../../routes/app_pages.dart';
@@ -33,6 +34,7 @@ class PaymentDetailsView extends GetView<PaymentDetailsController> {
                 });
               },),
               SizedBox(height: 24,),
+
           
             ],
           ),

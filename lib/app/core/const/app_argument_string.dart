@@ -6,4 +6,9 @@ class AppArgumentString {
  static String posted = "posted" ;
  static String cancelled = "cancelled" ;
  static String markAsCompleted = "markAsCompleted" ;
+ static String Offered = "one";
+ static String moverSendOffer = "moverSendOffer";
+ static String moverOngoing = "moverOngoing";
+ static String movercompeleted = "movercompeleted";
+ static String movercenceled = "movercenceled";
 }

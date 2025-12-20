@@ -13,7 +13,7 @@ class ProducCountity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<CustomFurnitureController>();
+    final controller = Get.put(CustomFurnitureController());
     var textStyele = TextTheme.of(context);
     return Obx(() => Column(
       children: [

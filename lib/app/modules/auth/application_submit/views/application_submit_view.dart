@@ -15,6 +15,7 @@ import 'package:melikaahmadian/generated/assets.dart';
 import '../../../../core/const/app_argument_string.dart';
 import '../controllers/application_submit_controller.dart';
 import '../widget/mark_compeleted.dart';
+import '../widget/mover_send_offer.dart';
 import '../widget/payment.dart';
 
 class ApplicationSubmitView extends GetView<ApplicationSubmitController> {
@@ -32,9 +33,10 @@ class ApplicationSubmitView extends GetView<ApplicationSubmitController> {
          SizedBox(height: 82.h,),
          Image.asset(Assets.iconsCongralation),
          SizedBox(height: 24.h,),
-         argu[AppArgumentString.mover] == AppArgumentString.mover ? Mover() : argu[AppArgumentString.payment] == AppArgumentString.payment ? Payment() : argu[AppArgumentString.markAsCompleted] == AppArgumentString.markAsCompleted ? MarkCompeleted() : Application()
-
-       ],
+         argu[AppArgumentString.mover] == AppArgumentString.mover ? Mover() :
+         argu[AppArgumentString.payment] == AppArgumentString.payment ? Payment() :
+         argu[AppArgumentString.markAsCompleted] == AppArgumentString.markAsCompleted ? MarkCompeleted() :
+         argu[AppArgumentString.moverSendOffer] == AppArgumentString.moverSendOffer ?   MoverSendOffer(): Application()],
      ),),
     );
   }

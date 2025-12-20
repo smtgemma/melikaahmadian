@@ -53,8 +53,6 @@ import '../modules/move/cencel_move/views/cencel_move_view.dart';
 import '../modules/move/cencel_mover_details/views/cencel_mover_details_view.dart';
 import '../modules/move/mover_profiel_details/bindings/mover_profiel_details_binding.dart';
 import '../modules/move/mover_profiel_details/views/mover_profiel_details_view.dart';
-import '../modules/move/mover_profile/bindings/mover_profile_binding.dart';
-import '../modules/move/mover_profile/views/mover_profile_view.dart';
 import '../modules/move/offer_review/bindings/offer_review_binding.dart';
 import '../modules/move/offer_review/views/offer_review_view.dart';
 import '../modules/move/ongoing_move_update/bindings/ongoing_move_update_binding.dart';
@@ -66,6 +64,34 @@ import '../modules/move/payment_details/views/payment_details_view.dart';
 import '../modules/move/prduct_details/bindings/prduct_details_binding.dart';
 import '../modules/move/prduct_details/views/prduct_details_view.dart';
 import '../modules/move/views/move_view.dart';
+import '../modules/mover/mover_chat/bindings/mover_chat_binding.dart';
+import '../modules/mover/mover_chat/views/mover_chat_view.dart';
+import '../modules/mover/mover_home/bindings/mover_home_binding.dart';
+import '../modules/mover/mover_home/mover_location_city/bindings/mover_location_city_binding.dart';
+import '../modules/mover/mover_home/mover_location_city/views/mover_location_city_view.dart';
+import '../modules/mover/mover_home/mover_move_detils_send_offer/bindings/mover_move_detils_send_offer_binding.dart';
+import '../modules/mover/mover_home/mover_move_detils_send_offer/views/mover_move_detils_send_offer_view.dart';
+import '../modules/mover/mover_home/mover_search_post/bindings/mover_search_post_binding.dart';
+import '../modules/mover/mover_home/mover_search_post/views/mover_search_post_view.dart';
+import '../modules/mover/mover_home/mover_serched_locationed/bindings/mover_serched_locationed_binding.dart';
+import '../modules/mover/mover_home/mover_serched_locationed/views/mover_serched_locationed_view.dart';
+import '../modules/mover/mover_home/views/mover_home_view.dart';
+import '../modules/mover/mover_move/bindings/mover_move_binding.dart';
+import '../modules/mover/mover_move/mover_information_about_the_cancalation/bindings/mover_information_about_the_cancalation_binding.dart';
+import '../modules/mover/mover_move/mover_information_about_the_cancalation/views/mover_information_about_the_cancalation_view.dart';
+import '../modules/mover/mover_move/mover_information_about_the_cancalation_cenceled/bindings/mover_information_about_the_cancalation_cenceled_binding.dart';
+import '../modules/mover/mover_move/mover_information_about_the_cancalation_cenceled/views/mover_information_about_the_cancalation_cenceled_view.dart';
+import '../modules/mover/mover_move/mover_move_compledet_detils/bindings/mover_move_compledet_detils_binding.dart';
+import '../modules/mover/mover_move/mover_move_compledet_detils/views/mover_move_compledet_detils_view.dart';
+import '../modules/mover/mover_move/mover_move_detils/bindings/mover_move_detils_binding.dart';
+import '../modules/mover/mover_move/mover_move_detils/views/mover_move_detils_view.dart';
+import '../modules/mover/mover_move/views/mover_move_view.dart';
+import '../modules/mover/mover_navbar/bindings/mover_navbar_binding.dart';
+import '../modules/mover/mover_navbar/views/mover_navbar_view.dart';
+import '../modules/mover/mover_profile/profile_my_profile/bindings/profile_my_profile_binding.dart';
+import '../modules/mover/mover_profile/profile_my_profile/views/profile_my_profile_view.dart';
+import '../modules/mover/mover_profile/profile_profile_edit/bindings/profile_profile_edit_binding.dart';
+import '../modules/mover/mover_profile/profile_profile_edit/views/profile_profile_edit_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/role_selection/bindings/role_selection_binding.dart';
@@ -85,12 +111,17 @@ import '../modules/setting/views/setting_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
+import '../modules/mover/mover_profile/bindings/mover_profile_binding.dart'
+    hide MoverProfileBinding;
+import '../modules/mover/mover_profile/views/mover_profile_view.dart'
+    hide MoverProfileView;
+
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.NAVBAR;
+  static const INITIAL = Routes.MOVER_NAVBAR;
 
   static final routes = [
     GetPage(
@@ -186,7 +217,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.REVIEW_VIDEO,
-      page: () =>  ReviewVideoView(),
+      page: () => ReviewVideoView(),
       binding: ReviewVideoBinding(),
     ),
     GetPage(
@@ -255,11 +286,6 @@ class AppPages {
       binding: OfferReviewBinding(),
     ),
     GetPage(
-      name: _Paths.MOVER_PROFILE,
-      page: () => const MoverProfileView(),
-      binding: MoverProfileBinding(),
-    ),
-    GetPage(
       name: _Paths.MOVER_PROFIEL_DETAILS,
       page: () => MoverProfielDetailsView(),
       binding: MoverProfielDetailsBinding(),
@@ -291,7 +317,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE_CHANGE_PASSWORD,
-      page: () =>  ProfileChangePasswordView(),
+      page: () => ProfileChangePasswordView(),
       binding: ProfileChangePasswordBinding(),
     ),
     GetPage(
@@ -303,6 +329,76 @@ class AppPages {
       name: _Paths.PROFILE_PRIVACY_POLICY,
       page: () => const ProfilePrivacyPolicyView(),
       binding: ProfilePrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_NAVBAR,
+      page: () => const MoverNavbarView(),
+      binding: MoverNavbarBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_HOME,
+      page: () => const MoverHomeView(),
+      binding: MoverHomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_SEARCH_POST,
+      page: () => MoverSearchPostView(),
+      binding: MoverSearchPostBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_LOCATION_CITY,
+      page: () => const MoverLocationCityView(),
+      binding: MoverLocationCityBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_SERCHED_LOCATIONED,
+      page: () => const MoverSerchedLocationedView(),
+      binding: MoverSerchedLocationedBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_MOVE_DETILS_SEND_OFFER,
+      page: () => const MoverMoveDetilsSendOfferView(),
+      binding: MoverMoveDetilsSendOfferBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_MOVE,
+      page: () => const MoverMoveView(),
+      binding: MoverMoveBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED,
+      page: () => const MoverInformationAboutTheCancalationCenceledView(),
+      binding: MoverInformationAboutTheCancalationCenceledBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
+      page: () => const MoverInformationAboutTheCancalationView(),
+      binding: MoverInformationAboutTheCancalationBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_MOVE_COMPLEDET_DETILS,
+      page: () => const MoverMoveCompledetDetilsView(),
+      binding: MoverMoveCompledetDetilsBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_MOVE_DETILS,
+      page: () => const MoverMoveDetilsView(),
+      binding: MoverMoveDetilsBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_CHAT,
+      page: () => const MoverChatView(),
+      binding: MoverChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_MY_PROFILE,
+      page: () => const ProfileMyProfileView(),
+      binding: ProfileMyProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_PROFILE_EDIT,
+      page: () => const ProfileProfileEditView(),
+      binding: ProfileProfileEditBinding(),
     ),
   ];
 }

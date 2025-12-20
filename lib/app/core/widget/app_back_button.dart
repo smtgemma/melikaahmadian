@@ -16,7 +16,10 @@ class AppBackButton extends StatelessWidget {
             Get.back();
           },
           child: SizedBox(
-            child:  Image.asset(Assets.iconsBack),
+            child:  Container(
+              height: 40,
+                width: 40,
+                child: Image.asset(Assets.iconsBack)),
           ),
         ),
       ],

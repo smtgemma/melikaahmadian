@@ -18,7 +18,6 @@ class Specialties extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Specialties",style: textStyele.titleLarge,),
-          SizedBox(height: 12.h,),
           GridView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,

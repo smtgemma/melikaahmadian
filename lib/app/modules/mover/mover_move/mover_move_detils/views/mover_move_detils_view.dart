@@ -11,6 +11,7 @@ import '../../../../move/ongoing_mover_details/widget/onging_details.dart';
 import '../../../../move/ongoing_mover_details/widget/onging_move_update.dart';
 import '../controllers/mover_move_detils_controller.dart';
 import '../widget/mover_move_detils.dart';
+import '../widget/update_status.dart';
 
 class MoverMoveDetilsView extends GetView<MoverMoveDetilsController> {
   const MoverMoveDetilsView({super.key});
@@ -32,7 +33,7 @@ class MoverMoveDetilsView extends GetView<MoverMoveDetilsController> {
               SizedBox(height: 24.h,),
               MoveOfferDetails(offer: "Details",details: "Update Status",),
               SizedBox(height: 24.h,),
-              Obx(() =>  offercontroller.selectedOfferDetails.value == "Details"  ? MoverMoveDetils(isRequestButton: true,) :OngingMoveUpdate(),)
+              Obx(() =>  offercontroller.selectedOfferDetails.value == "Details"  ? MoverMoveDetils(isRequestButton: true,) :UpdateStatus(),)
             ],
 
           ),

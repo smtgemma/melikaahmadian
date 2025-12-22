@@ -1,0 +1,27 @@
+import 'package:get/get.dart';
+
+class NotificationController extends GetxController {
+  //TODO: Implement NotificationController
+
+  final count = 0.obs;
+  RxBool isSwitched = false.obs;
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  void increment() => count.value++;
+  void switchValue({bool? value}) {
+    isSwitched.value = value ?? !isSwitched.value;
+  }
+}

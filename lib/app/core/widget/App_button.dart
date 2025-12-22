@@ -18,7 +18,7 @@ class AppButton extends StatelessWidget {
 
 
 
-   AppButton({super.key,this.width,this.hight,this.titel,this.onPress,this.child,this.iconPath,this.color,this.containerColor = 0,this.textSize,this.borderRadius,this.bodycolor,this.borderColor});
+   AppButton({super.key,this.width,this.hight,this.titel,this.onPress,this.child,this.iconPath,this.color,this.containerColor = 0,this.textSize,this.borderRadius,this.bodycolor,this.borderColor,});
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,15 @@ class AppButton extends StatelessWidget {
           children: [
             Image.asset(iconPath.toString(),color: color ,),
             SizedBox(width: 10.w,),
-            Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold),),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 10),
+              child: Expanded(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: (containerColor == 0 ? AppColors.primaryColor  : AppColors.secoundaryColor ),fontSize: textSize,fontWeight: FontWeight.bold,),)),
+            ),
 
 
           ],
         ) :
-        Center(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold),),),
+        Center(child: Expanded(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold,),)),),
 
 
       ),

@@ -53,7 +53,7 @@ class MoverProfileView extends GetView<MoverProfileController> {
               SizedBox(height: 24.h,),
               ProfileType(isProfile: true,onpress: (){Get.toNamed(Routes.PROFILE_MY_PROFILE);}),
               ProfileType(titel: "Change Password",onpress: (){Get.toNamed(Routes.PROFILE_CHANGE_PASSWORD);},),
-              ProfileType(titel: "My Earning",onpress: (){},iconPath: Assets.iconsRoudedDolar,),
+              ProfileType(titel: "My Earning",onpress: (){Get.toNamed(Routes.MY_ERANING);},iconPath: Assets.iconsRoudedDolar),
               ProfileType(titel: "Terms & Condition",onpress: (){},iconPath: Assets.iconsTrams,),
               ProfileType(titel: "Privacy Policy",onpress: (){},iconPath: Assets.iconsPrivacy,),
               ProfileType(titel: "Log Out",onpress: (){

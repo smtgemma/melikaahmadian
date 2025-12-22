@@ -44,6 +44,8 @@ dependencies:
   chewie: ^1.13.0
   video_player: ^2.10.0
   camera: ^0.11.3
+  auto_size_text: ^3.0.0
+  get_cli: ^1.9.1
 
 
 dev_dependencies:
@@ -104,4 +106,5 @@ flutter:
     - assets/images/
     - assets/icons/back.png
     - lib/generated/assets.dart
+    - assets/fonts/
 

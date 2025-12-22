@@ -64,6 +64,8 @@ abstract class Routes {
       _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED;
   static const PROFILE_MY_PROFILE = _Paths.PROFILE_MY_PROFILE;
   static const PROFILE_PROFILE_EDIT = _Paths.PROFILE_PROFILE_EDIT;
+  static const MY_ERANING = _Paths.MY_ERANING;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
 }
 
 abstract class _Paths {
@@ -128,4 +130,6 @@ abstract class _Paths {
       '/mover-information-about-the-cancalation-cenceled';
   static const PROFILE_MY_PROFILE = '/profile-my-profile';
   static const PROFILE_PROFILE_EDIT = '/profile-profile-edit';
+  static const MY_ERANING = '/my-eraning';
+  static const NOTIFICATION = '/notification';
 }

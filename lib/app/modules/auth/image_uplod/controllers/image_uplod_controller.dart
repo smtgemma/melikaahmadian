@@ -50,6 +50,8 @@ class ImageUplodController extends GetxController {
       updateProgress(0.50);
     }
   }
+
+
   void updateProgress(double value) {
     indicatorValue.value = value;
   }

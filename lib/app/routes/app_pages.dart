@@ -88,12 +88,16 @@ import '../modules/mover/mover_move/mover_move_detils/views/mover_move_detils_vi
 import '../modules/mover/mover_move/views/mover_move_view.dart';
 import '../modules/mover/mover_navbar/bindings/mover_navbar_binding.dart';
 import '../modules/mover/mover_navbar/views/mover_navbar_view.dart';
+import '../modules/mover/mover_profile/my_eraning/bindings/my_eraning_binding.dart';
+import '../modules/mover/mover_profile/my_eraning/views/my_eraning_view.dart';
 import '../modules/mover/mover_profile/profile_my_profile/bindings/profile_my_profile_binding.dart';
 import '../modules/mover/mover_profile/profile_my_profile/views/profile_my_profile_view.dart';
 import '../modules/mover/mover_profile/profile_profile_edit/bindings/profile_profile_edit_binding.dart';
 import '../modules/mover/mover_profile/profile_profile_edit/views/profile_profile_edit_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
+import '../modules/notification/bindings/notification_binding.dart';
+import '../modules/notification/views/notification_view.dart';
 import '../modules/role_selection/bindings/role_selection_binding.dart';
 import '../modules/role_selection/views/role_selection_view.dart';
 import '../modules/select_option/bindings/select_option_binding.dart';
@@ -399,6 +403,16 @@ class AppPages {
       name: _Paths.PROFILE_PROFILE_EDIT,
       page: () => const ProfileProfileEditView(),
       binding: ProfileProfileEditBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_ERANING,
+      page: () => const MyEraningView(),
+      binding: MyEraningBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
     ),
   ];
 }

@@ -45,7 +45,9 @@ class Assets {
   static const String iconsReload = 'assets/icons/reload.png';
   static const String iconsRoudedDolar = 'assets/icons/rouded_dolar.png';
   static const String iconsRoundTik = 'assets/icons/round_tik.png';
+  static const String iconsRoutedTik = 'assets/icons/routed_tik.png';
   static const String iconsSelfBook = 'assets/icons/self_book.png';
+  static const String iconsSetting = 'assets/icons/setting.png';
   static const String iconsShelf = 'assets/icons/Shelf.png';
   static const String iconsSidetable = 'assets/icons/sidetable.png';
   static const String iconsSun = 'assets/icons/sun.png';

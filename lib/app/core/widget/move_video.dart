@@ -19,47 +19,39 @@ class MoveVideo extends StatefulWidget {
 }
 
 class _MoveVideoState extends State<MoveVideo> {
-  @override
+
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
   late Future<void> _initializeVideoPlayerFuture;
 
   @override
+  @override
   void initState() {
-
     super.initState();
-    if(widget.isasset == true){
-      debugPrint("debugPrint : ${widget.videoPath}");
-      _videoPlayerController = VideoPlayerController.file(
-        File(widget.videoPath.toString()),
-      );
-    }
-    _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
-    );
+    print('video is ${widget.videoPath}');
 
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
-      _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
-        autoPlay: false,
-        fullScreenByDefault: false,
-        looping: false,
-        allowFullScreen: true,
-        showControls: true,
-        aspectRatio: _videoPlayerController.value.aspectRatio,
-        allowPlaybackSpeedChanging: true,
-        deviceOrientationsAfterFullScreen: [
-          DeviceOrientation.portraitUp,
-        ],
-        deviceOrientationsOnEnterFullScreen: [
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft,
-        ],
-      );
-      _videoPlayerController.pause();
-      setState(() {});
-    });
+    if (widget.isasset == true) {
+      // Asset video
+      _videoPlayerController =
+          VideoPlayerController.file(File(widget.videoPath??''));
+    } else {
+      // File video
+      _videoPlayerController =
+          VideoPlayerController.file(File(widget.videoPath??''));
+    }
+
+    _initializeVideoPlayerFuture =
+        _videoPlayerController.initialize().then((_) {
+          _chewieController = ChewieController(
+            videoPlayerController: _videoPlayerController,
+            autoPlay: true,
+            looping: false,
+            aspectRatio: _videoPlayerController.value.aspectRatio,
+          );
+          setState(() {});
+        });
   }
+
 
   @override
   void dispose() {

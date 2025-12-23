@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/modules/chat/views/chat_view.dart';
+import 'package:melikaahmadian/app/modules/home/video_cmera/views/video_cmera_view.dart';
 import 'package:melikaahmadian/app/modules/home/views/home_view.dart';
 import 'package:melikaahmadian/app/modules/move/views/move_view.dart';
 import 'package:melikaahmadian/app/modules/setting/views/setting_view.dart';
@@ -13,7 +14,7 @@ class NavbarController extends GetxController {
   RxList item = [
     HomeView(),
    MoveView(),
-    ChatView(),
+    VideoCmeraView(),
     ChatView(),
    SettingView()
   ].obs ;

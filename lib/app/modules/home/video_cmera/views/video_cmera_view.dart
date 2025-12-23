@@ -51,6 +51,7 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
   Future<void> stopRecording() async {
     final video = await controller.stopVideoRecording();
     setState(() => isRecording = false);
+    print('video path ${video.path}');
     Get.to(ReviewVideoView(videoPath: video.path,));
   }
 
@@ -111,8 +112,8 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: isRecording
-                          ? AppColors.errorColor   // 🔴 recording
-                          : AppColors.secoundaryColor, // ⚪ not recording
+                          ? AppColors.errorColor
+                          : AppColors.secoundaryColor,
                     ),
                   ),
                 ),

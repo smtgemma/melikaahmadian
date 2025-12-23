@@ -28,8 +28,11 @@ class MoveView extends GetView<MoveController> {
             Text("All your moves at one place",style: textStyele.bodyMedium,),
             SizedBox(height: 24.h,),
             Catagory(),
+            SizedBox(height: 10.h,),
             MoveStatusVideo(isNavigator: true,isType: AppArgumentString.posted,),
+            SizedBox(height: 10.h,),
             MoveStatusVideo(isNavigator: true,titel: "Ongoing",color: AppColors.hardBlueColor.withAlpha(10),textColor: AppColors.hardBlueColor,isType: AppArgumentString.ongoing,),
+            SizedBox(height: 10.h,),
             MoveStatusVideo(isNavigator: true,titel: "Cancel Requested",color: AppColors.errorColor.withAlpha(10),textColor: AppColors.errorColor,isType: AppArgumentString.cancelled,)
 
           ],

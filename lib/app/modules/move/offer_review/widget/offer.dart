@@ -63,6 +63,7 @@ class Offer extends StatelessWidget {
                 ), itemBuilder: (context, index) {
                 return AppButton(containerColor: 1,titel: "Heavy Items",hight: 40,bodycolor: AppColors.primaryColor,borderColor: AppColors.textSecoundaryColor,);
               },),
+              SizedBox(height: 12.h,),
               //offer price
               Stack(children: [
                 Container(

@@ -12,43 +12,55 @@ import '../../../../core/widget/move_video.dart';
 import '../controllers/review_video_controller.dart';
 
 class ReviewVideoView extends GetView<ReviewVideoController> {
-  String? videoPath ;
-   ReviewVideoView({super.key,this.videoPath});
+  String? videoPath;
+  ReviewVideoView({super.key, this.videoPath});
+
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
 
     return Scaffold(
-     body: AppBackground(child: Column(
-       crossAxisAlignment: CrossAxisAlignment.start,
-       children: [
-         AppBackButton(),
-         SizedBox(height: 4.h,),
-         Text("Review The Video",style: textStyele.titleLarge,),
-         SizedBox(height: 4.h,),
-         Text("Make sure all items are clearly visible",style: textStyele.bodyMedium,),
-         SizedBox(height: 12.h,),
-         Container(
-           height: 200.h,
-           width: double.infinity,
-           decoration: BoxDecoration(color: Colors.grey,borderRadius: BorderRadius.circular(12.w)),
-           child: MoveVideo(videoPath: videoPath,isasset: true,),
-
-         ),
-         SizedBox(height: 24.h,),
-         AppButton(child: true,titel: "Use this Video",iconPath: Assets.iconsTik,onPress: (){Get.toNamed(Routes.ADD_DETAILS);},),
-         SizedBox(height: 12.h,),
-         AppButton(child: true,titel: "Retake Video",iconPath: Assets.iconsReload,containerColor: 1,),
-
-
-
-
-
-
-
-
-       ],
-     ),),
+      body: AppBackground(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppBackButton(),
+            SizedBox(height: 4.h),
+            Text("Review The Video", style: textStyele.titleLarge),
+            SizedBox(height: 4.h),
+            Text(
+              "Make sure all items are clearly visible",
+              style: textStyele.bodyMedium,
+            ),
+            SizedBox(height: 12.h),
+            Container(
+              height: 200.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(12.w),
+              ),
+              child: MoveVideo(videoPath: videoPath, isasset: true),
+            ),
+            SizedBox(height: 24.h),
+            AppButton(
+              child: true,
+              titel: "Use this Video",
+              iconPath: Assets.iconsTik,
+              onPress: () {
+                Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
+              },
+            ),
+            SizedBox(height: 12.h),
+            AppButton(
+              child: true,
+              titel: "Retake Video",
+              iconPath: Assets.iconsReload,
+              containerColor: 1,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

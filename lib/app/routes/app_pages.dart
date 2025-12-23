@@ -125,7 +125,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.MOVER_NAVBAR;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
@@ -226,7 +226,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADD_DETAILS,
-      page: () => const AddDetailsView(),
+      page: () => AddDetailsView(),
       binding: AddDetailsBinding(),
     ),
     GetPage(

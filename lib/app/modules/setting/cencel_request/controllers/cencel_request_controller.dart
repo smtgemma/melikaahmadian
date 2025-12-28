@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class MoverChatController extends GetxController {
-  //TODO: Implement MoverChatController
-
-  final messageChatController = TextEditingController();
+class CencelRequestController extends GetxController {
+  //TODO: Implement CencelRequestController
 
   final count = 0.obs;
   @override

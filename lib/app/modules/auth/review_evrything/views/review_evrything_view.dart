@@ -93,7 +93,9 @@ class ReviewEvrythingView extends GetView<ReviewEvrythingController> {
               },
             )),
             SizedBox(height: 24.h,),
-            AppButton(titel: "Submit Application",onPress: (){Get.toNamed(Routes.APPLICATION_SUBMIT);},),
+            AppButton(titel: "Submit Application",onPress: (){Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {
+              "null" : "null",
+            });},),
             SizedBox(height: 24.h,)
         
         

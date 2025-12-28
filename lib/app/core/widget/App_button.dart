@@ -42,7 +42,7 @@ class AppButton extends StatelessWidget {
 
           ],
         ) :
-        Center(child: Expanded(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold,),)),),
+        Center(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold,),),),
 
 
       ),

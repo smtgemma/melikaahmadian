@@ -103,6 +103,8 @@ import '../modules/role_selection/views/role_selection_view.dart';
 import '../modules/select_option/bindings/select_option_binding.dart';
 import '../modules/select_option/views/select_option_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
+import '../modules/setting/cencel_request/bindings/cencel_request_binding.dart';
+import '../modules/setting/cencel_request/views/cencel_request_view.dart';
 import '../modules/setting/profile_change_password/bindings/profile_change_password_binding.dart';
 import '../modules/setting/profile_change_password/views/profile_change_password_view.dart';
 import '../modules/setting/profile_edit/bindings/profile_edit_binding.dart';
@@ -125,7 +127,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.NAVBAR;
 
   static final routes = [
     GetPage(
@@ -216,7 +218,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.VIDEO_CMERA,
-      page: () => const VideoCmeraView(),
+      page: () => VideoCmeraView(),
       binding: VideoCmeraBinding(),
     ),
     GetPage(
@@ -313,6 +315,12 @@ class AppPages {
       name: _Paths.SETTING,
       page: () => const SettingView(),
       binding: SettingBinding(),
+
+    ),
+    GetPage(
+      name: _Paths.CENCEL_REQUEST,
+      page: () => const CencelRequestView(),
+      binding: CencelRequestBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE_EDIT,

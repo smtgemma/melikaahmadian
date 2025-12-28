@@ -57,6 +57,9 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
               titel: "Retake Video",
               iconPath: Assets.iconsReload,
               containerColor: 1,
+              onPress: (){
+                Get.back();
+              },
             ),
           ],
         ),

@@ -14,7 +14,8 @@ import '../controllers/video_cmera_controller.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoCmeraView extends StatefulWidget {
-  const VideoCmeraView({super.key});
+  bool ? isbackbutton  ;
+   VideoCmeraView({super.key,this.isbackbutton});
 
   @override
   State<VideoCmeraView> createState() => _VideoCmeraViewState();
@@ -57,11 +58,11 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
 
   @override
   Widget build(BuildContext context) {
-    if (!controller.value.isInitialized) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+    // if (!controller.value.isInitialized) {
+    //   return const Scaffold(
+    //     body: Center(child: CircularProgressIndicator()),
+    //   );
+    // }
 
     return Scaffold(
       body: Column(
@@ -69,7 +70,7 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
         children: [
           SizedBox(height: 25.h),
 
-          Padding(
+          widget.isbackbutton == true ? SizedBox() : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: AppBackButton(),
           ),

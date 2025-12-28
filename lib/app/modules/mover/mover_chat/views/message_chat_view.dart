@@ -4,6 +4,9 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/generated/assets.dart';
+import 'package:get/get.dart';
+
+import '../controllers/mover_chat_controller.dart';
 
 class MessageChatView extends StatelessWidget {
   String ? imagepath ;
@@ -12,6 +15,7 @@ class MessageChatView extends StatelessWidget {
   String ? count ;
    MessageChatView({super.key,this.imagepath,this.name,this.time,this.count});
 
+   final controller = Get.put(MoverChatController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,13 +29,19 @@ class MessageChatView extends StatelessWidget {
               children: [
                 CircleAvatar(backgroundColor: AppColors.onPrimaryColor,child: Icon(Icons.add),) ,
                 SizedBox(width: 12.w,),
-        Expanded(
+                  Expanded(
           child: TextField(
+            controller: controller.messageChatController,
             decoration: InputDecoration(
               fillColor: AppColors.cardColor,
               filled: true,
               hintText: "Send Message",
-              suffixIcon: Image.asset(Assets.iconsMessageSend),
+              suffixIcon: GestureDetector(
+                onTap: (){
+                  controller.messageChatController.clear();
+                  debugPrint("send");
+                },
+                  child: Image.asset(Assets.iconsMessageSend)),
 
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),

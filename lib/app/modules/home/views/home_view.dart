@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import '../widget/quote.dart';
 
@@ -26,21 +27,26 @@ class HomeView extends GetView<HomeController> {
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: [
                Text("MoveForce",style: textStyele.titleMedium!.copyWith(fontSize: 20.sp),),
-               Stack(
-                 children: [
-                   Icon(Icons.notifications_none_outlined,size: 28,),
-                   Positioned(
-                     top: 1,
-                     right: 0,
-                     child: Container(
-                       height: 15.h,
-                       width: 15.w,
-                       decoration: BoxDecoration(color: AppColors.secoundaryColor,shape: BoxShape.circle),
-                       child: Center(child: Text("1",style: textStyele.labelLarge!.copyWith(color: AppColors.primaryColor,fontSize: 9,fontWeight: FontWeight.bold),)),
+               InkWell(
+                 onTap: (){
+                   Get.toNamed(Routes.NOTIFICATION);
+                 },
+                 child: Stack(
+                   children: [
+                     Icon(Icons.notifications_none_outlined,size: 28,),
+                     Positioned(
+                       top: 1,
+                       right: 0,
+                       child: Container(
+                         height: 15.h,
+                         width: 15.w,
+                         decoration: BoxDecoration(color: AppColors.secoundaryColor,shape: BoxShape.circle),
+                         child: Center(child: Text("1",style: textStyele.labelLarge!.copyWith(color: AppColors.primaryColor,fontSize: 9,fontWeight: FontWeight.bold),)),
 
-                     ),
-                   )
-                 ],
+                       ),
+                     )
+                   ],
+                 ),
                )
              ],
            ),

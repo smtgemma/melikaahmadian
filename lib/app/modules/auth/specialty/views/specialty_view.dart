@@ -20,84 +20,121 @@ class SpecialtyView extends GetView<SpecialtyController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppBackButton(),
+                SizedBox(height: 24.h),
+                Text("List Your Specialty", style: textStyele.headlineLarge),
+                SizedBox(height: 08.h),
+                Text(
+                  "Write down in which field you are most capable and and then click add.",
+                  style: textStyele.bodyMedium,
+                ),
+                SizedBox(height: 24.h),
+                Row(
                   children: [
-              AppBackButton(),
-              SizedBox(height: 24.h,),
-              Text("List Your Specialty",style: textStyele.headlineLarge,),
-              SizedBox(height: 08.h,),
-              Text("Write down in which field you are most capable and and then click add.",style: textStyele.bodyMedium,),
-              SizedBox(height: 24.h,),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 250.w,
-                    child: TextField(
-                      controller: controller.specilizTextController,
-                      cursorHeight: 18,
+                    SizedBox(
+                      width: 250.w,
+                      child: TextField(
+                        controller: controller.specilizTextController,
+                        cursorHeight: 18,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 20.w,),
-                  Expanded(
-                    child: AppButton(titel: "Add",onPress: (){
-                      if(controller.specilizTextController.text.isEmpty){
-                        return null ;
-                      }
-                      controller.specilized.add(controller.specilizTextController.text.trim());
-                      controller.specilizTextController.clear() ;
-                    },),
-                  )
-                ],
+                    SizedBox(width: 20.w),
+                    Expanded(
+                      child: AppButton(
+                        titel: "Add",
+                        hight: 55,
+                        onPress: () {
+                          if (controller.specilizTextController.text.isEmpty) {
+                            return null;
+                          }
+                          controller.specilized.add(
+                            controller.specilizTextController.text.trim(),
+                          );
+                          controller.specilizTextController.clear();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Expanded(
+              flex: 3,
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: controller.specilized.value.length,
+                  itemBuilder: (context, index) {
+                    var data = controller.specilized.value[index];
+                    return Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: AppColors.onPrimaryColor,
+                              borderRadius: BorderRadius.circular(08),
+                            ),
+                            child: Center(
+                              child: Text(
+                                data,
+                                style: textStyele.bodyLarge!.copyWith(
+                                  color: AppColors.secoundaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 5,
+                          top: 4,
+                          child: InkWell(
+                            onTap: () {
+                              debugPrint("fwefwe");
+                              controller.specilized.remove(data);
+                            },
+                            child: Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                color: AppColors.secoundaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.close,
+                                  color: AppColors.primaryColor,
+                                  size: 16,
+                                  weight: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
-            ],)),
-
-           Expanded(
-             flex: 4,
-               child: Obx(() =>  ListView.builder(
-             itemCount: controller.specilized.value.length,
-             itemBuilder: (context, index) {
-               var data = controller.specilized.value[index] ;
-               return Stack(children:[
-
-                 Padding(
-                   padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                   child: Container(
-                     width: double.infinity,
-                     padding: EdgeInsets.all(15),
-                     decoration: BoxDecoration(color: AppColors.onPrimaryColor,borderRadius: BorderRadius.circular(08)),
-                     child: Center(child: Text(data,style: textStyele.bodyLarge!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),)),
-                   ),
-                 ),
-                 Positioned(
-                   right: 5,
-                   top: 4,
-                   child: InkWell(
-                   onTap: (){
-                     debugPrint("fwefwe");
-                        controller.specilized.remove(data);
-                       },
-                     child: Container(
-                       height: 20,
-                       width: 20,
-                       decoration: BoxDecoration(color: AppColors.secoundaryColor,shape: BoxShape.circle),
-                       child: Center(child: Icon(Icons.close,color: AppColors.primaryColor,size: 16,weight: 2,),),
-                     ),
-                   ),
-                 ),
-               ]);
-
-             },),)),
-            AppButton(titel: "Continue",onPress: (){Get.toNamed(Routes.DOCUMENT_UPLOD_PAGE);},)
-
-
-
+            ),
+            Expanded(
+              flex: 0,
+              child: AppButton(
+                titel: "Continue",
+                hight: 50.h,
+                onPress: () {
+                  Get.toNamed(Routes.DOCUMENT_UPLOD_PAGE);
+                },
+              ),
+            ),
           ],
         ),
       ),
-
     );
   }
 }

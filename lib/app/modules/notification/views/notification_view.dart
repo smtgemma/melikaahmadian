@@ -26,10 +26,6 @@ class NotificationView extends GetView<NotificationController> {
           SizedBox(height: 24.h,),
           NotificationItem()
 
-
-
-
-
         ],
       ),),
     );

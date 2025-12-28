@@ -77,7 +77,12 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
 
                           if(roleSelectionController.roleSelection.value == "service_provider"){
                             Get.toNamed(Routes.BIO);
-                          }Get.toNamed(Routes.LOG_IN);
+                            debugPrint("service_provider");
+
+                          }else{
+                            Get.toNamed(Routes.LOG_IN);
+                          }
+
 
                         }
 

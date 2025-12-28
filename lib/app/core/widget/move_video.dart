@@ -36,8 +36,9 @@ class _MoveVideoState extends State<MoveVideo> {
           VideoPlayerController.file(File(widget.videoPath??''));
     } else {
       // File video
-      _videoPlayerController =
-          VideoPlayerController.file(File(widget.videoPath??''));
+      _videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
+      );
     }
 
     _initializeVideoPlayerFuture =

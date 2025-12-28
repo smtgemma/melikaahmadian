@@ -35,7 +35,6 @@ class OfferReviewView extends GetView<OfferReviewController> {
               SizedBox(height: 12.h,),
               MoveOfferDetails(),
               SizedBox(height: 12.h,),
-          
               Obx(() => controller.selectedOfferDetails.value == "offer" ? Offer() : Detils(),),
 
           

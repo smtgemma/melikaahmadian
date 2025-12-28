@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
+import 'package:melikaahmadian/app/core/widget/move_status_video.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
@@ -55,7 +56,9 @@ class HomeView extends GetView<HomeController> {
            SizedBox(height: 16.h,),
            Quote(ai: true,),
            SizedBox(height: 16.h,),
-           Text("Upcoming Moves & Updates",style: textStyele.titleMedium,)
+           Text("Upcoming Moves & Updates",style: textStyele.titleMedium,),
+           SizedBox(height: 16.h,),
+           MoveStatusVideo()
 
          ],
 

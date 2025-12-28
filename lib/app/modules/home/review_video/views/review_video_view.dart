@@ -44,6 +44,7 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
             ),
             SizedBox(height: 24.h),
             AppButton(
+
               child: true,
               titel: "Use this Video",
               iconPath: Assets.iconsTik,

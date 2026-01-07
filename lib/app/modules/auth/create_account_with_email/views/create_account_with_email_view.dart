@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,60 +32,74 @@ class CreateAccountWithEmailView
               Text("Provide necessary information to sign up.",style: textStyle.bodyMedium,),
               SizedBox(height: 24.h,),
               Form(
-                  key: _globalKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                       controller: controller.nameTextEdittingController,
-                        validator: (value){
-                          if (value == null || value.isEmpty) {
-                            return "name is required";
-                          }
-                          return null;
-                        },
-                        cursorHeight: 16.h,
-                        style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Full name"),
-                      ),
-                      SizedBox(height: 12.h,),
-                      TextFormField(
-                       controller: controller.phoneTextEdittingController,
-                        validator: (value){
-                          if (value == null || value.isEmpty) {
-                            return "Phone is required";
-                          }
-                          return null;
-                        },
-                        cursorHeight: 16.h,
-                        style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Phone"),
-                      ),
-                      SizedBox(height: 12.h,),
-                      TextFormField(
-                        controller: controller.emailTextEdittingController,
-                        validator: (value){
-                          if (value == null || value.isEmpty) {
-                            return "Email is required";
-                          }else if (!GetUtils.isEmail(value)) {
-                            return "Enter a valid email";
-                          }
-                          return null;
-                        },
-                        cursorHeight: 16.h,
-                        style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Email"),
-                      ),
-                      SizedBox(height: 12.h,),
-                      AppButton(titel: "Continue",onPress: (){
+                key: _globalKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: controller.nameTextEdittingController,
+                      validator: (value){
+                        if (value == null || value.isEmpty) return "Name is required";
+                        return null;
+                      },
+                      cursorHeight: 16.h,
+                      style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
+                      decoration: const InputDecoration(hintText: "Full name"),
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(border: Border.all(color: AppColors.secoundaryColor),borderRadius: BorderRadius.circular(10)),
+                          child: CountryCodePicker(
+                            onChanged: (country) {
+                              controller.selectedCountryCode.value = country.dialCode ?? '+1';
+                            },
+                            initialSelection: 'US',
+                            favorite: const ['+1','US', '+880','BD'],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextFormField(
+                            controller: controller.phoneTextEdittingController,
+                            validator: (value){
+                              if (value == null || value.isEmpty) return "Phone is required";
+                              return null;
+                            },
+                            cursorHeight: 16.h,
+                            style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
+                            decoration: const InputDecoration(hintText: "Phone"),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12.h),
+                    TextFormField(
+                      controller: controller.emailTextEdittingController,
+                      validator: (value){
+                        if (value == null || value.isEmpty) return "Email is required";
+                        else if (!GetUtils.isEmail(value)) return "Enter a valid email";
+                        return null;
+                      },
+                      cursorHeight: 16.h,
+                      style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
+                      decoration: const InputDecoration(hintText: "Email"),
+                    ),
+                    SizedBox(height: 12.h),
+                    AppButton(
+                      titel: "Continue",
+                      onPress: (){
                         if(_globalKey.currentState!.validate()){
-                          Get.toNamed(Routes.VERIFICATION_CODE);
-
+                          Get.toNamed(Routes.SET_NEW_PASSWORD,arguments: {
+                            "email":controller.emailTextEdittingController.text,
+                          });
                         }
+                      },
+                    ),
+                  ],
+                ),
+              )
 
-                      },)
-                    ],
-
-                  )),
 
 
 

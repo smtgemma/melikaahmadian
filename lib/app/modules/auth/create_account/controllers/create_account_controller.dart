@@ -5,6 +5,8 @@ class CreateAccountController extends GetxController {
   //TODO: Implement CreateAccountController
 
   final emailTextEditingController = TextEditingController();
+  final phoneTextEditingController = TextEditingController();
+  final nameTextEditingController = TextEditingController();
 
   final count = 0.obs;
   @override

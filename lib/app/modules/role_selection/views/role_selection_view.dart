@@ -33,13 +33,13 @@ class RoleSelectionView extends GetView<RoleSelectionController> {
 
           Spacer(),
           AppButton(titel: "Continue As User",onPress: (){
-            controller.roleSelection.value = "user" ;
+            controller.roleSelection.value = "USER" ;
             debugPrint(controller.roleSelection.toString());
             Get.toNamed(Routes.SIGN_UP);
           },),
           SizedBox(height: 12.h,),
           AppButton(titel: "Continue As Service Provider",containerColor: 1,onPress: (){
-            controller.roleSelection.value = "service_provider" ;
+            controller.roleSelection.value = "PROVIDER";
             debugPrint(controller.roleSelection.toString());
             Get.toNamed(Routes.SIGN_UP);
           },),

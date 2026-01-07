@@ -15,16 +15,15 @@ class AppButton extends StatelessWidget {
   Color? borderColor ;
   int? containerColor;
   double? borderRadius ;
+  bool? isLoding;
 
-
-
-   AppButton({super.key,this.width,this.hight,this.titel,this.onPress,this.child,this.iconPath,this.color,this.containerColor = 0,this.textSize,this.borderRadius,this.bodycolor,this.borderColor,});
+   AppButton({super.key,this.width,this.hight,this.titel,this.onPress,this.child,this.iconPath,this.color,this.containerColor = 0,this.textSize,this.borderRadius,this.bodycolor,this.borderColor,this.isLoding});
 
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
     return GestureDetector(
-      onTap: onPress,
+      onTap:isLoding == true ? null : onPress,
       child: Container(
         height: hight ?? 52.h,
         width: width ?? double.infinity,
@@ -42,7 +41,7 @@ class AppButton extends StatelessWidget {
 
           ],
         ) :
-        Center(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold,),),),
+        isLoding == true ? Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),) : Center(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold,),),),
 
 
       ),

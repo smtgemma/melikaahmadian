@@ -7,13 +7,17 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 
 import '../../../../core/widget/app_back_button.dart';
 import '../../../../core/widget/app_background.dart';
+import '../../../role_selection/controllers/role_selection_controller.dart';
 import '../controllers/verification_code_controller.dart';
 import 'package:pinput/pinput.dart';
+
+import '../reposditory/verification_code_repository.dart';
 
 class VerificationCodeView extends GetView<VerificationCodeController> {
   const VerificationCodeView({super.key});
   @override
   Widget build(BuildContext context) {
+    final roleSelectionController = Get.put(RoleSelectionController());
     var textStyle = TextTheme.of(context);
     return Scaffold(
       body:AppBackground(
@@ -31,14 +35,17 @@ class VerificationCodeView extends GetView<VerificationCodeController> {
               Align(
                 alignment: Alignment.center,
                 child: Pinput(
+                  controller: controller.otpTextEditingController,
                   keyboardType: TextInputType.number,
-                  length: 4,
+                  length: 6,
                 ),
               ),
               SizedBox(height: 24.h,),
-             AppButton(titel: "Continue",onPress: (){
-               Get.toNamed(Routes.SET_NEW_PASSWORD);
-             },)
+            Obx(() =>  AppButton(titel: "Continue",onPress: (){
+              debugPrint(roleSelectionController.roleSelection.value);
+              VerificationCodeRepository.verfyEmail();
+
+            },isLoding: controller.isLoading.value,),)
 
 
 

@@ -10,96 +10,120 @@ import '../../../../core/widget/app_background.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../role_selection/controllers/role_selection_controller.dart';
 import '../controllers/set_new_password_controller.dart';
+import '../repository/sign_up_repository.dart';
 
 class SetNewPasswordView extends GetView<SetNewPasswordController> {
-   SetNewPasswordView({super.key});
+  SetNewPasswordView({super.key});
   final _globalKey = GlobalKey<FormState>();
   final roleSelectionController = Get.put(RoleSelectionController());
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments;
+    controller.email = args?["email"];
     var textStyle = TextTheme.of(context);
     return Scaffold(
-      body:AppBackground(
+      body: AppBackground(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBackButton(),
-              SizedBox(height: 100.h,),
-              Text("Set your new password",style: textStyle.headlineLarge,),
-              SizedBox(height: 08.h,),
-              Text("Type your new password below.",style: textStyle.bodyMedium,),
-              SizedBox(height: 24.h,),
+              SizedBox(height: 100.h),
+              Text("Set your new password", style: textStyle.headlineLarge),
+              SizedBox(height: 08.h),
+              Text(
+                "Type your new password below.",
+                style: textStyle.bodyMedium,
+              ),
+              SizedBox(height: 24.h),
               Form(
-                  key: _globalKey,
-                  child: Column(
-                    children: [
-                      Obx(() =>  TextFormField(
-                        onTap: (){
+                key: _globalKey,
+                child: Column(
+                  children: [
+                    Obx(
+                      () => TextFormField(
+                        onTap: () {
                           controller.visibility();
                         },
                         controller: controller.passTextEditingController,
                         obscureText: controller.isVisibility.value == false,
                         obscuringCharacter: "*",
-                        validator: (value){
+                        validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Password is required";
                           }
                           return null;
                         },
                         cursorHeight: 16.h,
-                        style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Enter new password",suffixIcon: controller.isVisibility.value == true ? Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined)),
-                      ),),
-                      SizedBox(height: 12.h,),
-                      Obx(() =>  TextFormField(
-                        onTap: (){
+                        style: textStyle.labelLarge!.copyWith(
+                          color: AppColors.secoundaryColor,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "Enter new password",
+                          suffixIcon: controller.isVisibility.value == true
+                              ? Icon(Icons.visibility_outlined)
+                              : Icon(Icons.visibility_off_outlined),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Obx(
+                      () => TextFormField(
+                        onTap: () {
                           controller.confrimvisibility();
                         },
-                        controller: controller.confrimePassTextEditingController,
-                        obscureText: controller.isConfirmeVisibility.value == false,
+                        controller:
+                            controller.confrimePassTextEditingController,
+                        obscureText:
+                            controller.isConfirmeVisibility.value == false,
                         obscuringCharacter: "*",
-                        validator: (value){
+                        validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Password is required";
                           }
                           return null;
                         },
                         cursorHeight: 16.h,
-                        style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Confirm new password",suffixIcon: controller.isConfirmeVisibility.value == true ? Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined)),
-                      ),),
-
-                      SizedBox(height: 24.h,),
-                      AppButton(titel: "Save Password",onPress: (){
-                        if(_globalKey.currentState!.validate()){
-
-                          if(roleSelectionController.roleSelection.value == "service_provider"){
-                            Get.toNamed(Routes.BIO);
-                            debugPrint("service_provider");
-
-                          }else{
-                            Get.toNamed(Routes.LOG_IN);
+                        style: textStyle.labelLarge!.copyWith(
+                          color: AppColors.secoundaryColor,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "Confirm new password",
+                          suffixIcon:
+                              controller.isConfirmeVisibility.value == true
+                              ? Icon(Icons.visibility_outlined)
+                              : Icon(Icons.visibility_off_outlined),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+                    Obx(
+                      () => AppButton(
+                        titel: "Save Password",
+                        onPress: () {
+                          if (_globalKey.currentState!.validate()) {
+                            if (controller.passTextEditingController.text ==
+                                controller
+                                    .confrimePassTextEditingController
+                                    .text) {
+                              // Get.toNamed(Routes.VERIFICATION_CODE);
+                              SignUpRepository.signIn();
+                            } else {
+                              Get.snackbar("Error", "Password not match");
+                            }
                           }
-
-
-                        }
-
-                      },)
-                    ],
-
-                  )),
-
-
-
-
-
-
-
+                        },
+                        isLoding: controller.isLoading.value,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-        ),),
+        ),
+      ),
     );
   }
 }

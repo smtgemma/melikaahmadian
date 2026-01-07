@@ -8,6 +8,9 @@ class CreateAccountWithEmailController extends GetxController {
   final phoneTextEdittingController = TextEditingController();
   final emailTextEdittingController = TextEditingController();
 
+  final selectedCountryCode = '+880'.obs;
+
+
   final count = 0.obs;
   @override
   void onInit() {

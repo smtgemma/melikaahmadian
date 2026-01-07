@@ -8,10 +8,17 @@ class SetNewPasswordController extends GetxController {
   final confrimePassTextEditingController = TextEditingController();
   final isVisibility = false.obs ;
   final isConfirmeVisibility = false.obs ;
+  final isLoading = false.obs ;
+
+  String? email ;
 
 
   @override
   void onInit() {
+    final args = Get.arguments;
+    final email = args?['email'];
+
+    debugPrint("argu email" + email.toString());
     super.onInit();
   }
 
@@ -28,7 +35,7 @@ class SetNewPasswordController extends GetxController {
     isVisibility.value = !isVisibility.value ;
   }
   void confrimvisibility(){
-    isVisibility.value = !isVisibility.value ;
+    isConfirmeVisibility.value = !isConfirmeVisibility.value ;
   }
 
 }

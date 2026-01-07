@@ -7,6 +7,7 @@ class CreateAccountBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<CreateAccountController>(
       () => CreateAccountController(),
+      fenix: true,
     );
   }
 }

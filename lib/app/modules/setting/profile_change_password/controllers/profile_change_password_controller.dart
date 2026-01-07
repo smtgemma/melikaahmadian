@@ -10,6 +10,7 @@ class ProfileChangePasswordController extends GetxController {
   final isVisibility = false.obs ;
   final isConfirmeVisibility = false.obs ;
   final isoldPassVisibility = false.obs ;
+  final isLoading = false.obs;
 
   final count = 0.obs;
   @override
@@ -25,6 +26,9 @@ class ProfileChangePasswordController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    passTextEditingController.dispose();
+    confrimePassTextEditingController.dispose();
+    oldPassTextEditingController.dispose();
   }
 
   void visibility(){
@@ -34,6 +38,6 @@ class ProfileChangePasswordController extends GetxController {
     isConfirmeVisibility.value = !isConfirmeVisibility.value ;
   }
   void oldPass(){
-    isConfirmeVisibility.value = !isConfirmeVisibility.value ;
+    isoldPassVisibility.value = !isoldPassVisibility.value ;
   }
 }

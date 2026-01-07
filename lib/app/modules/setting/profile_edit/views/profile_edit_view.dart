@@ -53,9 +53,6 @@ class ProfileEditView extends GetView<ProfileEditController> {
               readOnly:controller.isEdit.value ,
             ),),
             SizedBox(height: 12.h,),
-            Obx(() => TextField(controller: controller.emailController,
-              readOnly:controller.isEdit.value ,
-            ),),
             SizedBox(height: 24.h,),
             Obx(() => controller.isEdit.value == false ?  EditBox() : AppButton(child: true,iconPath: Assets.iconsProfileEdit,titel: "Edit Information",onPress: (){
               controller.setEdit(false);

@@ -6,6 +6,8 @@ class LogInController extends GetxController {
   final emailTextEditingController = TextEditingController();
   final passTextEditingController = TextEditingController();
   final isVisibility = false.obs ;
+  final isLoading = false.obs ;
+
   @override
   void onInit() {
     super.onInit();

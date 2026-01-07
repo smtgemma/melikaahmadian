@@ -11,4 +11,9 @@ class AppArgumentString {
  static String moverOngoing = "moverOngoing";
  static String movercompeleted = "movercompeleted";
  static String movercenceled = "movercenceled";
+ static String name = "name";
+ static String email = "email";
+ static String phone = "phone";
+ static String image = "image";
+
 }

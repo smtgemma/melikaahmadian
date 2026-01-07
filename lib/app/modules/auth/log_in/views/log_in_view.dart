@@ -8,6 +8,7 @@ import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../controllers/log_in_controller.dart';
+import '../repository/log_in_repository.dart';
 
 class LogInView extends GetView<LogInController> {
 
@@ -74,19 +75,22 @@ class LogInView extends GetView<LogInController> {
                           child: Text('Forgot password?',style: textStyle.bodyMedium!.copyWith(color: AppColors.errorColor,fontSize: 14),)),
                     ),
                     SizedBox(height: 24.h,),
-                    AppButton(titel: "Continue",onPress: (){
+                    Obx(() => AppButton(titel: "Continue",onPress: (){
                       if(_globalKey.currentState!.validate()){
-                        Get.toNamed(Routes.NAVBAR);
-        
+                        LogInRepository.login() ;
+
+
                       }
-        
-                    },)
+
+                    },isLoding: controller.isLoading.value,),)
                   ],
         
             )),
             SizedBox(height: 12.h,),
             GestureDetector(
+
               onTap: (){
+
                 Get.toNamed(Routes.ROLE_SELECTION);
               },
               child: Row(

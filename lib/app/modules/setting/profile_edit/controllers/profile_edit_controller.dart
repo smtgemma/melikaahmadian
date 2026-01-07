@@ -4,11 +4,44 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/const/app_argument_string.dart';
+
 class ProfileEditController extends GetxController {
 
-  final nameController = TextEditingController(text: "meskatul");
-  final emailController = TextEditingController(text: "s******@gmail.com");
-  final phoneController = TextEditingController(text: "+880111100");
+  String? name ;
+  String? phone ;
+  String? email ;
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController phoneController;
+
+  final isLoading = false.obs;
+
+
+  @override
+  void onInit() {
+    final args = Get.arguments;
+     name = args?[AppArgumentString.name];
+     email = args?[AppArgumentString.email];
+     phone = args?[AppArgumentString.phone];
+
+    nameController = TextEditingController(text: name ?? "");
+    emailController = TextEditingController(text: email ?? "");
+    phoneController = TextEditingController(text: phone ?? "");
+
+
+
+    // TODO: implement onInit
+    super.onInit();
+  }
+  @override
+  void onClose() {
+    // ✅ Dispose controllers to avoid memory leak
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    super.onClose();
+  }
 
   RxBool isEdit = true.obs ;
 

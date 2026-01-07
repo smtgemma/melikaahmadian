@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
@@ -124,13 +125,18 @@ class SpecialtyView extends GetView<SpecialtyController> {
             ),
             Expanded(
               flex: 0,
-              child: AppButton(
+              child: Obx(() =>(controller.specilized.isEmpty || controller.specilized == null) ?
+              AppButton(onPress: null,bodycolor: AppColors.cardColor,titel: "Continue",) :
+              AppButton(
                 titel: "Continue",
                 hight: 50.h,
                 onPress: () {
-                  Get.toNamed(Routes.DOCUMENT_UPLOD_PAGE);
+                  Get.toNamed(Routes.DOCUMENT_UPLOD_PAGE,arguments: {
+                    AppArgument.bio : controller.bio,
+                    AppArgument.specializ : controller.specilized
+                  });
                 },
-              ),
+              )),
             ),
           ],
         ),

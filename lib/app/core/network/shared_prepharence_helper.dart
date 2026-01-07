@@ -5,9 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefHelper {
   static SharedPreferences? _prefs;
 
-  static String token = "token";
+  static String accessToken = "accessToken";
+  static String refreshToken = "refreshToken";
   static String userId = "userid";
   static String skillId = "skillId";
+  static String userRoll = "userRoll";
 
   /// Initialize SharedPreferences
   static Future<void> init() async {

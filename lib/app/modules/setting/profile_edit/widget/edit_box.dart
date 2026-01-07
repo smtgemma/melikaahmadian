@@ -5,6 +5,7 @@ import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:get/get.dart';
 
 import '../controllers/profile_edit_controller.dart';
+import '../repository/profile_edit_repository.dart';
 class EditBox  extends StatelessWidget {
   const EditBox({super.key});
 
@@ -18,7 +19,9 @@ class EditBox  extends StatelessWidget {
           debugPrint(controller.isEdit.toString());
         },)),
         SizedBox(width: 8.w,),
-        Expanded(child: AppButton()),
+        Expanded(child:Obx(() =>  AppButton(onPress: (){
+          ProfileEditRepository.updateProfile() ;
+        },isLoding: controller.isLoading.value),)),
       ],
     );
   }

@@ -7,6 +7,7 @@ import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
 import '../../../../core/widget/App_button.dart';
 import '../controllers/profile_change_password_controller.dart';
+import '../repository/profile_change_password.dart';
 
 class ProfileChangePasswordView
     extends GetView<ProfileChangePasswordController> {
@@ -32,9 +33,6 @@ class ProfileChangePasswordView
                   child: Column(
                     children: [
                       Obx(() =>  TextFormField(
-                        onTap: (){
-                          controller.oldPass();
-                        },
                         controller: controller.oldPassTextEditingController,
                         obscureText: controller.isoldPassVisibility.value == false,
                         obscuringCharacter: "*",
@@ -46,13 +44,10 @@ class ProfileChangePasswordView
                         },
                         cursorHeight: 16.h,
                         // style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Enter new password",suffixIcon: controller.isVisibility.value == true ? Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined)),
+                        decoration: InputDecoration(hintText: "Old password",suffixIcon: IconButton(onPressed: (){ controller.oldPass();}, icon: controller.isoldPassVisibility.value == true ?  Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined))   ),
                       ),),
                       SizedBox(height: 12.h,),
                       Obx(() =>  TextFormField(
-                        onTap: (){
-                          controller.visibility();
-                        },
                         controller: controller.passTextEditingController,
                         obscureText: controller.isVisibility.value == false,
                         obscuringCharacter: "*",
@@ -64,13 +59,11 @@ class ProfileChangePasswordView
                         },
                         cursorHeight: 16.h,
                        // style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Enter new password",suffixIcon: controller.isVisibility.value == true ? Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined)),
+                        decoration: InputDecoration(hintText: "Enter new password",suffixIcon:   IconButton(onPressed: (){ controller.visibility();}, icon:controller.isVisibility.value == true ?  Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined))   ),
                       ),),
                       SizedBox(height: 12.h,),
                       Obx(() =>  TextFormField(
-                        onTap: (){
-                          controller.confrimvisibility();
-                        },
+
                         controller: controller.confrimePassTextEditingController,
                         obscureText: controller.isConfirmeVisibility.value == false,
                         obscuringCharacter: "*",
@@ -82,16 +75,23 @@ class ProfileChangePasswordView
                         },
                         cursorHeight: 16.h,
                        // style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                        decoration: InputDecoration(hintText: "Confirm new password",suffixIcon: controller.isConfirmeVisibility.value == true ? Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined)),
+                        decoration: InputDecoration(hintText: "Confirm new password",suffixIcon:IconButton(onPressed: (){ controller.confrimvisibility();}, icon:controller.isConfirmeVisibility.value == true ?  Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined))),
                       ),),
                       SizedBox(height: 24.h,),
-                      AppButton(titel: "Save Password",onPress: (){
-                        if(_globalKey.currentState!.validate()){
-          
-          
+                    Obx(() =>   AppButton(titel: "Save Password",onPress: (){
+                      if(_globalKey.currentState!.validate()){
+                        if(controller.passTextEditingController.text != controller.confrimePassTextEditingController.text){
+                          Get.snackbar("Error", "Passwords do not match");
+                        }else{
+                          ProfileChangePassword.chnagePassword() ;
                         }
-          
-                      },)
+                      }else{
+
+                        //controller.changePassword();
+
+                      }
+
+                    },isLoding: controller.isLoading.value,),)
                     ],
           
                   )),

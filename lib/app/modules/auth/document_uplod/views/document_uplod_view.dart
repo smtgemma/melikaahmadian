@@ -87,7 +87,6 @@ class DocumentUplodView extends GetView<DocumentUplodController> {
                         padding:  EdgeInsets.only(bottom: 12.w),
                         child: FileBox(titel: data,onPress: (){controller.removeFile(index);},),
                       );
-
                     },
                 ),
               );

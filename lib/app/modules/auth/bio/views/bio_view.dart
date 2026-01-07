@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
@@ -31,6 +32,7 @@ class BioView extends GetView<BioController> {
                 Text("Tell us more about yourself.",style: textStyele.bodyMedium,),
                 SizedBox(height: 8,),
                 TextFormField(
+                  controller: controller.bioTextEdittingController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return "Bio is required";
@@ -40,13 +42,49 @@ class BioView extends GetView<BioController> {
                   cursorHeight: 20,
                   maxLines: 4,
                   decoration: InputDecoration(
-                    hintText: "The mover completed his move in a very organized way. Recommended."
+                    hintText: "The mover completed his move in a very organized way. Recommended.",
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        width: 2, // 👈 Border thickness
+                        color: Colors.grey,
+                      ),
+                    ),
+
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        width: 2,
+
+                      ),
+                    ),
+
+
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        width: 2,
+
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        width: 2,
+
+                      ),
+                    ),
                   ),
                 ),
+
                 SizedBox(height: 24,),
                 AppButton(titel: "Continue",onPress: (){
                   if(_globalKey.currentState!.validate()){
-                    Get.toNamed(Routes.SPECIALTY);
+                    Get.toNamed(Routes.SPECIALTY,arguments: {
+                      AppArgument.bio : controller.bioTextEdittingController.text
+                    });
 
                   }return null ;
 

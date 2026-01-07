@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class BioController extends GetxController {
   //TODO: Implement BioController
+  final bioTextEdittingController  = TextEditingController();
 
   final count = 0.obs;
   @override

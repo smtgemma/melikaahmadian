@@ -176,10 +176,11 @@ class DioClient {
   }
 
   /// POST request
-  Future<Response> post(String path, {dynamic data}) async {
+  Future<Response> post(String path, {dynamic data, ProgressCallback? onSendProgress}) async {
     return dio.post(
       path,
       data: data,
+      onSendProgress: onSendProgress,
     );
   }
 

@@ -22,6 +22,10 @@ class VerificationCodeRepository {
       };
       final response = await DioClient().post(AppUrls.verfyEmail,data: body)  ;
       if(response.statusCode == 200 || response.statusCode == 201){
+        SharedPrefHelper.setString(SharedPrefHelper.accessToken, response.data["data"]["accessToken"]);
+        SharedPrefHelper.setString(SharedPrefHelper.refreshToken, response.data["data"]["refreshToken"]);
+        SharedPrefHelper.setString(SharedPrefHelper.userId, response.data["data"]["id"]);
+
         controller.isLoading.value = false;
         Get.snackbar("Success",response.data["message"]);
         if(roleSelectionController.roleSelection.value == "PROVIDER"){

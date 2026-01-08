@@ -9,6 +9,7 @@ import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
+import '../../../../core/const/app_argument.dart';
 import '../controllers/document_uplod_controller.dart';
 import '../widget/file_box.dart';
 
@@ -119,7 +120,17 @@ class DocumentUplodView extends GetView<DocumentUplodController> {
             SizedBox(height: 24.h,),
             Obx(() {
               if(controller.fileNames.length == controller.maxLimit){
-                return AppButton(titel: "Continue",onPress: (){Get.toNamed(Routes.IMAGE_UPLOD);},);
+                return AppButton(titel: "Continue",onPress: (){
+                  Get.toNamed(Routes.IMAGE_UPLOD,
+                arguments: {
+                  AppArgument.bio : controller.bio,
+                  AppArgument.specializ : controller.specilize,
+                  AppArgument.document : controller.selectedFiles
+                }
+                );
+                  debugPrint(controller.selectedFiles.toString());
+
+                  },);
               }else{
                 return AppButton(onPress: null,bodycolor: AppColors.cardColor,titel: "Continue",) ;
               }

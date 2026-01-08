@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:melikaahmadian/app/core/const/app_argument.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
@@ -12,6 +13,7 @@ import '../../document_uplod/controllers/document_uplod_controller.dart';
 import '../../document_uplod/widget/file_box.dart';
 import '../../image_uplod/controllers/image_uplod_controller.dart';
 import '../controllers/review_evrything_controller.dart';
+import '../repository/review_everything_repository.dart';
 
 class ReviewEvrythingView extends GetView<ReviewEvrythingController> {
    ReviewEvrythingView({super.key});
@@ -19,6 +21,16 @@ class ReviewEvrythingView extends GetView<ReviewEvrythingController> {
   final imageController = Get.find<ImageUplodController>();
   @override
   Widget build(BuildContext context) {
+    final argument = Get.arguments ;
+    controller.bio = argument[AppArgument.bio];
+    controller.specilize = argument[AppArgument.specializ];
+    controller.document = argument[AppArgument.document];
+    controller.vehiclePhoto = argument[AppArgument.vehiclePhoto];
+
+    debugPrint("bio: ${controller.bio}");
+    debugPrint("specilize: ${ controller.specilize}");
+    debugPrint("document: ${ controller.document}");
+    debugPrint("vehiclePhoto: ${ controller.vehiclePhoto}");
     var textStyele = TextTheme.of(context);
     return Scaffold(
       body: AppBackground(child: SingleChildScrollView(
@@ -93,9 +105,12 @@ class ReviewEvrythingView extends GetView<ReviewEvrythingController> {
               },
             )),
             SizedBox(height: 24.h,),
-            AppButton(titel: "Submit Application",onPress: (){Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {
-              "null" : "null",
-            });},),
+           Obx(() =>  AppButton(titel: "Submit Application",onPress: (){
+             //   Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {
+             //   "null" : "null",
+             // });
+             ReviewEverythingRepository.submitApplication() ;
+           },isLoding: controller.isLoading.value,),),
             SizedBox(height: 24.h,)
         
         

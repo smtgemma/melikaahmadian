@@ -8,6 +8,7 @@
   static const getMyProfile = "/users/me";
   static const updateProfile = "/users/update-profile";
   static const chnagePassword = "/auth/change-password";
+  static const providerOnbording = "/users/provider-onboarding";
 
 
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../../generated/assets.dart';
+import '../../../../core/const/app_argument.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/App_button.dart';
 import '../../../../core/widget/app_back_button.dart';
@@ -158,7 +159,16 @@ class ImageUplodView extends GetView<ImageUplodController> {
               //button
               Obx(() {
                 if(controller.isImageList.isNotEmpty){
-                  return AppButton(titel: "Continue",onPress: (){Get.toNamed(Routes.REVIEW_EVRYTHING);},);
+                  return AppButton(titel: "Continue",onPress: (){Get.toNamed(Routes.REVIEW_EVRYTHING,
+                  arguments: {
+                    AppArgument.bio : controller.bio,
+                    AppArgument.specializ : controller.specilize,
+                    AppArgument.document : controller.selectedFiles,
+                    AppArgument.vehiclePhoto : controller.selectedFiles
+
+
+                  }
+                  );},);
                 }else{
                   return AppButton(onPress: null,bodycolor: AppColors.cardColor,titel: "Continue",) ;
                 }

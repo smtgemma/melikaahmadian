@@ -12,11 +12,10 @@ class DocumentUplodPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+    debugPrint("upload page");
     final argument = Get.arguments as Map<String, dynamic>?;
-
     if (argument == null) {
-      debugPrint("❌ No arguments received");
+      debugPrint("No arguments received");
       return;
     }
 

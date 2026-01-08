@@ -52,9 +52,21 @@ class AddDetailsView extends GetView<AddDetailsController> {
               ),
 
               SizedBox(height: 24.h),
-
               Text("Address Details", style: textStyle.titleLarge),
               SizedBox(height: 144.h),
+              TextField(
+                controller: controller.dataEditingController,
+                readOnly: true,
+                onTap: () => controller.selectDate(context),
+                decoration: InputDecoration(
+                  hintText: "Enter pickup address",
+                  prefixIcon: Icon(Icons.calendar_month_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.w),
+                  ),
+                ),
+              ),
+
 
               // Time Details
               Text("Time Details", style: textStyle.titleLarge),

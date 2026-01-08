@@ -1,12 +1,18 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/const/app_argument.dart';
 
 class DocumentUplodController extends GetxController {
 
 
   final int maxLimit = 3;
   final  indicatorValue = 0.00.obs;
+
+
+
 
 
   RxList<File> selectedFiles = <File>[].obs;
@@ -16,6 +22,21 @@ class DocumentUplodController extends GetxController {
 
 
   RxList<bool> isImageList = <bool>[].obs;
+
+  String? bio ;
+  List? specilize ;
+
+
+  @override
+  void onInit() {
+    final argument = Get.arguments ;
+    bio = argument[AppArgument.bio];
+    specilize = argument[AppArgument.specializ];
+    debugPrint("bio: $bio");
+    debugPrint("specilize: $specilize");
+    // TODO: implement onInit
+    super.onInit();
+  }
 
 
   Future<void> pickDocument() async {

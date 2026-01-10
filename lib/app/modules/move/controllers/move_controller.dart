@@ -8,6 +8,17 @@ class MoveController extends GetxController {
   ChewieController? chewieController;
   late Future<void> initializeVideoPlayerFuture;
 
+  RxList moveitem = [
+    "All Moves",
+    "Ongoing",
+    "Posted",
+    "Completed",
+    "Cancelled"
+  ].obs;
+
+  RxString selectedValue = "".obs;
+  RxInt selectedIndex = 0.obs;
+
   @override
   void onInit() {
     super.onInit();

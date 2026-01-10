@@ -262,9 +262,9 @@ class AddDetailsView extends GetView<AddDetailsController> {
               SizedBox(height: 24.h),
               AppButton(
                 titel: 'Select Your Items',
-                onPress: () {
+                onPress: () async{
                   Get.toNamed(Routes.CUSTOM_FURNITURE);
-                  CustomeFurnitureRepository.getFurnitureByCatagory("");
+                  await CustomeFurnitureRepository.getFurnitureByCatagory("");
                 },
               ),
               SizedBox(height: 24.h),

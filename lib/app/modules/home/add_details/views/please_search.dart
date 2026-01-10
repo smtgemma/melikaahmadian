@@ -107,7 +107,7 @@ class _PleaseSearchState extends State<PleaseSearch> {
                         addcontroller.picupAddress.value = _pleasesList[index]["description"];
                         debugPrint("pic address ${addcontroller.picupAddress.value}");
                         _pleasesList.clear();
-                        //Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
+                        Get.toNamed(Routes.ADD_DETAILS);
                       }
 
                     } catch (e) {

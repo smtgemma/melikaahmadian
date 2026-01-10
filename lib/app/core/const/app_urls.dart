@@ -9,6 +9,9 @@
   static const updateProfile = "/users/update-profile";
   static const chnagePassword = "/auth/change-password";
   static const providerOnbording = "/users/provider-onboarding";
+  static const getFurnitureByCatagory = "/furniture";
+  static const post = "/posts";
+
 
 
 

@@ -40,7 +40,7 @@ class ProducCountity extends StatelessWidget {
                   flex: 2,
                   child: Row(
                     children: [
-                      itemDecoration(child: Center(child: Image.asset(item.iconPath.toString()),),width: 54.w),
+                     // itemDecoration(child: Center(child: Image.asset(item.iconPath.toString()),),width: 54.w),
                       SizedBox(width: 8.w,),
                       Expanded(child: Text(item.titel.toString(),style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),)),
                     ],
@@ -50,7 +50,6 @@ class ProducCountity extends StatelessWidget {
                   flex: 3,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-
                     children: [
                     itemDecoration(
                       child:

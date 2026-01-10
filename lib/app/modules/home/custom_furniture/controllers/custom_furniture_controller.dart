@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/model/product_model.dart';
 
 import '../../../../../generated/assets.dart';
+import '../model/get_furniture_model.dart';
 
 class CustomFurnitureController extends GetxController {
   //TODO: Implement CustomFurnitureController
@@ -29,6 +30,14 @@ class CustomFurnitureController extends GetxController {
   //
   RxList moverCatagory  = [ "Ongoing","All Moves","Posted","Completed","Cancelled"].obs;
   RxList moverMoveCatagory  = [ "Offered","All Moves","Ongoing","Completed","Cancelled"].obs;
+
+  RxBool furnitureLoading = false.obs ;
+
+
+
+  //final apiallItem =Rxn<GetFurnitureModel>() ;
+
+  Rx<GetFurnitureModel> apiallItem = GetFurnitureModel().obs ;
 
 
   RxList<ProductModel> allItem =[

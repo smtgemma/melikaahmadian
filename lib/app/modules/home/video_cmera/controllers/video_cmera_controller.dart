@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 class VideoCmeraController extends GetxController {
   //TODO: Implement VideoCmeraController
 
-
+  final videoPath = "".obs;
   final count = 0.obs;
   @override
   void onInit() {

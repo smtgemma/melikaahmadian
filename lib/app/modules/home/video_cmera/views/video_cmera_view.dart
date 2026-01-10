@@ -22,6 +22,7 @@ class VideoCmeraView extends StatefulWidget {
 }
 
 class _VideoCmeraViewState extends State<VideoCmeraView> {
+     final videoCameraController =   Get.put(VideoCmeraController());
   late CameraController controller;
   bool isRecording = false;
 
@@ -51,6 +52,7 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
 
   Future<void> stopRecording() async {
     final video = await controller.stopVideoRecording();
+    videoCameraController.videoPath.value = video.path;
     setState(() => isRecording = false);
     print('video path ${video.path}');
     Get.to(ReviewVideoView(videoPath: video.path,));

@@ -10,6 +10,7 @@ import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/app_back_button.dart';
 import '../../../../core/widget/app_background.dart';
 import '../controllers/ai_genared_price_controller.dart';
+import '../repository/ai_genared_price_repository.dart';
 
 class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
   const AiGenaredPriceView({super.key});
@@ -97,9 +98,10 @@ class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
                  )
                ],),
                 SizedBox(height: 24.h,),
-                AppButton(titel: "Post Move",onPress: (){Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {
-                  AppArgumentString.mover: AppArgumentString.mover
-                });},),
+               Obx(() =>  AppButton(titel: "Post Move",onPress: (){
+                 AiGenaredPriceRepository.postMoves();
+                 // Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {AppArgumentString.mover: AppArgumentString.mover});
+               },isLoding: controller.isLoading.value,),),
                 SizedBox(height: 12.h,),
                 AppButton(containerColor: 1,titel: "Edit Details",
                   onPress: (){Get.toNamed(Routes.CUSTOM_FURNITURE);},),

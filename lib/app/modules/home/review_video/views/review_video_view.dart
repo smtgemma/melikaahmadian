@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
+import 'package:melikaahmadian/app/modules/home/add_details/views/add_details_view.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
@@ -49,7 +50,8 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
               titel: "Use this Video",
               iconPath: Assets.iconsTik,
               onPress: () {
-                Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
+              //  Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
+                Get.to(AddDetailsView(videoPath: videoPath,));
               },
             ),
             SizedBox(height: 12.h),

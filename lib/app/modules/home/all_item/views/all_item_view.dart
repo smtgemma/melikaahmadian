@@ -8,6 +8,7 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
 import '../../../../core/widget/App_button.dart';
+import '../../custom_furniture/repository/custome_furniture_repository.dart';
 import '../../custom_furniture/widget/produc_countity.dart';
 import '../controllers/all_item_controller.dart';
 
@@ -32,7 +33,10 @@ class AllItemView extends GetView<AllItemController> {
               SizedBox(height: 12.h,),
               AppButton(containerColor: 1,titel: "Add More Items",onPress: (){Get.toNamed(Routes.CUSTOM_FURNITURE);},child: true,iconPath: Assets.iconsAdd,),
               SizedBox(height: 12.h,),
-              AppButton(titel: "Proceed",onPress: (){Get.toNamed(Routes.AI_GENARED_PRICE);})
+              AppButton(titel: "Proceed",onPress: (){
+                Get.toNamed(Routes.AI_GENARED_PRICE);
+
+              })
 
           
             ],

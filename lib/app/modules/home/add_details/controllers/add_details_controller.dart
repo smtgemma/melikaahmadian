@@ -18,10 +18,21 @@ class AddDetailsController extends GetxController {
     ProductModel(titel: "Apartment",iconPath: Assets.iconsAppartment),
     ProductModel(titel: "Commercial",iconPath: Assets.iconsCommersial),
   ] ;
+
+  //location
+  RxString  picupLatitude = "".obs ;
+  RxString  picupLongitude = "".obs ;
+  RxString  picupAddress = "".obs ;
+  RxString  dropLatitude = "".obs ;
+  RxString  dropLongitude = "".obs ;
+  RxString  dropAddress = "".obs ;
+
+
   @override
   void onInit() {
     super.onInit();
   }
+
 
   @override
   void onReady() {

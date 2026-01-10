@@ -6,6 +6,7 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 
 import '../../add_details/controllers/add_details_controller.dart';
 import '../controllers/custom_furniture_controller.dart';
+import '../repository/custome_furniture_repository.dart';
 
 class Catagory extends StatelessWidget {
    Catagory({super.key});
@@ -32,7 +33,12 @@ class Catagory extends StatelessWidget {
               onTap: (){
                 controller.catagoryIndex.value = index ;
                 controller.selectedCatagory.value = data ;
-                debugPrint(controller.selectedCatagory.value);
+                debugPrint("selected catagory is ${controller.selectedCatagory.value}");
+                if(controller.selectedCatagory.value == "All"){
+                  CustomeFurnitureRepository.getFurnitureByCatagory("");
+                  return ;
+                }
+                CustomeFurnitureRepository.getFurnitureByCatagory(controller.selectedCatagory.value);
               },
               child: Padding(
                 padding:  EdgeInsets.only(right: 10),

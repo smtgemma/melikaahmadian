@@ -6,6 +6,8 @@ class AiGenaredPriceController extends GetxController {
 
   final priceTextEditignControoler = TextEditingController();
   RxString price = "".obs;
+  RxBool isLoading = false.obs;
+
 
   @override
   void onInit() {

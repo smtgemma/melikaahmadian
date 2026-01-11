@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../home/add_details/controllers/add_details_controller.dart';
+import '../../move/controllers/move_controller.dart';
 import '../../setting/controllers/setting_controller.dart';
 import '../controllers/navbar_controller.dart';
 
@@ -15,6 +16,9 @@ class NavbarBinding extends Bindings {
     );
     Get.lazyPut<SettingController>(
             () => SettingController(),fenix: true
+    );
+    Get.lazyPut<MoveController>(
+          () => MoveController(),
     );
   }
 }

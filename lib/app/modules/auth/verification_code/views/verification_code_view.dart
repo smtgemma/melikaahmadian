@@ -41,16 +41,11 @@ class VerificationCodeView extends GetView<VerificationCodeController> {
                 ),
               ),
               SizedBox(height: 24.h,),
-            Obx(() =>  AppButton(titel: "Continue",onPress: (){
+              Obx(() =>  AppButton(titel: "Continue",onPress: (){
               debugPrint(roleSelectionController.roleSelection.value);
               VerificationCodeRepository.verfyEmail();
 
             },isLoding: controller.isLoading.value,),)
-
-
-
-
-
 
             ],
           ),

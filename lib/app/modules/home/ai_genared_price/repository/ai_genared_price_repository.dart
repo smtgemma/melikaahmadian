@@ -1,12 +1,12 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:intl/intl.dart';
-
+import '../../../../core/const/app_argument_string.dart';
 import '../../../../core/const/app_urls.dart';
 import '../../../../core/network/dio_client.dart';
+import '../../../../routes/app_pages.dart';
 import '../../add_details/controllers/add_details_controller.dart';
 import '../../custom_furniture/controllers/custom_furniture_controller.dart';
 import '../../video_cmera/controllers/video_cmera_controller.dart';
@@ -20,30 +20,38 @@ class AiGenaredPriceRepository {
   static final videoCameraController = Get.put(VideoCmeraController());
 
   static Future<void> postMoves() async {
-
-    final parsedDate = DateFormat('dd MMM yyyy').parse(addDeatilsController.dataEditingController.text);
-    final isoDate = parsedDate.toIso8601String();
     try {
       priceController.isLoading.value = true;
+
+      // ✅ FIX 1: Parse date and add 'Z' for UTC timezone
+      final parsedDate = DateFormat('dd MMM yyyy').parse(
+        addDeatilsController.dataEditingController.text,
+      );
+      final isoDate = parsedDate.toUtc().toIso8601String(); // This will add 'Z' at the end
+
+      // ✅ FIX 2: Extract actual text from TextEditingController
+      final scheduleTime = addDeatilsController.timeEditingController.text.trim();
+
+      debugPrint("📅 Schedule Date (ISO): $isoDate");
+      debugPrint("⏰ Schedule Time: $scheduleTime");
 
       // ✅ Convert ProductModel → Furniture with logging
       final List<Furniture> furnitureList = customFurnitureController.addProduct
           .map((product) {
-            final int qty = (product.count == null || product.count < 1)
-                ? 1
-                : product.count;
-            debugPrint("🪑 Furniture: ${product.titel}, fixed qty: $qty");
-            return Furniture(name: product.titel, quantity: qty);
-          })
+        final int qty = (product.count == null || product.count < 1)
+            ? 1
+            : product.count;
+        debugPrint("🪑 Furniture: ${product.titel}, fixed qty: $qty");
+        return Furniture(name: product.titel, quantity: qty);
+      })
           .toList();
 
       // ✅ Create Request Model
       postRequestModel model = postRequestModel(
         offerPrice: int.parse(priceController.price.value),
         houseType: addDeatilsController.selectedDateText.value,
-        scheduleDate: isoDate,
-        scheduleTime: addDeatilsController.timeEditingController.value
-            .toString(),
+        scheduleDate: isoDate, // ✅ Now includes 'Z'
+        scheduleTime: scheduleTime, // ✅ Now just the text string
         pickupAddress: PickupAddress(
           address: addDeatilsController.picupAddress.value,
           latitude: double.parse(addDeatilsController.picupLatitude.value),
@@ -85,15 +93,19 @@ class AiGenaredPriceRepository {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         priceController.isLoading.value = false;
+        Get.snackbar("Success", "Uplod Successfully");
+        Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {AppArgumentString.mover: AppArgumentString.mover});
         debugPrint("✅ Success");
       } else {
         priceController.isLoading.value = false;
+        Get.snackbar("Error", "Something Went Wrong");
         debugPrint("❌ Error: Status ${response.statusCode}");
       }
     } on DioError catch (e) {
       priceController.isLoading.value = false;
       debugPrint("⚠️ API Error: ${e.response?.statusCode}");
       debugPrint("⚠️ API Error Data: ${e.response?.data}");
+      Get.snackbar("Error", "Something Went Wrong");
       debugPrint("⚠️ API Error Message: ${e.message}");
     } catch (e) {
       priceController.isLoading.value = false;

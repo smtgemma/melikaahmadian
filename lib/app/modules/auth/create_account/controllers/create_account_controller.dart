@@ -8,6 +8,8 @@ class CreateAccountController extends GetxController {
   final phoneTextEditingController = TextEditingController();
   final nameTextEditingController = TextEditingController();
 
+  final isLoading = false.obs;
+
   final count = 0.obs;
   @override
   void onInit() {

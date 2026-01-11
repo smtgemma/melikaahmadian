@@ -11,6 +11,8 @@
   static const providerOnbording = "/users/provider-onboarding";
   static const getFurnitureByCatagory = "/furniture";
   static const post = "/posts";
+  static const my_post = "/posts/my-posts";
+  static const forget_password = "/auth/forgot-password";
 
 
 

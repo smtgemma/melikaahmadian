@@ -2,9 +2,9 @@ class AppArgumentString {
  static String mover = "mover" ;
  static String offer = "offer" ;
  static String payment = "payment" ;
- static String ongoing = "ongoing" ;
- static String posted = "posted" ;
- static String cancelled = "cancelled" ;
+ static String ongoing = "ONGOING" ;
+ static String posted = "POSTED" ;
+ static String cancelled = "CANCELLED";
  static String markAsCompleted = "markAsCompleted" ;
  static String Offered = "one";
  static String moverSendOffer = "moverSendOffer";

@@ -100,7 +100,7 @@ class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
                 SizedBox(height: 24.h,),
                Obx(() =>  AppButton(titel: "Post Move",onPress: (){
                  AiGenaredPriceRepository.postMoves();
-                 // Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {AppArgumentString.mover: AppArgumentString.mover});
+                 //
                },isLoding: controller.isLoading.value,),),
                 SizedBox(height: 12.h,),
                 AppButton(containerColor: 1,titel: "Edit Details",

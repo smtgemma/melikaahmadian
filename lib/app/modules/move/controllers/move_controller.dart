@@ -1,12 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/services.dart';
 
+import '../model/move_model.dart';
+import '../repository/move_repository.dart';
+
 class MoveController extends GetxController {
-  late VideoPlayerController videoPlayerController;
-  ChewieController? chewieController;
+
   late Future<void> initializeVideoPlayerFuture;
+  final isLoading = false.obs;
+
+  Rx<MoveModel> moveModel = MoveModel().obs;
 
   RxList moveitem = [
     "All Moves",
@@ -22,39 +28,27 @@ class MoveController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getMoves();
 
-    videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
-    );
 
-    initializeVideoPlayerFuture = videoPlayerController.initialize().then((_) {
-      chewieController = ChewieController(
-        videoPlayerController: videoPlayerController,
-        autoPlay: false, //video inital vabe off takbe
-        fullScreenByDefault: true,
-        looping: false,
-        allowFullScreen: false,
-        showControls: false, //video inital vabe off takbe
-        aspectRatio: videoPlayerController.value.aspectRatio,
-        allowPlaybackSpeedChanging: true,
-        deviceOrientationsAfterFullScreen: [
-          DeviceOrientation.portraitUp, // fullscreen থেকে বের হলে আবার portrait
-        ],
-        deviceOrientationsOnEnterFullScreen: [
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft, // fullscreen গেলে landscape হবে
-        ],
-      );
-      videoPlayerController.pause();
-     update();
-    });
   }
 
   @override
   void onClose() {
-    videoPlayerController.dispose();
-    chewieController?.dispose();
+
     super.onClose();
   }
-}
 
+  Future<void> getMoves({String? pram}) async {
+    try {
+      isLoading.value = true;
+      moveModel.value = await MoveRepository.getMoves(pram: pram);
+    } catch (e) {
+      isLoading.value = false;
+      debugPrint("moves controller Error: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+}

@@ -9,6 +9,7 @@ import '../../../../core/widget/App_button.dart';
 import '../../../../core/widget/app_background.dart';
 import '../../../../routes/app_pages.dart';
 import '../controllers/create_account_controller.dart';
+import '../repository/create_account_repository.dart';
 
 class CreateAccountView extends GetView<CreateAccountController> {
   CreateAccountView({super.key});
@@ -51,23 +52,24 @@ class CreateAccountView extends GetView<CreateAccountController> {
                     ),
                     SizedBox(height: 12.h),
 
-                    AppButton(
-                      titel: "Continue",
-                      onPress: () {
-                        if (_globalKey.currentState!.validate()) {
-                          // Get.toNamed(
-                          //   Routes.VERIFICATION_CODE,
-                          //   // arguments: {
-                          //   //   "email":
-                          //   //       controller.emailTextEditingController.text,
-                          //   // },
-                          // );
-                          print(
-                            "email${controller.emailTextEditingController.text}",
-                          );
-                        }
-                      },
-                    ),
+                   Obx(() =>  AppButton(
+                     titel: "Continue",
+                     onPress: () {
+                       if (_globalKey.currentState!.validate()) {
+                         CreateAccountRepository.verfyEmail() ;
+                         // Get.toNamed(
+                         //   Routes.VERIFICATION_CODE,
+                         //   arguments: {
+                         //     "email":
+                         //         controller.emailTextEditingController.text,
+                         //   },
+                         // );
+                         print(
+                           "email${controller.emailTextEditingController.text}",
+                         );
+                       }
+                     },isLoding: controller.isLoading.value,
+                   ),),
                   ],
                 ),
               ),

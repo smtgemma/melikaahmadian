@@ -22,10 +22,10 @@ class ItemList extends StatelessWidget {
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
               childAspectRatio: 1.4,  ),
-              itemCount: controller.apiallItem.value?.data?.length,
+              itemCount: controller.apiallItem.value.data?.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                var items = controller.apiallItem.value?.data?[index];
+                var items = controller.apiallItem.value.data?[index];
 
                 return  InkWell(
                   onTap: (){

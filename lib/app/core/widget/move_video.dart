@@ -9,50 +9,54 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../modules/move/controllers/move_controller.dart';
+
 class MoveVideo extends StatefulWidget {
-  String? videoPath ;
-  bool? isasset ;
-   MoveVideo({super.key,this.videoPath,this.isasset});
+  String? videoPath;
+  bool? isasset;
+  MoveVideo({super.key,  this.videoPath, this.isasset});
 
   @override
   State<MoveVideo> createState() => _MoveVideoState();
 }
 
 class _MoveVideoState extends State<MoveVideo> {
-
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
-  late Future<void> _initializeVideoPlayerFuture;
+   Future<void>? _initializeVideoPlayerFuture;
 
-  @override
   @override
   void initState() {
     super.initState();
     print('video is ${widget.videoPath}');
-
+    // if (widget.videoPath == null && widget.isasset == null) {
+    //   return;
+    // }
     if (widget.isasset == true) {
       // Asset video
-      _videoPlayerController =
-          VideoPlayerController.file(File(widget.videoPath??''));
+      _videoPlayerController = VideoPlayerController.file(
+        File(widget.videoPath ?? ''),
+      );
     } else {
       // File video
       _videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
+        Uri.parse(
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+        ),
       );
     }
 
-    _initializeVideoPlayerFuture =
-        _videoPlayerController.initialize().then((_) {
-          _chewieController = ChewieController(
-            videoPlayerController: _videoPlayerController,
-            autoPlay: true,
-            looping: false,
-            aspectRatio: _videoPlayerController.value.aspectRatio,
-          );
-          setState(() {});
-        });
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((
+      _,
+    ) {
+      _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        autoPlay: true,
+        looping: false,
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+      );
+      setState(() {});
+    });
   }
-
 
   @override
   void dispose() {
@@ -60,11 +64,19 @@ class _MoveVideoState extends State<MoveVideo> {
     _chewieController?.dispose();
     super.dispose();
   }
+
   Widget build(BuildContext context) {
-    return Container(
+    if(_initializeVideoPlayerFuture == null) {
+      return SizedBox(height: 200.h, width: double.infinity,child:   SizedBox(
+        width: 40,
+        height: 40,
+        child: Center(child: CircularProgressIndicator()),
+      ) );
+    }
+    return SizedBox(
       height: 200.h,
       width: double.infinity,
-      child:  FutureBuilder(
+      child: FutureBuilder(
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
@@ -73,10 +85,11 @@ class _MoveVideoState extends State<MoveVideo> {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            return  SizedBox(
-                width: 40,
-                height: 40,
-                child: Center(child: CircularProgressIndicator()));
+            return SizedBox(
+              width: 40,
+              height: 40,
+              child: Center(child: CircularProgressIndicator()),
+            );
           }
         },
       ),

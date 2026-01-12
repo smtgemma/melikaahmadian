@@ -13,6 +13,10 @@
   static const post = "/posts";
   static const my_post = "/posts/my-posts";
   static const forget_password = "/auth/forgot-password";
+  static String getOfferForSpecificPost(String? id) => "/offers/post/$id";
+  static String getSinglePost(String? id) => "/posts/$id";
+
+
 
 
 

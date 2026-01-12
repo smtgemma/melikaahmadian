@@ -75,7 +75,7 @@ class Data {
   String? houseType;
   List<Furniture>? furniture;
   int? offerPrice;
-  Count? cCount;
+  int? totalOffers;
 
   Data(
       {this.id,
@@ -91,7 +91,7 @@ class Data {
         this.houseType,
         this.furniture,
         this.offerPrice,
-        this.cCount});
+        this.totalOffers});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -121,7 +121,7 @@ class Data {
       });
     }
     offerPrice = json['offerPrice'];
-    cCount = json['_count'] != null ? new Count.fromJson(json['_count']) : null;
+    totalOffers = json['totalOffers'];
   }
 
   Map<String, dynamic> toJson() {
@@ -147,9 +147,7 @@ class Data {
       data['furniture'] = this.furniture!.map((v) => v.toJson()).toList();
     }
     data['offerPrice'] = this.offerPrice;
-    if (this.cCount != null) {
-      data['_count'] = this.cCount!.toJson();
-    }
+    data['totalOffers'] = this.totalOffers;
     return data;
   }
 }
@@ -213,22 +211,6 @@ class Furniture {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['quantity'] = this.quantity;
-    return data;
-  }
-}
-
-class Count {
-  int? offers;
-
-  Count({this.offers});
-
-  Count.fromJson(Map<String, dynamic> json) {
-    offers = json['offers'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['offers'] = this.offers;
     return data;
   }
 }

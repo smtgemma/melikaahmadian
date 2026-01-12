@@ -62,18 +62,21 @@ class MoveView extends GetView<MoveController> {
                 String formattedDate = apiDate.split("T").first;
 
                 print(formattedDate); // 2026-01-10
-                return MoveStatusVideo(
-                  videoUrl: item?.media?[0].url,
-                  from: item?.dropoffAddress?.address ?? "",
-                  to: item?.pickupAddress?.address ?? "",
-                  offer: (item?.cCount ?? 0).toString(),
-                  date: formattedDate,
-                  isNavigator: true,
-                  titel: item.status ?? "",
-                  color: item?.status == "POSTED" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ONGOING" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
-                  textColor: item?.status == "POSTED" ?  AppColors.BurntOrange : item?.status == "ONGOING" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
-                  isType: item?.status ?? "",
-
+                return Padding(
+                  padding:  EdgeInsets.only(bottom: 10),
+                  child: MoveStatusVideo(
+                    postId: item?.id,
+                    videoUrl: item?.media?[0].url,
+                    from: item?.dropoffAddress?.address ?? "",
+                    to: item?.pickupAddress?.address ?? "",
+                    offer: item?.totalOffers.toString() ?? "",
+                    date: formattedDate,
+                    isNavigator: true,
+                    titel: item.status ?? "",
+                    color: item?.status == "POSTED" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ONGOING" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
+                    textColor: item?.status == "POSTED" ?  AppColors.BurntOrange : item?.status == "ONGOING" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
+                    isType: item?.status ?? "",
+                  ),
                 );
               },
             );

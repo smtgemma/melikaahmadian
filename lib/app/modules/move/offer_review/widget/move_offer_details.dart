@@ -13,7 +13,7 @@ class MoveOfferDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(OfferReviewController()) ;
+    final controller = Get.find<OfferReviewController>();
     return Container(
       height: 44.h,
       width: double.infinity,
@@ -22,20 +22,22 @@ class MoveOfferDetails extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.secoundaryColor)
       ),
-      child: Expanded(child: Row(
+      child: Row(
         children: [
          Obx(() =>  Expanded(child: AppButton(containerColor: controller.offer.value,titel: offer ?? "Offers",onPress: (){
            controller.selectedOfferDetails.value = offer ?? "offer" ;
            debugPrint(controller.selectedOfferDetails.value);
            controller.offerDetailsControole(isoffer: 1);
+           controller.getOffer(pram: controller.offerId);
          },)),),
           Obx(() => Expanded(child: AppButton(containerColor: controller.details.value,titel: details ?? "Details",onPress: (){
             controller.selectedOfferDetails.value = details ?? "details" ;
             debugPrint(controller.selectedOfferDetails.value);
             controller.offerDetailsControole(isdetails: 1);
+            controller.getDetails(pram: controller.offerId);
           },)),)
         ],
-      )),
+      ),
 
     );
   }

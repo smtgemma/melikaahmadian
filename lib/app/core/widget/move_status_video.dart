@@ -14,73 +14,38 @@ import 'package:melikaahmadian/generated/assets.dart';
 import 'package:video_player/video_player.dart';
 import '../../modules/move/controllers/move_controller.dart';
 import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
-class MoveStatusVideo extends StatefulWidget {
-  String? offer ;
-  bool? isOffer ;
-  String? price ;
-  String? date ;
-  String? to ;
-  String? from ;
-  bool? isNavigator ;
-  String? titel ;
-  Color? color ;
-  Color? textColor ;
-  String? isType ;
-  String? videoUrl ;
 
-   MoveStatusVideo({super.key,this.price,this.date,this.offer,this.to,this.from,this.isNavigator,this.titel,this.color,this.textColor,this.isType,this.isOffer,this.videoUrl});
+class MoveStatusVideo extends StatelessWidget {
+  String? offer;
+  bool? isOffer;
+  String? price;
+  String? date;
+  String? to;
+  String? from;
+  bool? isNavigator;
+  String? titel;
+  Color? color;
+  Color? textColor;
+  String? isType;
+  String? videoUrl;
+  String? postId;
 
-  @override
-  State<MoveStatusVideo> createState() => _MoveStatusVideoState();
-}
-
-class _MoveStatusVideoState extends State<MoveStatusVideo> {
-  late VideoPlayerController videoPlayerController;
-  ChewieController? chewieController;
-  late Future<void> initializeVideoPlayerFuture;
-
-  @override
-  void initState() {
-    super.initState();
-
-    videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(
-        widget.videoUrl ??
-            'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-      ),
-    );
-
-    initializeVideoPlayerFuture =
-        videoPlayerController.initialize().then((_) {
-          chewieController = ChewieController(
-            videoPlayerController: videoPlayerController,
-            autoPlay: false,
-            fullScreenByDefault: true,
-            looping: false,
-            allowFullScreen: false,
-            showControls: false,
-            aspectRatio: videoPlayerController.value.aspectRatio,
-            allowPlaybackSpeedChanging: true,
-            deviceOrientationsAfterFullScreen: const [
-              DeviceOrientation.portraitUp,
-            ],
-            deviceOrientationsOnEnterFullScreen: const [
-              DeviceOrientation.landscapeRight,
-              DeviceOrientation.landscapeLeft,
-            ],
-          );
-
-          videoPlayerController.pause();
-          setState(() {});
-        });
-  }
-
-  @override
-  void dispose() {
-    chewieController?.dispose();
-    videoPlayerController.dispose();
-    super.dispose();
-  }
+  MoveStatusVideo({
+    super.key,
+    this.price,
+    this.date,
+    this.offer,
+    this.to,
+    this.from,
+    this.isNavigator,
+    this.titel,
+    this.color,
+    this.textColor,
+    this.isType,
+    this.isOffer,
+    this.videoUrl,
+    this.postId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -89,204 +54,271 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
     final controller = Get.put(MoveController());
     final offercontroller = Get.put(OfferReviewController());
 
-    return InkWell(
-      child: Container(
-        height: 120,
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: AppColors.cardColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: 144,
-              child: Stack(
-                children: [
-                  SizedBox(
-                    height: 150,
-                    child: FutureBuilder(
-                      future: initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.done &&
-                            chewieController != null) {
-                          return Chewie(controller: chewieController!);
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
-                          );
-                        } else {
-                          return const Center(
-                            child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: CircularProgressIndicator(),
+    return Container(
+      height: 120,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            height: double.infinity,
+            width: 144,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: 150,
+                  child: SafeMoveVideo(videoUrl: videoUrl,),
+                ),
+
+                /// Offer Badge
+                isOffer == true
+                    ? const SizedBox()
+                    : Positioned(
+                        child: AppButton(
+                          containerColor: 1,
+                          width: 71.w,
+                          titel: "${offer ?? "2"} offer",
+                          hight: 21.h,
+                          textSize: 14,
+                          bodycolor: AppColors.primaryColor,
+                        ),
+                      ),
+
+                /// Price & Date
+                Positioned(
+                  bottom: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(Assets.iconsDolar),
+                          const SizedBox(width: 4),
+                          Text(
+                            price ?? "320",
+                            style: textStyele.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColor,
                             ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-
-                  /// Offer Badge
-                  widget.isOffer == true
-                      ? const SizedBox()
-                      : Positioned(
-                    child: AppButton(
-                      containerColor: 1,
-                      width: 71.w,
-                      titel: "${widget.offer ?? "2"} offer",
-                      hight: 21.h,
-                      textSize: 14,
-                      bodycolor: AppColors.primaryColor,
-                    ),
-                  ),
-
-                  /// Price & Date
-                  Positioned(
-                    bottom: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(Assets.iconsDolar),
-                            const SizedBox(width: 4),
-                            Text(
-                              widget.price ?? "320",
-                              style: textStyele.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          widget.date ?? "26 Nov 2025",
-                          style: textStyele.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-
-            SizedBox(width: 10.w),
-
-            /// Right Side Content
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// To
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Image.asset(Assets.iconsTo),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: AutoSizeText(
-                           widget.to ?? "12/24, Toronto",
-                          maxLines: 1,
-                          style: textStyele.bodyMedium!.copyWith(
-                            color: AppColors.secoundaryColor,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-
-                  SizedBox(height: 8),
-
-                  /// From
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Image.asset(Assets.iconsFrom),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: AutoSizeText(
-                          widget.from ?? "12/24, Toronto",
-                          maxLines: 1,
-                          style: textStyele.bodyMedium!.copyWith(
-                            color: AppColors.secoundaryColor,
-                          ),
+                        ],
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        date ?? "26 Nov 2025",
+                        style: textStyele.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+          ),
 
-                  SizedBox(height: 8),
+          SizedBox(width: 10.w),
 
-                  /// Status Button
-                  InkWell(
-                    onTap: () {
-                      if (widget.isNavigator == true) {
-                        if (widget.isType ==
-                            AppArgumentString.posted) {
-                          Get.toNamed(
-                            Routes.OFFER_REVIEW,
-                            arguments: {
-                              AppArgumentString.offer:
-                              widget.offer ?? 5,
-                            },
-                          );
-                          offercontroller.selectedOfferDetails
-                              .value = "offer";
-                        } else if (widget.isType ==
-                            AppArgumentString.ongoing) {
-                          Get.toNamed(
-                              Routes.ONGOING_MOVER_DETAILS);
-                          offercontroller.selectedOfferDetails
-                              .value = "Details";
-                        } else if (widget.isType ==
-                            AppArgumentString.cancelled) {
-                          Get.toNamed(Routes.CENCEL_MOVE);
-                        } else if (widget.isType ==
-                            AppArgumentString.Offered) {
-                          Get.toNamed(
-                              Routes.MOVER_MOVE_DETILS_SEND_OFFER);
-                        } else if (widget.isType ==
-                            AppArgumentString.moverOngoing) {
-                          Get.toNamed(Routes.MOVER_MOVE_DETILS);
-                        } else if (widget.isType ==
-                            AppArgumentString.movercompeleted) {
-                          Get.toNamed(
-                              Routes.MOVER_MOVE_COMPLEDET_DETILS);
-                        } else if (widget.isType ==
-                            AppArgumentString.movercenceled) {
-                          Get.toNamed(
-                              Routes
-                                  .MOVER_INFORMATION_ABOUT_THE_CANCALATION);
-                        } else {
-                          debugPrint(
-                              "Unknown type: ${widget.isType}");
-                        }
-                      } else {
-                        debugPrint("Navigator disabled");
-                      }
-                    },
-                    child: Status(
-                      titel: widget.titel,
-                      color: widget.color,
-                      textColor: widget.textColor,
+          /// Right Side Content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// To
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Image.asset(Assets.iconsTo),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: AutoSizeText(
+                        to ?? "12/24, Toronto",
+                        maxLines: 1,
+                        style: textStyele.bodyMedium!.copyWith(
+                          color: AppColors.secoundaryColor,
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+                  ],
+                ),
+
+                SizedBox(height: 8),
+
+                /// From
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Image.asset(Assets.iconsFrom),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: AutoSizeText(
+                        from ?? "12/24, Toronto",
+                        maxLines: 1,
+                        style: textStyele.bodyMedium!.copyWith(
+                          color: AppColors.secoundaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 8),
+
+                /// Status Button
+                InkWell(
+                  onTap: () {
+                    if (isNavigator == true) {
+                      if (isType == AppArgumentString.posted) {
+                        Get.toNamed(
+                          Routes.OFFER_REVIEW,
+                          arguments: {
+                            AppArgumentString.offer: offer ?? 5,
+                            AppArgumentString.postId: postId,
+                          },
+                        );
+                        offercontroller.selectedOfferDetails.value = "offer";
+                      } else if (isType == AppArgumentString.ongoing) {
+                        Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
+                        offercontroller.selectedOfferDetails.value = "Details";
+                      } else if (isType == AppArgumentString.cancelled) {
+                        Get.toNamed(Routes.CENCEL_MOVE);
+                      } else if (isType == AppArgumentString.Offered) {
+                        Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER);
+                      } else if (isType ==
+                          AppArgumentString.moverOngoing) {
+                        Get.toNamed(Routes.MOVER_MOVE_DETILS);
+                      } else if (isType ==
+                          AppArgumentString.movercompeleted) {
+                        Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS);
+                      } else if (isType ==
+                          AppArgumentString.movercenceled) {
+                        Get.toNamed(
+                          Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
+                        );
+                      } else {
+                        debugPrint("Unknown type: $isType");
+                      }
+                    } else {
+                      debugPrint("Navigator disabled");
+                    }
+                  },
+                  child: Status(
+                    titel: titel,
+                    color: color,
+                    textColor: textColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
+
+class SafeMoveVideo extends StatefulWidget {
+  final String? videoUrl;
+  const SafeMoveVideo({super.key, this.videoUrl});
+
+  @override
+  State<SafeMoveVideo> createState() => _SafeMoveVideoState();
+}
+
+class _SafeMoveVideoState extends State<SafeMoveVideo> {
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
+  bool _isError = false;
+  bool _isInitialized = false;
+  bool _userWantsToPlay = false; // Add this flag
+
+  @override
+  void initState() {
+    super.initState();
+    // Don't initialize automatically
+  }
+
+  Future<void> _initializeVideo() async {
+    if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+      setState(() => _isError = true);
+      return;
+    }
+
+    try {
+      _controller = VideoPlayerController.network(widget.videoUrl!);
+      await _controller!.initialize();
+
+      if (!mounted) return;
+
+      _chewieController = ChewieController(
+        videoPlayerController: _controller!,
+        autoPlay: true, // Auto-play once initialized
+        looping: false,
+        showControls: true,
+        allowFullScreen: false,
+      );
+
+      setState(() => _isInitialized = true);
+    } catch (e) {
+      debugPrint("⚠️ Video init error: $e");
+      if (mounted) setState(() => _isError = true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _chewieController?.dispose();
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isError) {
+      return Container(
+        height: 120,
+        color: Colors.black12,
+        alignment: Alignment.center,
+        child: const Text("Video not available"),
+      );
+    }
+
+    if (!_userWantsToPlay) {
+      // Show a thumbnail/preview with play button
+      return GestureDetector(
+        onTap: () {
+          setState(() => _userWantsToPlay = true);
+          _initializeVideo();
+        },
+        child: Container(
+          height: 120,
+          color: Colors.black12,
+          alignment: Alignment.center,
+          child: const Icon(
+            Icons.play_circle_outline,
+            size: 48,
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
+    if (!_isInitialized) {
+      return const SizedBox(
+        height: 120,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return SizedBox(
+      height: 120,
+      child: Chewie(controller: _chewieController!),
+    );
+  }
+}

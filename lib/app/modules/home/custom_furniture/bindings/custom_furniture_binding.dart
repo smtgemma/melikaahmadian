@@ -6,7 +6,7 @@ class CustomFurnitureBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<CustomFurnitureController>(
-      () => CustomFurnitureController(),
+      () => CustomFurnitureController(),fenix: true
     );
   }
 }

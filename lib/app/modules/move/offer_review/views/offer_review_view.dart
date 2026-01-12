@@ -18,7 +18,7 @@ class OfferReviewView extends GetView<OfferReviewController> {
   Widget build(BuildContext context) {
 
     final Map<String, dynamic>? argu = Get.arguments as Map<String, dynamic>?;
-    controller.offerId = argu?[AppArgumentString.postId];
+   // controller.offerId = argu?[AppArgumentString.postId];
 
 
     var textStyele = TextTheme.of(context);
@@ -28,16 +28,16 @@ class OfferReviewView extends GetView<OfferReviewController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppBackButton(),
+              AppBackButton(),
             SizedBox(height: 24.h,),
             Text("Offers (${argu?[AppArgumentString.offer]})",style: textStyele.titleLarge,),
-            Text("Offers (${controller.offerId})",style: textStyele.titleLarge,),
-            SizedBox(height: 04.h,),
-            Text("Offers you received from Different movers.",style: textStyele.bodyMedium,),
-            SizedBox(height: 12.h,),
-            MoveOfferDetails(),
-            SizedBox(height: 12.h,),
-            Obx(() => controller.selectedOfferDetails.value == "offer" ? Offer() : Detils(),),
+             Text("Offers (${controller.offerId})",style: textStyele.titleLarge,),
+             SizedBox(height: 04.h,),
+             Text("Offers you received from Different movers.",style: textStyele.bodyMedium,),
+             SizedBox(height: 12.h,),
+             MoveOfferDetails(),
+            //  SizedBox(height: 12.h,),
+             Obx(() => controller.selectedOfferDetails.value == "offer" ? Offer() : Detils(),),
 
 
 

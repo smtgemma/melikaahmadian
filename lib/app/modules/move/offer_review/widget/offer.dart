@@ -37,16 +37,23 @@ class Offer extends StatelessWidget {
 
       final controller = Get.find<OfferReviewController>();
       var textStyele = TextTheme.of(context);
+      //return Text("data") ;
 
       return Expanded(
         child:  Obx(() {
           if(controller.offerLoading.value){
             return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
           }
+          // return ListView.builder(
+          //   itemCount: 10,
+          //   itemBuilder: (context, index) {
+          //   return Text("data");
+          // },) ;
           return  ListView.builder(
-            itemCount: controller.offerModel.value.data?.length,
+            itemCount: controller.offerModel.value.data?.length ?? 1,
             itemBuilder: (context, index) {
               final   data = controller.offerModel.value.data?[index];
+             // return Text("data");
               return  Column(
                 children: [
                   SizedBox(
@@ -101,7 +108,7 @@ class Offer extends StatelessWidget {
                         GridView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: data?.provider?.specialization?.length,
+                          itemCount: data?.provider?.specialization?.length ?? 0,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 5,
@@ -122,7 +129,7 @@ class Offer extends StatelessWidget {
 
                         SizedBox(height: 12.h),
 
-                        // Offer price section (unchanged)
+                       // Offer price section (unchanged)
                         Stack(
                           children: [
                             Container(

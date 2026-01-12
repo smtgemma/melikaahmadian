@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../home/add_details/controllers/add_details_controller.dart';
 import '../../move/controllers/move_controller.dart';
+import '../../move/offer_review/controllers/offer_review_controller.dart';
 import '../../setting/controllers/setting_controller.dart';
 import '../controllers/navbar_controller.dart';
 
@@ -19,6 +20,9 @@ class NavbarBinding extends Bindings {
     );
     Get.lazyPut<MoveController>(
           () => MoveController(),
+    );
+    Get.lazyPut<OfferReviewController>(
+          () => OfferReviewController(),
     );
   }
 }

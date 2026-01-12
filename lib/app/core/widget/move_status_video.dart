@@ -51,8 +51,8 @@ class MoveStatusVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     var textStyele = Theme.of(context).textTheme;
 
-    final controller = Get.put(MoveController());
-    final offercontroller = Get.put(OfferReviewController());
+   // final controller = Get.put(MoveController());
+    final offercontroller = Get.find<OfferReviewController>();
 
     return Container(
       height: 120,
@@ -174,6 +174,10 @@ class MoveStatusVideo extends StatelessWidget {
                   onTap: () {
                     if (isNavigator == true) {
                       if (isType == AppArgumentString.posted) {
+                        debugPrint("gweg");
+                        // Get.toNamed(
+                        //   Routes.LOG_IN,
+                        // );
                         Get.toNamed(
                           Routes.OFFER_REVIEW,
                           arguments: {
@@ -183,6 +187,7 @@ class MoveStatusVideo extends StatelessWidget {
                         );
                         offercontroller.selectedOfferDetails.value = "offer";
                       } else if (isType == AppArgumentString.ongoing) {
+
                         Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
                         offercontroller.selectedOfferDetails.value = "Details";
                       } else if (isType == AppArgumentString.cancelled) {
@@ -198,8 +203,15 @@ class MoveStatusVideo extends StatelessWidget {
                       } else if (isType ==
                           AppArgumentString.movercenceled) {
                         Get.toNamed(
-                          Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
+                          Routes.OFFER_REVIEW,
+                          arguments: {
+                            AppArgumentString.offer: offer ?? 5,
+                            AppArgumentString.postId: postId,
+                          },
                         );
+                        // Get.toNamed(
+                        //   Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
+                        // );
                       } else {
                         debugPrint("Unknown type: $isType");
                       }
@@ -276,6 +288,11 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
     _chewieController?.dispose();
     _controller?.dispose();
     super.dispose();
+  }
+  @override
+  void deactivate() {
+    _controller?.pause();
+    super.deactivate();
   }
 
   @override

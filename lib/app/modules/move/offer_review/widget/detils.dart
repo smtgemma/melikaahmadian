@@ -20,6 +20,7 @@ class Detils extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<OfferReviewController>();
     var textStyele = TextTheme.of(context);
+   // return Text("Detais data") ;
     return  Expanded(
       child: Obx(() {
         if(controller.detailsLoading.value){

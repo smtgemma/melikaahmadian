@@ -13,13 +13,14 @@ class MessageChatView extends StatefulWidget {
   final String? name;
   final String? lastMessage;
   final String conversationId;
+  final String? userId;
 
   const MessageChatView({
     super.key,
     this.imagePath,
     this.name,
     this.lastMessage,
-    required this.conversationId,
+    required this.conversationId, this.userId,
   });
 
   @override
@@ -133,7 +134,9 @@ class _MessageChatViewState extends State<MessageChatView> {
                 SizedBox(width: 12.w),
                 IconButton(
                   onPressed: () {
-                    Get.toNamed(Routes.AUDIO_CALL);
+                    Get.toNamed(Routes.AUDIO_CALL,arguments: {
+                      'userId': widget.userId,
+                    });
                   },
                   icon: const Icon(Icons.call),
                 ),

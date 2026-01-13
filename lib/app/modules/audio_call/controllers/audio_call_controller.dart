@@ -32,6 +32,8 @@ class AudioCallController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    final args = Get.arguments ?? '';
+    otherUserId.value = args['userId'];
     debugPrint("🎧 AudioCallController initialized");
     initCall();
   }

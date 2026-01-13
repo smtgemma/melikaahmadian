@@ -61,6 +61,7 @@ class MoverChatView extends GetView<MoverChatController> {
                         onTap: () {
                           Get.to(
                             () => MessageChatView(
+                              userId: user?.id,
                               imagePath: user?.image,
                               name: user?.fullName,
                               lastMessage:

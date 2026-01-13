@@ -76,18 +76,18 @@ class MoveStatusVideo extends StatelessWidget {
                 ),
 
                 /// Offer Badge
-                isOffer == true
-                    ? const SizedBox()
+                (isOffer == true)
+                    ?  SizedBox()
                     : Positioned(
-                        child: AppButton(
-                          containerColor: 1,
-                          width: 71.w,
-                          titel: "${offer ?? "2"} offer",
-                          hight: 21.h,
-                          textSize: 14,
-                          bodycolor: AppColors.primaryColor,
-                        ),
-                      ),
+                  child: AppButton(
+                    containerColor: 1,
+                    width: 71.w,
+                    titel: "${offer ?? "2"} offer",
+                    hight: 21.h,
+                    textSize: 14,
+                    bodycolor: AppColors.primaryColor,
+                  ),
+                ),
 
                 /// Price & Date
                 Positioned(
@@ -173,9 +173,9 @@ class MoveStatusVideo extends StatelessWidget {
                 /// Status Button
                 InkWell(
                   onTap: () {
-                    if (isNavigator == true) {
+                    if (isNavigator == true && offer != "0" ) {
                       if (isType == AppArgumentString.posted) {
-                        debugPrint("wfwfew");
+                      //  Get.put(OfferReviewController());
 
                         Get.toNamed(
                           Routes.OFFER_REVIEW,
@@ -206,7 +206,8 @@ class MoveStatusVideo extends StatelessWidget {
                       } else {
                         debugPrint("Unknown type: $isType");
                       }
-                    } else {
+                    } else if (isNavigator == true && offer == "0"){
+                      Get.snackbar("No offer available", "");
                       debugPrint("Navigator disabled");
                     }
                   },

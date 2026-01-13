@@ -31,12 +31,11 @@ class OfferReviewView extends GetView<OfferReviewController> {
               AppBackButton(),
             SizedBox(height: 24.h,),
             Text("Offers (${argu?[AppArgumentString.offer]})",style: textStyele.titleLarge,),
-             Text("Offers (${controller.offerId})",style: textStyele.titleLarge,),
              SizedBox(height: 04.h,),
              Text("Offers you received from Different movers.",style: textStyele.bodyMedium,),
              SizedBox(height: 12.h,),
              MoveOfferDetails(),
-            //  SizedBox(height: 12.h,),
+             SizedBox(height: 12.h,),
              Obx(() => controller.selectedOfferDetails.value == "offer" ? Offer() : Detils(),),
 
 

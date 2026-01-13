@@ -15,6 +15,9 @@
   static const forget_password = "/auth/forgot-password";
   static String getOfferForSpecificPost(String? id) => "/offers/post/$id";
   static String getSinglePost(String? id) => "/posts/$id";
+  static String getUserProfileId(String? id) => "/users/$id";
+  static String getReviewByUser(String? id) => "/reviews/user/$id";
+  static String cancelPost(String? id) => "/posts/cancel/$id";
 
 
 
@@ -25,4 +28,22 @@
 
 
 
- }
+ }//https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg
+
+ // Obx(() {
+ // final data =
+ // controller.profileModel.value?.data?.image;
+ // if (data == null || data.isEmpty) {
+ // return AppImageFrameRadiousWidget(
+ // radious: 50,
+ // imageLink:
+ // "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+ // );
+ // }
+ //
+ // return AppImageFrameRadiousWidget(
+ // radious: 50,
+ // imageLink:
+ // controller.profileModel.value?.data?.image,
+ // );
+ // }),

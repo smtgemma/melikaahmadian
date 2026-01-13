@@ -21,6 +21,14 @@ class OfferReviewController extends GetxController {
 
   String? offerId ;
 
+  RxList<String> cancelMove = [
+    "Wrong address added",
+    "Wrong item video",
+    "Not needed anymore",
+    "Mover delay",
+    "Mover unresponsive"
+  ].obs;
+
 
   @override
   void onInit() {
@@ -36,6 +44,7 @@ class OfferReviewController extends GetxController {
 
   @override
   void onClose() {
+    Get.delete<OfferReviewController>();
     super.onClose();
   }
 

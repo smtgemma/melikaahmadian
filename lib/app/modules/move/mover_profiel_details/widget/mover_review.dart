@@ -7,8 +7,9 @@ import 'package:melikaahmadian/generated/assets.dart';
 import 'package:get/get.dart';
 
 import '../controllers/mover_profiel_details_controller.dart';
+
 class MoverReview extends StatelessWidget {
-  const MoverReview({super.key});
+  MoverReview({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,27 +17,46 @@ class MoverReview extends StatelessWidget {
     final controller = Get.put(MoverProfielDetailsController());
     return Container(
       padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(color: AppColors.cardColor,borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Reviews",style: textStyele.titleLarge,),
-              Obx(() => InkWell(onTap:(){
-                controller.more();
-              },child: Text(controller.isMore.value ? "See More" : "See Less",style: textStyele.titleMedium!.copyWith(color: AppColors.hardBlueColor,fontSize: 14.sp),),),)
-
-
+              Text("Reviews", style: textStyele.titleLarge),
+              Obx(
+                () => InkWell(
+                  onTap: () {
+                    controller.more();
+                  },
+                  child: Text(
+                    controller.isMore.value ? "See More" : "See Less",
+                    style: textStyele.titleMedium!.copyWith(
+                      color: AppColors.hardBlueColor,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 12.h,),
+          SizedBox(height: 12.h),
           Obx(() {
-            final itemCount =
-            controller.isMore.value ? 5 : 2;
-
+            final itemCount = controller.isMore.value
+                ? 2:controller.reviewmodel.value.data!.length ;
             return Column(
               children: List.generate(itemCount, (index) {
+                final review = controller.reviewmodel.value.data?[index];
+                String createdAt = review?.createdAt.toString() ?? "";
+
+                DateTime date = DateTime.parse(createdAt);
+                int year = date.year;
+                final imagereviewer = review?.reviewer?.image ;
+
+                print(year);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Container(
@@ -46,12 +66,22 @@ class MoverReview extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             /// Leading Image
-                            AppImageFrameRadiousWidget(radious: 25),
+
+                               (imagereviewer == null || imagereviewer.isEmpty)   ? AppImageFrameRadiousWidget(radious: 50,
+                                  imageLink:
+                                      "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                                ) :
+                               AppImageFrameRadiousWidget(
+                                radious: 50,
+                                imageLink:
+                                    controller.profileModel.value?.data?.image,
+                              ),
 
                             SizedBox(width: 12.w),
 
@@ -61,14 +91,16 @@ class MoverReview extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Ahmed Rahman",
+                                    review?.reviewer.fullName ?? "",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: textStyele.titleMedium,
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    "1 month ago",
+                                    year == DateTime.now().year
+                                        ? "Today"
+                                        : year.toString(),
                                     style: textStyele.bodyMedium,
                                   ),
                                 ],
@@ -82,9 +114,10 @@ class MoverReview extends StatelessWidget {
                                 Image.asset(Assets.iconsColorStar),
                                 SizedBox(width: 4.w),
                                 Text(
-                                  "4/5",
-                                  style: textStyele.titleMedium!
-                                      .copyWith(fontSize: 14.sp),
+                                  "${review?.rating}/5",
+                                  style: textStyele.titleMedium!.copyWith(
+                                    fontSize: 14.sp,
+                                  ),
                                 ),
                               ],
                             ),
@@ -92,7 +125,8 @@ class MoverReview extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          "Jonathan is professional and he maintains excellent control over matches. Highly recommended.",
+                          "${review?.comment ?? ""} ",
+                          textAlign: TextAlign.start,
                           style: textStyele.bodyMedium,
                         ),
                       ],
@@ -101,11 +135,9 @@ class MoverReview extends StatelessWidget {
                 );
               }),
             );
-          })
-
+          }),
         ],
       ),
-
     );
   }
 }

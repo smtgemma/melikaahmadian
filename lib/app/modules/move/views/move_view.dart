@@ -65,11 +65,12 @@ class MoveView extends GetView<MoveController> {
                 return Padding(
                   padding:  EdgeInsets.only(bottom: 10),
                   child: MoveStatusVideo(
+                    isOffer:item?.status == "CANCELLED" ? true : item?.status == "ONGOING" ? true :  item?.status == "COMPLETED" ? true : false ,
                     postId: item?.id,
                     videoUrl: item?.media?[0].url,
                     from: item?.dropoffAddress?.address ?? "",
                     to: item?.pickupAddress?.address ?? "",
-                    offer: item?.totalOffers.toString() ?? "",
+                    offer:  item?.status == "CANCELLED" ? "-1": item?.totalOffers.toString() ?? "",
                     date: formattedDate,
                     isNavigator: true,
                     titel: item.status ?? "",

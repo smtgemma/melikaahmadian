@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class CreateAccountController extends GetxController {
+  //TODO: Implement CreateAccountController
+
+  final emailTextEditingController = TextEditingController();
+  final phoneTextEditingController = TextEditingController();
+  final nameTextEditingController = TextEditingController();
+
+  final isLoading = false.obs;
+
+  final count = 0.obs;
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  void increment() => count.value++;
+}

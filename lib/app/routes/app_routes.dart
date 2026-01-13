@@ -1,0 +1,137 @@
+part of 'app_pages.dart';
+// DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
+
+abstract class Routes {
+  Routes._();
+  static const NAVBAR = _Paths.NAVBAR;
+  static const SPLASH = _Paths.SPLASH;
+  static const ROLE_SELECTION = _Paths.ROLE_SELECTION;
+  static const SELECT_OPTION = _Paths.SELECT_OPTION;
+  static const LOG_IN = _Paths.LOG_IN;
+  static const SIGN_UP = _Paths.SIGN_UP;
+  static const CREATE_ACCOUNT = _Paths.CREATE_ACCOUNT;
+  static const VERIFICATION_CODE = _Paths.VERIFICATION_CODE;
+  static const SET_NEW_PASSWORD = _Paths.SET_NEW_PASSWORD;
+  static const CREATE_ACCOUNT_WITH_EMAIL = _Paths.CREATE_ACCOUNT_WITH_EMAIL;
+  static const BIO = _Paths.BIO;
+  static const SPECIALTY = _Paths.SPECIALTY;
+  static const DOCUMENT_UPLOD_PAGE = _Paths.DOCUMENT_UPLOD_PAGE;
+  static const DOCUMENT_UPLOD = _Paths.DOCUMENT_UPLOD;
+  static const IMAGE_UPLOD = _Paths.IMAGE_UPLOD;
+  static const REVIEW_EVRYTHING = _Paths.REVIEW_EVRYTHING;
+  static const APPLICATION_SUBMIT = _Paths.APPLICATION_SUBMIT;
+  static const HOME = _Paths.HOME;
+  static const MOVE = _Paths.MOVE;
+  static const CHAT = _Paths.CHAT;
+  static const MENU = _Paths.MENU;
+  static const SETTING = _Paths.SETTING;
+  static const VIDEO_CMERA = _Paths.VIDEO_CMERA;
+  static const REVIEW_VIDEO = _Paths.REVIEW_VIDEO;
+  static const ADD_DETAILS = _Paths.ADD_DETAILS;
+  static const AI_ANALIZED_FURNITURE = _Paths.AI_ANALIZED_FURNITURE;
+  static const CUSTOM_FURNITURE = _Paths.CUSTOM_FURNITURE;
+  static const ALL_ITEM = _Paths.ALL_ITEM;
+  static const AI_ANALYE = _Paths.AI_ANALYE;
+  static const AI_GENARED_PRICE = _Paths.AI_GENARED_PRICE;
+  static const OFFER_REVIEW = _Paths.OFFER_REVIEW;
+  static const MOVER_PROFILE = _Paths.MOVER_PROFILE;
+  static const MOVER_PROFIEL_DETAILS = _Paths.MOVER_PROFIEL_DETAILS;
+  static const PRODUCT_DETAILS = _Paths.PRODUCT_DETAILS;
+  static const PRDUCT_DETAILS = _Paths.PRDUCT_DETAILS;
+  static const PAYMENT_DETAILS = _Paths.PAYMENT_DETAILS;
+  static const ONGOING_MOVER_DETAILS = _Paths.ONGOING_MOVER_DETAILS;
+  static const ONGOING_MOVE_UPDATE = _Paths.ONGOING_MOVE_UPDATE;
+  static const CENCEL_MOVE = _Paths.CENCEL_MOVE;
+  static const CENCEL_MOVER_DETAILS = _Paths.CENCEL_MOVER_DETAILS;
+  static const PROFILE_EDIT = _Paths.PROFILE_EDIT;
+  static const PROFILE_CHANGE_PASSWORD = _Paths.PROFILE_CHANGE_PASSWORD;
+  static const PROFILE_TRAMD_CONDITION = _Paths.PROFILE_TRAMD_CONDITION;
+  static const PROFILE_PRIVACY_POLICY = _Paths.PROFILE_PRIVACY_POLICY;
+  static const MOVER_NAVBAR = _Paths.MOVER_NAVBAR;
+  static const MOVER_HOME = _Paths.MOVER_HOME;
+  static const MOVER_MOVE = _Paths.MOVER_MOVE;
+  static const MOVER_CHAT = _Paths.MOVER_CHAT;
+  static const MOVER_SEARCH_POST = _Paths.MOVER_SEARCH_POST;
+  static const MOVER_LOCATION_CITY = _Paths.MOVER_LOCATION_CITY;
+  static const MOVER_SERCHED_LOCATIONED = _Paths.MOVER_SERCHED_LOCATIONED;
+  static const MOVER_MOVE_DETILS_SEND_OFFER =
+      _Paths.MOVER_MOVE_DETILS_SEND_OFFER;
+  static const MOVER_MOVE_DETILS = _Paths.MOVER_MOVE_DETILS;
+  static const MOVER_MOVE_COMPLEDET_DETILS = _Paths.MOVER_MOVE_COMPLEDET_DETILS;
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION =
+      _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION;
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED =
+      _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED;
+  static const PROFILE_MY_PROFILE = _Paths.PROFILE_MY_PROFILE;
+  static const PROFILE_PROFILE_EDIT = _Paths.PROFILE_PROFILE_EDIT;
+  static const MY_ERANING = _Paths.MY_ERANING;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const CENCEL_REQUEST =  _Paths.CENCEL_REQUEST;
+}
+
+abstract class _Paths {
+  _Paths._();
+  static const NAVBAR = '/navbar';
+  static const SPLASH = '/splash';
+  static const ROLE_SELECTION = '/role-selection';
+  static const SELECT_OPTION = '/select-option';
+  static const LOG_IN = '/log-in';
+  static const SIGN_UP = '/sign-up';
+  static const CREATE_ACCOUNT = '/create-account';
+  static const VERIFICATION_CODE = '/verification-code';
+  static const SET_NEW_PASSWORD = '/set-new-password';
+  static const CREATE_ACCOUNT_WITH_EMAIL = '/create-account-with-email';
+  static const BIO = '/bio';
+  static const SPECIALTY = '/specialty';
+  static const DOCUMENT_UPLOD_PAGE = '/document-uplod-page';
+  static const DOCUMENT_UPLOD = '/document-uplod';
+  static const IMAGE_UPLOD = '/image-uplod';
+  static const REVIEW_EVRYTHING = '/review-evrything';
+  static const APPLICATION_SUBMIT = '/application-submit';
+  static const HOME = '/home';
+  static const MOVE = '/move';
+  static const CHAT = '/chat';
+  static const MENU = '/menu';
+  static const SETTING = '/setting';
+  static const VIDEO_CMERA = '/video-cmera';
+  static const REVIEW_VIDEO = '/review-video';
+  static const ADD_DETAILS = '/add-details';
+  static const AI_ANALIZED_FURNITURE = '/ai-analized-furniture';
+  static const CUSTOM_FURNITURE = '/custom-furniture';
+  static const ALL_ITEM = '/all-item';
+  static const AI_ANALYE = '/ai-analye';
+  static const AI_GENARED_PRICE = '/ai-genared-price';
+  static const OFFER_REVIEW = '/offer-review';
+  static const MOVER_PROFILE = '/mover-profile';
+  static const MOVER_PROFIEL_DETAILS = '/mover-profiel-details';
+  static const PRODUCT_DETAILS = '/product-details';
+  static const PRDUCT_DETAILS = '/prduct-details';
+  static const PAYMENT_DETAILS = '/payment-details';
+  static const ONGOING_MOVER_DETAILS = '/ongoing-mover-details';
+  static const ONGOING_MOVE_UPDATE = '/ongoing-move-update';
+  static const CENCEL_MOVE = '/cencel-move';
+  static const CENCEL_MOVER_DETAILS = '/cencel-mover-details';
+  static const PROFILE_EDIT = '/profile-edit';
+  static const PROFILE_CHANGE_PASSWORD = '/profile-change-password';
+  static const PROFILE_TRAMD_CONDITION = '/profile-tramd-condition';
+  static const PROFILE_PRIVACY_POLICY = '/profile-privacy-policy';
+  static const MOVER_NAVBAR = '/mover-navbar';
+  static const MOVER_HOME = '/mover-home';
+  static const MOVER_MOVE = '/mover-move';
+  static const MOVER_CHAT = '/mover-chat';
+  static const MOVER_SEARCH_POST = '/mover-search-post';
+  static const MOVER_LOCATION_CITY = '/mover-location-city';
+  static const MOVER_SERCHED_LOCATIONED = '/mover-serched-locationed';
+  static const MOVER_MOVE_DETILS_SEND_OFFER = '/mover-move-detils-send-offer';
+  static const MOVER_MOVE_DETILS = '/mover-move-detils';
+  static const MOVER_MOVE_COMPLEDET_DETILS = '/mover-move-compledet-detils';
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION =
+      '/mover-information-about-the-cancalation';
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED =
+      '/mover-information-about-the-cancalation-cenceled';
+  static const PROFILE_MY_PROFILE = '/profile-my-profile';
+  static const PROFILE_PROFILE_EDIT = '/profile-profile-edit';
+  static const MY_ERANING = '/my-eraning';
+  static const NOTIFICATION = '/notification';
+  static const CENCEL_REQUEST = '/cencel-request';
+}

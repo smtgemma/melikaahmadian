@@ -66,7 +66,8 @@ abstract class Routes {
   static const PROFILE_PROFILE_EDIT = _Paths.PROFILE_PROFILE_EDIT;
   static const MY_ERANING = _Paths.MY_ERANING;
   static const NOTIFICATION = _Paths.NOTIFICATION;
-  static const CENCEL_REQUEST =  _Paths.CENCEL_REQUEST;
+  static const CENCEL_REQUEST = _Paths.CENCEL_REQUEST;
+  static const AUDIO_CALL = _Paths.AUDIO_CALL;
 }
 
 abstract class _Paths {
@@ -134,4 +135,5 @@ abstract class _Paths {
   static const MY_ERANING = '/my-eraning';
   static const NOTIFICATION = '/notification';
   static const CENCEL_REQUEST = '/cencel-request';
+  static const AUDIO_CALL = '/audio-call';
 }

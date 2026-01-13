@@ -9,6 +9,7 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/status.dart';
+import 'package:melikaahmadian/app/modules/move/offer_review/widget/offer.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 import 'package:video_player/video_player.dart';
@@ -51,8 +52,8 @@ class MoveStatusVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     var textStyele = Theme.of(context).textTheme;
 
-   // final controller = Get.put(MoveController());
-    final offercontroller = Get.find<OfferReviewController>();
+    final controller = Get.put(MoveController());
+    final offercontroller = Get.put(OfferReviewController());
 
     return Container(
       height: 120,
@@ -174,10 +175,8 @@ class MoveStatusVideo extends StatelessWidget {
                   onTap: () {
                     if (isNavigator == true) {
                       if (isType == AppArgumentString.posted) {
-                        debugPrint("gweg");
-                        // Get.toNamed(
-                        //   Routes.LOG_IN,
-                        // );
+                        debugPrint("wfwfew");
+
                         Get.toNamed(
                           Routes.OFFER_REVIEW,
                           arguments: {
@@ -187,7 +186,6 @@ class MoveStatusVideo extends StatelessWidget {
                         );
                         offercontroller.selectedOfferDetails.value = "offer";
                       } else if (isType == AppArgumentString.ongoing) {
-
                         Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
                         offercontroller.selectedOfferDetails.value = "Details";
                       } else if (isType == AppArgumentString.cancelled) {
@@ -203,15 +201,8 @@ class MoveStatusVideo extends StatelessWidget {
                       } else if (isType ==
                           AppArgumentString.movercenceled) {
                         Get.toNamed(
-                          Routes.OFFER_REVIEW,
-                          arguments: {
-                            AppArgumentString.offer: offer ?? 5,
-                            AppArgumentString.postId: postId,
-                          },
+                          Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
                         );
-                        // Get.toNamed(
-                        //   Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
-                        // );
                       } else {
                         debugPrint("Unknown type: $isType");
                       }
@@ -244,8 +235,9 @@ class SafeMoveVideo extends StatefulWidget {
 }
 
 class _SafeMoveVideoState extends State<SafeMoveVideo> {
-  VideoPlayerController? _controller;
+  late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
+  late Future<void> _initializeVideoPlayerFuture;
   bool _isError = false;
   bool _isInitialized = false;
   bool _userWantsToPlay = false; // Add this flag
@@ -253,46 +245,66 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
   @override
   void initState() {
     super.initState();
-    // Don't initialize automatically
-  }
 
-  Future<void> _initializeVideo() async {
-    if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
-      setState(() => _isError = true);
-      return;
-    }
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
+    );
 
-    try {
-      _controller = VideoPlayerController.network(widget.videoUrl!);
-      await _controller!.initialize();
-
-      if (!mounted) return;
-
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
       _chewieController = ChewieController(
-        videoPlayerController: _controller!,
-        autoPlay: true, // Auto-play once initialized
+        videoPlayerController: _videoPlayerController,
+        autoPlay: false, //video inital vabe off takbe
+        fullScreenByDefault: true,
         looping: false,
-        showControls: true,
         allowFullScreen: false,
+        showControls: false, //video inital vabe off takbe
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+        allowPlaybackSpeedChanging: true,
+        deviceOrientationsAfterFullScreen: [
+          DeviceOrientation.portraitUp, // fullscreen থেকে বের হলে আবার portrait
+        ],
+        deviceOrientationsOnEnterFullScreen: [
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft, // fullscreen গেলে landscape হবে
+        ],
       );
-
-      setState(() => _isInitialized = true);
-    } catch (e) {
-      debugPrint("⚠️ Video init error: $e");
-      if (mounted) setState(() => _isError = true);
-    }
+      _videoPlayerController.pause();
+      setState(() {});
+    });
   }
+
+  // Future<void> _initializeVideo() async {
+  //   if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+  //     setState(() => _isError = true);
+  //     return;
+  //   }
+  //
+  //   try {
+  //     _controller = VideoPlayerController.network(widget.videoUrl!);
+  //     await _controller!.initialize();
+  //
+  //     if (!mounted) return;
+  //
+  //     _chewieController = ChewieController(
+  //       videoPlayerController: _controller!,
+  //       autoPlay: true, // Auto-play once initialized
+  //       looping: false,
+  //       showControls: true,
+  //       allowFullScreen: false,
+  //     );
+  //
+  //     setState(() => _isInitialized = true);
+  //   } catch (e) {
+  //     debugPrint("⚠️ Video init error: $e");
+  //     if (mounted) setState(() => _isError = true);
+  //   }
+  // }
 
   @override
   void dispose() {
+    _videoPlayerController.dispose();
     _chewieController?.dispose();
-    _controller?.dispose();
     super.dispose();
-  }
-  @override
-  void deactivate() {
-    _controller?.pause();
-    super.deactivate();
   }
 
   @override
@@ -311,7 +323,7 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
       return GestureDetector(
         onTap: () {
           setState(() => _userWantsToPlay = true);
-          _initializeVideo();
+        //  _initializeVideo();
         },
         child: Container(
           height: 120,

@@ -24,8 +24,8 @@ class OfferReviewController extends GetxController {
 
   @override
   void onInit() {
-    // getOffer(pram: offerId);
-    // getDetails(pram: offerId);
+    getOffer(pram: offerId);
+    getDetails(pram: offerId);
     super.onInit();
   }
 

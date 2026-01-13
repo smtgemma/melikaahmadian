@@ -18,7 +18,7 @@ class OfferReviewView extends GetView<OfferReviewController> {
   Widget build(BuildContext context) {
 
     final Map<String, dynamic>? argu = Get.arguments as Map<String, dynamic>?;
-   // controller.offerId = argu?[AppArgumentString.postId];
+    controller.offerId = argu?[AppArgumentString.postId];
 
 
     var textStyele = TextTheme.of(context);

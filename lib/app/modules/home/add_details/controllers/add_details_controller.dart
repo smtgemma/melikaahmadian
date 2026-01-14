@@ -24,7 +24,7 @@ class AddDetailsController extends GetxController {
   //location
   RxString  picupLatitude = "".obs ;
   RxString  picupLongitude = "".obs ;
-  RxString  picupAddress = "ege".obs ;
+  RxString  picupAddress = "".obs ;
   RxString  dropLatitude = "".obs ;
   RxString  dropLongitude = "".obs ;
   RxString  dropAddress = "".obs ;

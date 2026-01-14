@@ -26,7 +26,7 @@ class CustomFurnitureView extends GetView<CustomFurnitureController> {
             Text("Furniture's List",style: textStyele.titleLarge,),
             SizedBox(height: 4.h,),
             Text("Select a furniture you want to add in your move.",style: textStyele.bodyMedium,),
-            Catagory(),
+             Catagory(),
             SizedBox(height: 12.h,),
             ItemList(),
             SizedBox(height: 12.h,),

@@ -1,5 +1,6 @@
  class AppUrls {
   static const baseUrl = "http://206.162.244.175:6008/api/v1";
+  static const aibaseUrl = "http://206.162.244.175:3033/api/v1";
   static const refreshToken = "${baseUrl}/auth/refresh-token";
 
   static const createAccount = "/auth/create-account";
@@ -13,6 +14,8 @@
   static const post = "/posts";
   static const my_post = "/posts/my-posts";
   static const forget_password = "/auth/forgot-password";
+  static const analyzVideo = "analyze-video";
+
   static String getOfferForSpecificPost(String? id) => "/offers/post/$id";
   static String getSinglePost(String? id) => "/posts/$id";
   static String getUserProfileId(String? id) => "/users/$id";

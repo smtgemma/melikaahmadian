@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
+import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/modules/home/controllers/home_controller.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
@@ -52,6 +53,7 @@ class Quote extends StatelessWidget {
           SizedBox(height: 12.h,),
           AppButton(titel:ai == true ? "Get AI Quote Now" : "Post A Move",containerColor: 1,bodycolor: AppColors.primaryColor,onPress: (){
             if(ai == true){
+              SharedPrefHelper.setString(SharedPrefHelper.ai, SharedPrefHelper.ai);
               controller.videoType.value = "ai_video" ;
               Get.toNamed(Routes.VIDEO_CMERA);
             }else{

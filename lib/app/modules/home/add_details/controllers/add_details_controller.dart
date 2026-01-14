@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:melikaahmadian/app/core/model/product_model.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
+import '../../../../core/network/shared_prepharence_helper.dart';
+
 class AddDetailsController extends GetxController {
   //TODO: Implement AddDetailsController
 
@@ -22,15 +24,22 @@ class AddDetailsController extends GetxController {
   //location
   RxString  picupLatitude = "".obs ;
   RxString  picupLongitude = "".obs ;
-  RxString  picupAddress = "".obs ;
+  RxString  picupAddress = "ege".obs ;
   RxString  dropLatitude = "".obs ;
   RxString  dropLongitude = "".obs ;
   RxString  dropAddress = "".obs ;
+
+  RxString ai = "".obs ;
+  RxDouble distance = 0.0.obs ;
+  RxBool isLoading = false.obs ;
+
+
 
 
   @override
   void onInit() {
     super.onInit();
+    ai.value = SharedPrefHelper.getString(SharedPrefHelper.ai).toString();
   }
 
 

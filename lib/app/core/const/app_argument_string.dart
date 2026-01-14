@@ -17,5 +17,6 @@ class AppArgumentString {
  static String image = "image";
  static String postId = "postid";
  static String providrId = "providerid";
+ static String ai = "ai";
 
 }

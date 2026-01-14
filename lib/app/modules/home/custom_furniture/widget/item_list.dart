@@ -16,13 +16,19 @@ class ItemList extends StatelessWidget {
     return  SizedBox(
           height: 400.h,
           child: Obx(() {
+            final isempty = controller.apiallItem.value.data;
+            if(isempty == null || isempty.isEmpty){
+
+              return  Center(child: Text("No Item",textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),));
+            }
+
 
             return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
               childAspectRatio: 1.4,  ),
-              itemCount: controller.apiallItem.value.data?.length,
+              itemCount: controller.apiallItem.value.data?.length ?? 0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 var items = controller.apiallItem.value.data?[index];

@@ -14,12 +14,13 @@ class OfferReviewController extends GetxController {
   final offerLoading = false.obs;
   final detailsLoading = false.obs;
 
-  final selectedOfferDetails = "offer".obs;
+  final selectedOfferDetails = "Offer".obs;
 
   Rx<OfferModel> offerModel = OfferModel().obs ;
   Rx<DetailsModel> detailsmodel = DetailsModel().obs ;
 
   String? offerId ;
+  String? postMoveId ;
 
   RxList<String> cancelMove = [
     "Wrong address added",
@@ -32,6 +33,7 @@ class OfferReviewController extends GetxController {
 
   @override
   void onInit() {
+    //postMoveId =
     getOffer(pram: offerId);
     getDetails(pram: offerId);
     super.onInit();
@@ -56,6 +58,10 @@ class OfferReviewController extends GetxController {
       offer.value = 1;
       details.value = 0;
     }
+  }
+  Future<void> refresh ()async{
+    getOffer(pram: offerId);
+    getDetails(pram: offerId);
   }
 
   Future<void> getOffer({String? pram}) async {

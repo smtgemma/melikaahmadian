@@ -21,8 +21,6 @@ class NavbarBinding extends Bindings {
     Get.lazyPut<MoveController>(
           () => MoveController(),
     );
-    Get.lazyPut<OfferReviewController>(
-          () => OfferReviewController(),
-    );
+
   }
 }

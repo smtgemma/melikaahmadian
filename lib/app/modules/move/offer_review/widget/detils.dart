@@ -27,9 +27,23 @@ class Detils extends StatelessWidget {
     // return Text("Detais data") ;
     return Expanded(
       child: Obx(() {
+        var data = controller.detailsmodel.value.data ;
         if (controller.detailsLoading.value) {
           return Center(
             child: CircularProgressIndicator(color: AppColors.secoundaryColor),
+          );
+        }else if (data == null ) {
+          return ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              SizedBox(height: 200),
+              Center(
+                child: Text(
+                  "No Offer",
+                  style: textStyele.bodyLarge,
+                ),
+              ),
+            ],
           );
         }
         return ListView.builder(

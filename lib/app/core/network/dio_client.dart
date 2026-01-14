@@ -22,7 +22,7 @@ class DioClient {
   DioClient._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: ai == SharedPrefHelper.ai ? AppUrls.aibaseUrl : AppUrls.baseUrl,
+        baseUrl:  AppUrls.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {

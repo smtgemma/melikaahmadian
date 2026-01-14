@@ -16,33 +16,33 @@ class OfferReviewView extends GetView<OfferReviewController> {
   const OfferReviewView({super.key});
   @override
   Widget build(BuildContext context) {
-
+    final controller = Get.put(OfferReviewController()) ;
     final Map<String, dynamic>? argu = Get.arguments as Map<String, dynamic>?;
     controller.offerId = argu?[AppArgumentString.postId];
-
-
     var textStyele = TextTheme.of(context);
-
     return Scaffold(
-      body: AppBackground(
+      body: RefreshIndicator(
+          child:AppBackground(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-              AppBackButton(),
+            AppBackButton(),
             SizedBox(height: 24.h,),
             Text("Offers (${argu?[AppArgumentString.offer]})",style: textStyele.titleLarge,),
-             SizedBox(height: 04.h,),
-             Text("Offers you received from Different movers.",style: textStyele.bodyMedium,),
-             SizedBox(height: 12.h,),
-             MoveOfferDetails(),
-             SizedBox(height: 12.h,),
-             Obx(() => controller.selectedOfferDetails.value == "offer" ? Offer() : Detils(),),
+            SizedBox(height: 04.h,),
+            Text("Offers you received from Different movers.",style: textStyele.bodyMedium,),
+            SizedBox(height: 12.h,),
+            MoveOfferDetails(offer: "Details",details: "Offer"),
+            SizedBox(height: 12.h,),
+            Obx(() => controller.selectedOfferDetails.value == "Offer" ? Offer() : Detils(),),
 
 
 
           ],
         ),
-      ),
+      ), onRefresh: (){
+        return controller.refresh() ;
+      }),
     );
   }
 }

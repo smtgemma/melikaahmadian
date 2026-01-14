@@ -44,10 +44,25 @@ class Offer extends StatelessWidget {
 
       return Expanded(
         child:  Obx(() {
+           var data = controller.offerModel.value.data ;
           if(controller.offerLoading.value){
             return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
+          }else if (data == null || data.isEmpty) {
+            return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(height: 200),
+                Center(
+                  child: Text(
+                    "No Offer",
+                    style: textStyele.bodyLarge,
+                  ),
+                ),
+              ],
+            );
           }
-          // return ListView.builder(
+
+           // return ListView.builder(
           //   itemCount: 10,
           //   itemBuilder: (context, index) {
           //   return Text("data");

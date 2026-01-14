@@ -24,14 +24,14 @@ class MoveOfferDetails extends StatelessWidget {
       ),
       child: Row(
         children: [
-         Obx(() =>  Expanded(child: AppButton(containerColor: controller.offer.value,titel: offer ?? "Offers",onPress: (){
-           controller.selectedOfferDetails.value = offer ?? "offer" ;
+         Obx(() =>  Expanded(child: AppButton(containerColor: controller.offer.value,titel: offer ?? "Details",onPress: (){
+           controller.selectedOfferDetails.value = offer ?? "Details" ;
            debugPrint(controller.selectedOfferDetails.value);
            controller.offerDetailsControole(isoffer: 1);
            controller.getOffer(pram: controller.offerId);
          },)),),
-          Obx(() => Expanded(child: AppButton(containerColor: controller.details.value,titel: details ?? "Details",onPress: (){
-            controller.selectedOfferDetails.value = details ?? "details" ;
+          Obx(() => Expanded(child: AppButton(containerColor: controller.details.value,titel: details ?? "Offer",onPress: (){
+            controller.selectedOfferDetails.value = details ?? "Offer" ;
             debugPrint(controller.selectedOfferDetails.value);
             controller.offerDetailsControole(isdetails: 1);
             controller.getDetails(pram: controller.offerId);

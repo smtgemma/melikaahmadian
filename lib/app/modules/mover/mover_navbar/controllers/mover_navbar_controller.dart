@@ -14,6 +14,5 @@ class MoverNavbarController extends GetxController {
     MoverMoveView(),
     MoverChatView(),
     MoverProfileView()
-
   ].obs ;
 }

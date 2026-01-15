@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
@@ -57,6 +58,8 @@ class Detils extends StatelessWidget {
                       controller.detailsmodel.value.data?.media?[0].url ?? "",
                 ),
                 SizedBox(height: 24.h),
+                Text("Location Details", style: textStyele.titleLarge),
+                SizedBox(height: 12.h),
                 Obx(
                   () => SingleInformation(
                     isChild: true,
@@ -69,6 +72,36 @@ class Detils extends StatelessWidget {
                             ?.address ??
                         "Toronto, Canada",
                   ),
+                ),
+                //picup
+                SizedBox(height: 12.h),
+                Container(
+                  height: 145.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.w),
+                    color: Colors.grey,
+                  ),
+                  child: Obx(() {
+                    final double lat = controller.detailsmodel.value.data?.pickupAddress?.latitude ?? 23.8103;
+                    final double lng =controller.detailsmodel.value.data?.pickupAddress?.latitude ?? 90.4125;
+
+                    return GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(lat, lng),
+                        zoom: 15,
+                      ),
+                      myLocationEnabled: true,
+                      zoomControlsEnabled: true,
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId("location"),
+                          position: LatLng(lat, lng),
+                          infoWindow:  InfoWindow(title: controller.detailsmodel.value.data?.pickupAddress?.address ?? ""),
+                        ),
+                      },
+                    );
+                  }),
                 ),
                 SizedBox(height: 12.h),
                 Obx(
@@ -85,13 +118,41 @@ class Detils extends StatelessWidget {
                     iconPath: Assets.iconsFrom,
                   ),
                 ),
+                SizedBox(height: 12.h),
+                Container(
+                  height: 145.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.w),
+                    color: Colors.grey,
+                  ),
+                  child: Obx(() {
+                    final double lat = controller.detailsmodel.value.data?.dropoffAddress?.latitude ?? 23.8103;
+                    final double lng =controller.detailsmodel.value.data?.dropoffAddress?.latitude ?? 90.4125;
+
+                    return GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(lat, lng),
+                        zoom: 15,
+                      ),
+                      myLocationEnabled: true,
+                      zoomControlsEnabled: true,
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId("location"),
+                          position: LatLng(lat, lng),
+                          infoWindow:  InfoWindow(title: controller.detailsmodel.value.data?.dropoffAddress?.address ?? ""),
+                        ),
+                      },
+                    );
+                  }),
+                ),
                 SizedBox(height: 24.h),
                 Text("Time Details", style: textStyele.titleLarge),
                 SizedBox(height: 12.h),
                 Obx(() {
                   // Get the raw date string from API
-                  String rawDate =
-                      controller.detailsmodel.value.data?.scheduleDate ?? "";
+                  String rawDate = controller.detailsmodel.value.data?.scheduleDate.toString() ?? "";
 
                   // Parse and format the date safely
                   String displayDate;
@@ -100,9 +161,7 @@ class Detils extends StatelessWidget {
                     displayDate = "27th November 2025"; // fallback
                   } else {
                     DateTime parsedDate = DateTime.parse(rawDate);
-                    displayDate = DateFormat(
-                      'dd MMM yyyy',
-                    ).format(parsedDate); // e.g., 25 Dec 2024
+                    displayDate = DateFormat('dd MMM yyyy',).format(parsedDate); // e.g., 25 Dec 2024
                   }
 
                   return SingleInformation(
@@ -131,7 +190,7 @@ class Detils extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.h),
-                Text("Selected House Type", style: textStyele.titleLarge),
+                Text("SSelected Furnitures", style: textStyele.titleLarge),
                 SizedBox(height: 12.h),
 
                 ...List.generate(

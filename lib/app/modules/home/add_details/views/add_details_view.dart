@@ -276,27 +276,29 @@ class AddDetailsView extends GetView<AddDetailsController> {
              Obx(() =>  AppButton(
                titel: controller.ai.value == SharedPrefHelper.ai ? "Get AI Quote" :  'Select Your Items',
                onPress: () async{
-                 if(controller.picupAddress.value.isEmpty || controller.dropAddress.value.isEmpty || controller.dataEditingController.text.isEmpty || controller.timeEditingController.text.isEmpty){
-                   Get.snackbar("Error", "All fields are required");
-                 }else if(controller.ai.value == SharedPrefHelper.ai){
+                 await AddDetailsRepository.aiGenaredVideo();
 
-                   controller.distance.value = Geolocator.distanceBetween(
-                     double.parse(controller.picupLatitude.value),
-                     double.parse(controller.picupLongitude.value),
-                     double.parse(controller.dropLatitude.value),
-                     double.parse(controller.dropLongitude.value),
-                   ) / 1000;
-                   debugPrint("distance is ${controller.distance.value}");
-                   await AddDetailsRepository.aiGenaredVideo();
-
-
-
-
-                   // Get.toNamed(Routes.AI_QUOTE);
-                 }else{
-
-                   Get.toNamed(Routes.CUSTOM_FURNITURE);
-                 }
+                 // if(controller.picupAddress.value.isEmpty || controller.dropAddress.value.isEmpty || controller.dataEditingController.text.isEmpty || controller.timeEditingController.text.isEmpty){
+                 //   Get.snackbar("Error", "All fields are required");
+                 // }else if(controller.ai.value == SharedPrefHelper.ai){
+                 //
+                 //   controller.distance.value = Geolocator.distanceBetween(
+                 //     double.parse(controller.picupLatitude.value),
+                 //     double.parse(controller.picupLongitude.value),
+                 //     double.parse(controller.dropLatitude.value),
+                 //     double.parse(controller.dropLongitude.value),
+                 //   ) / 1000;
+                 //   debugPrint("distance is ${controller.distance.value}");
+                 //
+                 //
+                 //
+                 //
+                 //
+                 //   // Get.toNamed(Routes.AI_QUOTE);
+                 // }else{
+                 //
+                 //   Get.toNamed(Routes.CUSTOM_FURNITURE);
+                 // }
 
                  // await CustomeFurnitureRepository.getFurnitureByCatagory("");
                },isLoding: controller.isLoading.value,child: false,

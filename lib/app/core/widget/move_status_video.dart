@@ -53,7 +53,7 @@ class MoveStatusVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     var textStyele = Theme.of(context).textTheme;
 
-    final controller = Get.put(MoveController());
+   // final controller = Get.put(MoveController());
     final offercontroller = Get.put(OfferReviewController());
 
     return Container(
@@ -126,11 +126,13 @@ class MoveStatusVideo extends StatelessWidget {
 
           SizedBox(width: 10.w),
 
+
           /// Right Side Content
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 /// To
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -177,6 +179,7 @@ class MoveStatusVideo extends StatelessWidget {
                     if (isNavigator == true && offer != "" ) {
                       if (isType == AppArgumentString.posted) {
                       //  Get.put(OfferReviewController());
+                        debugPrint("postid: $postId");
                         offercontroller.getDetails(pram: postId);
                         offercontroller.getOffer(pram: postId);
 
@@ -189,10 +192,18 @@ class MoveStatusVideo extends StatelessWidget {
                         );
                         offercontroller.selectedOfferDetails.value = "offer";
                       } else if (isType == AppArgumentString.ongoing) {
-                        Get.toNamed(Routes.ONGOING_MOVER_DETAILS);
+                        Get.toNamed(Routes.ONGOING_MOVER_DETAILS,arguments: {
+                          AppArgumentString.postId: postId,
+                        });
                         offercontroller.selectedOfferDetails.value = "Details";
                       } else if (isType == AppArgumentString.cancelled) {
-                        Get.toNamed(Routes.CENCEL_MOVE);
+                        debugPrint("postid: $postId");
+                       // offercontroller.getDetails(pram: postId);
+                        Get.toNamed(Routes.CENCEL_MOVER_DETAILS,
+                            arguments: {
+                              AppArgumentString.postId: postId,
+                            }
+                            );
                       } else if (isType == AppArgumentString.Offered) {
                         Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER);
                       } else if (isType ==

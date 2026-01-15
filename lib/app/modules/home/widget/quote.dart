@@ -57,6 +57,7 @@ class Quote extends StatelessWidget {
               controller.videoType.value = "ai_video" ;
               Get.toNamed(Routes.VIDEO_CMERA);
             }else{
+              SharedPrefHelper.setString(SharedPrefHelper.ai, "");
               controller.videoType.value = "normal_video" ;
               Get.toNamed(Routes.VIDEO_CMERA);
             }

@@ -13,14 +13,17 @@
   static const getFurnitureByCatagory = "/furniture";
   static const post = "/posts";
   static const my_post = "/posts/my-posts";
+  static const get_my_offer = "/offers/my-offers";
   static const forget_password = "/auth/forgot-password";
   static const analyzVideo = "analyze-video";
+
 
   static String getOfferForSpecificPost(String? id) => "/offers/post/$id";
   static String getSinglePost(String? id) => "/posts/$id";
   static String getUserProfileId(String? id) => "/users/$id";
   static String getReviewByUser(String? id) => "/reviews/user/$id";
   static String cancelPost(String? id) => "/posts/cancel/$id";
+  static String statusChange(String? id) => "/posts/status/$id";
 
 
 

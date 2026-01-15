@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../move/model/move_model.dart';
 import '../Repository/mover_move_repository.dart';
+import '../model/mover_move_model.dart';
 
 class MoverMoveController extends GetxController {
   //TODO: Implement MoverMoveController
@@ -12,7 +13,7 @@ class MoverMoveController extends GetxController {
   RxInt selectedIndex = 0.obs ;
   final isLoading = false.obs;
 
-  Rx<MoveModel> moveModel = MoveModel().obs;
+  Rx<MoverMoveModel> moveModel = MoverMoveModel().obs;
   @override
   void onInit() {
     super.onInit();

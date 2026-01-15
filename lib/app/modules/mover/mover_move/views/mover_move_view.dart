@@ -7,6 +7,7 @@ import '../../../../core/const/app_argument_string.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/app_background.dart';
 import '../../../../core/widget/move_status_video.dart';
+import '../../../../core/widget/mover_move_video_status.dart';
 import '../../../home/custom_furniture/widget/catagory.dart';
 import '../controllers/mover_move_controller.dart';
 import '../widget/mover_move_catagory.dart';
@@ -39,7 +40,7 @@ class MoverMoveView extends GetView<MoverMoveController> {
                   );
                 }
 
-                final data = controller.moveModel.value.data;
+                final data = controller.moveModel.value.data?.data;
 
                 if (data == null || data.isEmpty) {
                   return Center(
@@ -49,7 +50,35 @@ class MoverMoveView extends GetView<MoverMoveController> {
                     ),
                   );
                 }
-                return SizedBox();
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
+                    String apiDate = item.createdAt ?? "";
+
+                    String formattedDate = apiDate.split("T").first;
+
+                    print(formattedDate); // 2026-01-10
+                    return Padding(
+                      padding:  EdgeInsets.only(bottom: 10),
+                      child: MoverMoveStatusVideo(
+                        isOffer:true ,
+                        postId: item?.id,
+                        videoUrl: item?.post?.media?[0].url,
+                        from: item?.post?.dropoffAddress?.address ?? "",
+                        to: item?.post?.pickupAddress?.address ?? "",
+                       // offer:  item?.status == "CANCELLED" ? "-1": item?.totalOffers.toString() ?? "",
+                        date: formattedDate,
+                        isNavigator: true,
+                        titel: item.status ?? "",
+                        color: item?.status == "POSTED" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ONGOING" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
+                        textColor: item?.status == "POSTED" ?  AppColors.BurntOrange : item?.status == "ONGOING" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
+                        isType: item?.status ?? "",
+                      ),
+                    );
+                  },
+                );
 
               },),
             )

@@ -7,10 +7,13 @@ class AppArgumentString {
  static String cancelled = "CANCELLED";
  static String markAsCompleted = "markAsCompleted" ;
  static String Offered = "one";
- static String moverSendOffer = "moverSendOffer";
+ static String moverSendOffer = "Offer";
  static String moverOngoing = "moverOngoing";
- static String movercompeleted = "movercompeleted";
- static String movercenceled = "movercenceled";
+ static String movercompeleted = "COMPLETED";
+ static String movercenceled = "CANCELLED";
+ static String moverPending = "PENDING";
+ static String moverAccepted = "ACCEPTED";
+ static String moverRejected = "REJECTED";
  static String name = "name";
  static String email = "email";
  static String phone = "phone";

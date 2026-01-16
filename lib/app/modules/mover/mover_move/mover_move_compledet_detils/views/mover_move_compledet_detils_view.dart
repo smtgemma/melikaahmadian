@@ -28,6 +28,7 @@ class MoverMoveCompledetDetilsView
               Text("Details of a particular move.",style: textStyele.bodyMedium,),
               SizedBox(height: 24,),
               MoverMoveDetils()
+
           
             ],
           ),

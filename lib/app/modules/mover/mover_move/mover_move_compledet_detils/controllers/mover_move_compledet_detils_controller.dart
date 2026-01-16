@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 
 class MoverMoveCompledetDetilsController extends GetxController {
   //TODO: Implement MoverMoveCompledetDetilsController
@@ -9,7 +10,7 @@ class MoverMoveCompledetDetilsController extends GetxController {
   void onInit() {
     super.onInit();
     final argu = Get.arguments;
-    moveType = argu["moveType"];
+    moveType = argu?[AppArgumentString.moverStatus];
 
 
   }

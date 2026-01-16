@@ -23,7 +23,7 @@ class MoverMoveCompledetDetilsView
             children: [
               AppBackButton(),
               SizedBox(height: 24.h,),
-              Text("Ongoing Move Details",style:textStyele.titleLarge,),
+              Text("${controller.moveType} Move Details",style:textStyele.titleLarge,),
               SizedBox(height: 4.h,),
               Text("Details of a particular move.",style: textStyele.bodyMedium,),
               SizedBox(height: 24,),

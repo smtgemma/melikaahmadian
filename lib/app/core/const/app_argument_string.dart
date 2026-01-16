@@ -5,7 +5,7 @@ class AppArgumentString {
  static String ongoing = "ONGOING" ;
  static String posted = "POSTED" ;
  static String cancelled = "CANCELLED";
- static String markAsCompleted = "markAsCompleted" ;
+ static String markAsCompleted = "markAsCompleted";
  static String Offered = "one";
  static String moverSendOffer = "Offer";
  static String moverOngoing = "moverOngoing";
@@ -21,5 +21,7 @@ class AppArgumentString {
  static String postId = "postid";
  static String providrId = "providerid";
  static String ai = "ai";
+ static String moverStatus = "moverstatus";
+
 
 }

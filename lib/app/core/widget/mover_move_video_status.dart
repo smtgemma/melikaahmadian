@@ -183,7 +183,9 @@ class MoverMoveStatusVideo extends StatelessWidget {
                       } else if (isType == AppArgumentString.moverPending) {
                         Get.toNamed(Routes.MOVER_MOVE_DETILS);
                       } else if (isType == AppArgumentString.moverAccepted) {
-                        Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS);
+                        Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
+                          AppArgumentString.moverStatus: "Accepted",
+                        });
                       } else if (isType == AppArgumentString.movercenceled) {
                         Get.toNamed(
                           Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,

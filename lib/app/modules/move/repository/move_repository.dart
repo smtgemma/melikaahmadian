@@ -27,7 +27,7 @@ class MoveRepository {
   }on DioError catch (e) {
     debugPrint("⚠️ API Error: ${e.response?.statusCode}");
     debugPrint("⚠️ API Error Data: ${e.response?.data}");
-    Get.snackbar("Error", "Something Went Wrong");
+   // Get.snackbar("Error", "Something Went Wrong");
     debugPrint("⚠️ API Error Message: ${e.message}");
     return MoveModel();
   } catch (e) {

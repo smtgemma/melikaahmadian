@@ -33,6 +33,7 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
       cameras.first,
       ResolutionPreset.high,
       enableAudio: true,
+      imageFormatGroup: ImageFormatGroup.yuv420,
     );
     controller.initialize().then((_) {
       if (mounted) setState(() {});

@@ -5,8 +5,6 @@ import '../controllers/mover_profile_controller.dart';
 class MoverProfileBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MoverProfileController>(
-      () => MoverProfileController(),
-    );
+
   }
 }

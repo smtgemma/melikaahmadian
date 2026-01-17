@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
@@ -17,123 +18,295 @@ import '../widget/mover_review.dart';
 import '../widget/specialties.dart';
 
 class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
-  String? imageLink ;
-  String? videoLink ;
-  String? name ;
-  String? starRation ;
-  String? reviewRating ;
-   MoverProfielDetailsView({super.key,this.imageLink,this.videoLink,this.name,this.starRation,this.reviewRating});
+  String? imageLink;
+  String? videoLink;
+  String? name;
+  String? starRation;
+  String? reviewRating;
+  MoverProfielDetailsView({
+    super.key,
+    this.imageLink,
+    this.videoLink,
+    this.name,
+    this.starRation,
+    this.reviewRating,
+  });
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ImageUplodController());
+    // String? id ;
+    // final Map<String, dynamic> argu = Get.arguments ?? {};
+    // controller.providerid = argu[AppArgumentString.providrId] ?? '';
+
     var textStyele = TextTheme.of(context);
     return Scaffold(
-     body: AppBackground(child: SingleChildScrollView(
-       child: Column(
-         crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           AppBackButton(),
-           SizedBox(height: 24,),
-           //name and rating
-           Stack(children: [
-             Container(
-             //  height: 150.h,
-               width: double.infinity,
-               decoration: BoxDecoration(color: AppColors.secoundaryColor,borderRadius: BorderRadius.circular(12)),
-               child: Column(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   SizedBox(height: 41.h,),
-                   AppImageFrameRadiousWidget(radious: 50,),
-                   SizedBox(height:08.h ,),
-                   Center(
-                     child: Column(
-                       children: [
-                         Text("Mike James",style: textStyele.titleLarge!.copyWith(color: AppColors.primaryColor),),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                           Row(
-                             children: [
-                               Image.asset(Assets.iconsColorStar),
-                               SizedBox(width: 04,),
-                               Text(starRation ?? "4.5",style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor,fontSize: 14),)
-                             ],
-                           ),
-                           SizedBox(width: 08.w,),
-                           Text( "${reviewRating ?? "152"} Reviews",style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor)),
-                         ],),
-                       ],
-                     ),
-                   ),
-                   SizedBox(height: 41.h,),
+      body: AppBackground(
+        child: RefreshIndicator(
+          child: Obx(() {
+            if (controller.profileLoading.value) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.secoundaryColor,
+                ),
+              );
+            }
+            return  SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppBackButton(),
+                  SizedBox(height: 24),
+                  //name and rating
+                  Stack(
+                    children: [
+                      Container(
+                        //  height: 150.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.secoundaryColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 41.h),
+                            Obx(() {
+                              final data =
+                                  controller.profileModel.value?.data?.image;
+                              if (data == null || data.isEmpty) {
+                                return AppImageFrameRadiousWidget(
+                                  radious: 50,
+                                  imageLink:
+                                  "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                                );
+                              }
 
-                 ],
-               ),
-             ),
-             Positioned(
-               top: -40,
-               left: -40,
-               child: Container(
-                 height: 123.h,
-                 width: 123.w,
-                 decoration: BoxDecoration(color: AppColors.shadoColor.withAlpha(10),shape: BoxShape.circle),
-               ),
-             ),
-             Positioned(
-               bottom: -60,
-               right: -60,
-               child: Container(
-                 height: 123.h,
-                 width: 123.w,
-                 decoration: BoxDecoration(color: AppColors.shadoColor.withAlpha(10),shape: BoxShape.circle),
-               ),
-             )
-           ],),
-           SizedBox(height: 41,),
-           // move and experice
-           Row(
-             children: [
-               Expanded(child: ExperenceBo()),
-               SizedBox(width: 12.w,),
-               Expanded(child: ExperenceBo(iconsPath: Assets.iconsBag,color: AppColors.greenColor.withAlpha(10),title: "Years",rating: "5+",isbag: true,)),
-             ],
-           ),
-           SizedBox(height: 24.h,),
-           //About
-           About(),
-           SizedBox(height: 24.h,),
-           Specialties(),
-           SizedBox(height: 24.h,),
-           Text("Upload Photo For Client To See in Profiloe",style: textStyele.titleLarge  ,),
-           //image
-           SizedBox(
-             height: 250.h,
-             child: GridView.builder(
+                              return AppImageFrameRadiousWidget(
+                                radious: 50,
+                                imageLink:
+                                controller.profileModel.value?.data?.image,
+                              );
+                            }),
 
-               itemCount: 2,
-               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                 crossAxisCount: 2,
-                 crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
-               return ClipRRect(
-                   borderRadius: BorderRadius.circular(12),
-                   child: Image.asset(Assets.imagesTruck)
-               );
-             },),
-           ),
-           //mover review
-           MoverReview(),
-           SizedBox(height: 24.h,),
-           AppButton(titel: "Accept Offer",),
-           SizedBox(height: 24.h,),
+                            SizedBox(height: 08.h),
+                            Center(
+                              child: Column(
+                                children: [
+                                  Obx(
+                                        () => Text(
+                                      controller.profileModel.value?.data?.fullName ?? "",
+                                      style: textStyele.titleLarge!.copyWith(
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.asset(Assets.iconsColorStar),
+                                          SizedBox(width: 04),
+                                          Obx(() {
+                                            // Get average rating safely, fallback to 4.5 if null
+                                            double rating = controller.profileModel.value?.data?.averageRating ?? 4.5;
+
+                                            // Convert to string, remove trailing .0 if whole number
+                                            String displayRating = rating % 1 == 0
+                                                ? rating.toInt().toString()   // 4.0 -> 4
+                                                : rating.toStringAsFixed(1);  // 4.5 -> 4.5
+
+                                            return Text(
+                                              displayRating,
+                                              style: textStyele.bodyMedium!.copyWith(
+                                                color: AppColors.primaryColor,
+                                                fontSize: 14,
+                                              ),
+                                            );
+                                          })
 
 
+                                        ],
+                                      ),
+                                      SizedBox(width: 08.w),
+                                      Obx(() {
+                                        // Get average rating safely
+                                        double rating = controller.profileModel.value?.data?.averageRating ?? 0;
 
+                                        // Convert to string, remove trailing .0 if whole number
+                                        String displayRating = rating % 1 == 0
+                                            ? rating.toInt().toString()   // 4.0 -> 4
+                                            : rating.toStringAsFixed(1);  // 4.5 -> 4.5
 
+                                        return Text(
+                                          "$displayRating Reviews",
+                                          style: textStyele.bodyMedium!.copyWith(
+                                            color: AppColors.primaryColor,
+                                            fontSize: 14,
+                                          ),
+                                        );
+                                      })
 
-         ],
-       ),
-     ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 41.h),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: -40,
+                        left: -40,
+                        child: Container(
+                          height: 123.h,
+                          width: 123.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.shadoColor.withAlpha(10),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -60,
+                        right: -60,
+                        child: Container(
+                          height: 123.h,
+                          width: 123.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.shadoColor.withAlpha(10),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 41),
+                  // move and experice
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Obx(() {
+                          String createdAt = controller.profileModel.value?.data?.createdAt.toString() ?? "";
+
+                          DateTime date = DateTime.parse(createdAt);
+                          int year = date.year;
+
+                          print(year); // 2026
+
+                          return ExperenceBo(
+                            rating:
+                            controller.profileModel.value?.data?.moves
+                                .toString() ??
+                                "",
+                          );
+                        }),
+                      ),
+                      SizedBox(width: 12.w),
+                      Obx(() {
+                        String createdAt =
+                            controller.profileModel.value?.data?.createdAt
+                                .toString() ??
+                                "";
+
+                        if (createdAt.isEmpty) {
+                          return const SizedBox(); // prevent crash
+                        }
+
+                        DateTime joinDate = DateTime.parse(createdAt);
+                        DateTime now = DateTime.now();
+
+                        int years = now.year - joinDate.year;
+
+                        // Adjust if anniversary not passed yet this year
+                        if (now.month < joinDate.month ||
+                            (now.month == joinDate.month &&
+                                now.day < joinDate.day)) {
+                          years--;
+                        }
+
+                        if (years < 0) years = 0;
+
+                        return Expanded(
+                          child: ExperenceBo(
+                            iconsPath: Assets.iconsBag,
+                            color: AppColors.greenColor.withAlpha(10),
+                            title: "Years",
+                            rating: "$years+",
+                            isbag: true,
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                  SizedBox(height: 24.h),
+                  //About
+                  Obx(() => About(bio: controller.profileModel.value?.data?.bio)),
+                  SizedBox(height: 24.h),
+                  Obx(
+                        () => Specialties(
+                      specialties:
+                      controller.profileModel.value?.data?.specialization ??
+                          [],
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+                  Text(
+                    "Upload Photo For Client To See in Profiloe",
+                    style: textStyele.titleLarge,
+                  ),
+                  SizedBox(height: 12.h),
+                  Obx(() {
+                    final data = controller.profileModel.value?.data?.image;
+                    if (data == null || data.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "Image not available",
+                          style: textStyele.titleLarge!.copyWith(
+                            color: AppColors.strtoColor,
+                          ),
+                        ),
+                      );
+                    }
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        controller.profileModel.value?.data?.gallery[0].url ?? "",
+                      ),
+                    );
+                  }),
+                  SizedBox(height: 12.h),
+
+                  // SizedBox(
+                  //   height: 250.h,
+                  //   child: GridView.builder(
+                  //
+                  //     itemCount: 2,
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //         crossAxisCount: 2,
+                  //         crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
+                  //     return ClipRRect(
+                  //         borderRadius: BorderRadius.circular(12),
+                  //         child: Image.asset(Assets.imagesTruck)
+                  //     );
+                  //   },),
+                  // ),
+                  //mover review
+                  MoverReview(),
+                  SizedBox(height: 24.h),
+                  AppButton(titel: "Back",onPress: (){
+                    Get.back();
+                  },),
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ) ;
+          },),
+          onRefresh: () {
+            return controller.refresh();
+          },
+        ),
+      ),
     );
   }
 }

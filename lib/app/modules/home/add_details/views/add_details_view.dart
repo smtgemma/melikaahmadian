@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,9 +11,11 @@ import 'package:melikaahmadian/app/core/widget/move_video.dart';
 import 'package:melikaahmadian/app/modules/home/add_details/views/please_search.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
-
+import 'package:geolocator/geolocator.dart';
+import '../../../../core/network/shared_prepharence_helper.dart';
 import '../../custom_furniture/repository/custome_furniture_repository.dart';
 import '../controllers/add_details_controller.dart';
+import '../repository/add_details_repository.dart';
 
 class AddDetailsView extends GetView<AddDetailsController> {
   String? videoPath;
@@ -74,11 +77,16 @@ class AddDetailsView extends GetView<AddDetailsController> {
                       SizedBox(width: 12.w),
                       Image.asset(Assets.iconsTo),
                       SizedBox(width: 12.w),
-                      Obx(() => Text(
-                        controller.picupAddress.value.isEmpty
-                            ? "Enter pickup address"
-                            : controller.picupAddress.value,
-                        style: textStyle.labelMedium,
+                      Obx(() => Expanded(
+                        child: AutoSizeText(
+                          controller.picupAddress.value.isEmpty
+                              ? "Enter pickup address"
+                              : controller.picupAddress.value,
+                          style: textStyle.labelMedium,
+                          maxLines: 2,
+
+
+                        ),
                       ))
                     ],
                   ),
@@ -136,11 +144,16 @@ class AddDetailsView extends GetView<AddDetailsController> {
                     SizedBox(width: 12.w),
                     Image.asset(Assets.iconsFrom),
                     SizedBox(width: 12.w),
-                    Obx(() => Text(
-                      controller.dropAddress.value.isEmpty
-                          ? "Enter Drop-off address"
-                          : controller.dropAddress.value,
-                      style: textStyle.labelMedium,
+                    Obx(() => Expanded(
+                      child: AutoSizeText(
+                        controller.dropAddress.value.isEmpty
+                            ? "Enter Drop-off address"
+                            : controller.dropAddress.value,
+                        style: textStyle.labelMedium,
+                        maxLines: 2,
+
+
+                      ),
                     ))
                   ],
                 ),
@@ -260,13 +273,36 @@ class AddDetailsView extends GetView<AddDetailsController> {
               ),
 
               SizedBox(height: 24.h),
-              AppButton(
-                titel: 'Select Your Items',
-                onPress: () async{
-                  Get.toNamed(Routes.CUSTOM_FURNITURE);
-                  await CustomeFurnitureRepository.getFurnitureByCatagory("");
-                },
-              ),
+             Obx(() =>  AppButton(
+               titel: controller.ai.value == SharedPrefHelper.ai ? "Get AI Quote" :  'Select Your Items',
+               onPress: () async{
+                 await AddDetailsRepository.aiGenaredVideo();
+
+                 // if(controller.picupAddress.value.isEmpty || controller.dropAddress.value.isEmpty || controller.dataEditingController.text.isEmpty || controller.timeEditingController.text.isEmpty){
+                 //   Get.snackbar("Error", "All fields are required");
+                 // }else if(controller.ai.value == SharedPrefHelper.ai){
+                 //
+                 //   controller.distance.value = Geolocator.distanceBetween(
+                 //     double.parse(controller.picupLatitude.value),
+                 //     double.parse(controller.picupLongitude.value),
+                 //     double.parse(controller.dropLatitude.value),
+                 //     double.parse(controller.dropLongitude.value),
+                 //   ) / 1000;
+                 //   debugPrint("distance is ${controller.distance.value}");
+                 //
+                 //
+                 //
+                 //
+                 //
+                 //   // Get.toNamed(Routes.AI_QUOTE);
+                 // }else{
+                 //
+                 //   Get.toNamed(Routes.CUSTOM_FURNITURE);
+                 // }
+
+                 // await CustomeFurnitureRepository.getFurnitureByCatagory("");
+               },isLoding: controller.isLoading.value,child: false,
+             ),),
               SizedBox(height: 24.h),
             ],
           ),

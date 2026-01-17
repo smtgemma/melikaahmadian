@@ -7,9 +7,11 @@ import 'package:melikaahmadian/generated/assets.dart';
 import '../controllers/custom_furniture_controller.dart';
 
 class ProducCountity extends StatelessWidget {
+  String? titel ;
+  String? quantity ;
   bool? isReview ;
   String? reviewCount ;
-   ProducCountity({super.key,this.isReview,this.reviewCount});
+   ProducCountity({super.key,this.isReview,this.reviewCount,this.titel,this.quantity});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,8 @@ class ProducCountity extends StatelessWidget {
                     children: [
                      // itemDecoration(child: Center(child: Image.asset(item.iconPath.toString()),),width: 54.w),
                       SizedBox(width: 8.w,),
-                      Expanded(child: Text(item.titel.toString(),style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),)),
+                      /////////
+                      Expanded(child: Text( item.titel.toString(),style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),)),
                     ],
                   ),
                 ),

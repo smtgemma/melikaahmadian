@@ -2,7 +2,7 @@ class DetailsModel {
   final bool? success;
   final int? statusCode;
   final String? message;
-  final PostData? data;
+  final PostDetailsModel? data;
 
   DetailsModel({
      this.success,
@@ -17,126 +17,235 @@ class DetailsModel {
       statusCode: json['statusCode'] ?? 0,
       message: json['message'] ?? '',
       data: json['data'] != null
-          ? PostData.fromJson(json['data'])
+          ? PostDetailsModel.fromJson(json['data'])
           : null,
     );
   }
 }
 
-class PostData {
+/* -------------------- POST DETAILS -------------------- */
+
+class PostDetailsModel {
+  final List<MediaModel> media;
+  final AddressModel? pickupAddress;
+  final AddressModel? dropoffAddress;
+  final List<FurnitureModel> furniture;
+
   final String id;
   final String authorId;
-  final List<Media> media;
   final String status;
-  final String createdAt;
-  final String updatedAt;
-  final Address? pickupAddress;
-  final Address? dropoffAddress;
-  final String scheduleDate;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final bool isDeleted;
+  final DateTime? scheduleDate;
   final String scheduleTime;
   final String houseType;
-  final List<Furniture> furniture;
-  final int offerPrice;
+  final double offerPrice;
+  final String? cancellationReason;
   final int totalOffers;
+  final AcceptedOfferModel? acceptedOffer;
 
-  PostData({
+  PostDetailsModel({
+    required this.media,
+    required this.pickupAddress,
+    required this.dropoffAddress,
+    required this.furniture,
     required this.id,
     required this.authorId,
-    required this.media,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
-    this.pickupAddress,
-    this.dropoffAddress,
+    required this.isDeleted,
     required this.scheduleDate,
     required this.scheduleTime,
     required this.houseType,
-    required this.furniture,
     required this.offerPrice,
+    required this.cancellationReason,
     required this.totalOffers,
+    required this.acceptedOffer,
   });
 
-  factory PostData.fromJson(Map<String, dynamic> json) {
-    return PostData(
-      id: json['id'] ?? '',
-      authorId: json['authorId'] ?? '',
+  factory PostDetailsModel.fromJson(Map<String, dynamic> json) {
+    return PostDetailsModel(
       media: (json['media'] as List? ?? [])
-          .map((e) => Media.fromJson(e))
+          .map((e) => MediaModel.fromJson(e))
           .toList(),
-      status: json['status'] ?? '',
-      createdAt: json['createdAt'] ?? '',
-      updatedAt: json['updatedAt'] ?? '',
       pickupAddress: json['pickupAddress'] != null
-          ? Address.fromJson(json['pickupAddress'])
+          ? AddressModel.fromJson(json['pickupAddress'])
           : null,
       dropoffAddress: json['dropoffAddress'] != null
-          ? Address.fromJson(json['dropoffAddress'])
+          ? AddressModel.fromJson(json['dropoffAddress'])
           : null,
-      scheduleDate: json['scheduleDate'] ?? '',
+      furniture: (json['furniture'] as List? ?? [])
+          .map((e) => FurnitureModel.fromJson(e))
+          .toList(),
+      id: json['id'] ?? '',
+      authorId: json['authorId'] ?? '',
+      status: json['status'] ?? '',
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'])
+          : null,
+      isDeleted: json['isDeleted'] ?? false,
+      scheduleDate: json['scheduleDate'] != null
+          ? DateTime.tryParse(json['scheduleDate'])
+          : null,
       scheduleTime: json['scheduleTime'] ?? '',
       houseType: json['houseType'] ?? '',
-      furniture: (json['furniture'] as List? ?? [])
-          .map((e) => Furniture.fromJson(e))
-          .toList(),
-      offerPrice: json['offerPrice'] ?? 0,
+      offerPrice: (json['offerPrice'] as num?)?.toDouble() ?? 0.0,
+      cancellationReason: json['cancellationReason'],
       totalOffers: json['totalOffers'] ?? 0,
+      acceptedOffer: json['acceptedOffer'] != null
+          ? AcceptedOfferModel.fromJson(json['acceptedOffer'])
+          : null,
     );
   }
 }
 
-class Media {
+/* -------------------- MEDIA -------------------- */
+
+class MediaModel {
   final String type;
   final String url;
   final String key;
+  final String? thumbnail;
 
-  Media({
+  MediaModel({
     required this.type,
     required this.url,
     required this.key,
+    this.thumbnail,
   });
 
-  factory Media.fromJson(Map<String, dynamic> json) {
-    return Media(
+  factory MediaModel.fromJson(Map<String, dynamic> json) {
+    return MediaModel(
       type: json['type'] ?? '',
       url: json['url'] ?? '',
       key: json['key'] ?? '',
+      thumbnail: json['thumbnail'],
     );
   }
 }
 
-class Address {
-  final String address;
+/* -------------------- ADDRESS -------------------- */
+
+class AddressModel {
+  final String? address;
   final double latitude;
   final double longitude;
 
-  Address({
+  AddressModel({
     required this.address,
     required this.latitude,
     required this.longitude,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      address: json['address'] ?? '',
-      latitude: (json['latitude'] ?? 0).toDouble(),
-      longitude: (json['longitude'] ?? 0).toDouble(),
+  factory AddressModel.fromJson(Map<String, dynamic> json) {
+    return AddressModel(
+      address: json['address'],
+      latitude: (json['latitude'] as num?)?.toDouble() ?? 0.0,
+      longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }
 
-class Furniture {
+/* -------------------- FURNITURE -------------------- */
+
+class FurnitureModel {
   final String name;
   final int quantity;
 
-  Furniture({
+  FurnitureModel({
     required this.name,
     required this.quantity,
   });
 
-  factory Furniture.fromJson(Map<String, dynamic> json) {
-    return Furniture(
+  factory FurnitureModel.fromJson(Map<String, dynamic> json) {
+    return FurnitureModel(
       name: json['name'] ?? '',
       quantity: json['quantity'] ?? 0,
+    );
+  }
+}
+
+/* -------------------- ACCEPTED OFFER -------------------- */
+
+class AcceptedOfferModel {
+  final String id;
+  final String postId;
+  final String providerId;
+  final double offerPrice;
+  final String status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? cancellationReason;
+  final UserModel? provider;
+  final UserModel? author;
+
+  AcceptedOfferModel({
+    required this.id,
+    required this.postId,
+    required this.providerId,
+    required this.offerPrice,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.cancellationReason,
+    required this.provider,
+    required this.author,
+  });
+
+  factory AcceptedOfferModel.fromJson(Map<String, dynamic> json) {
+    return AcceptedOfferModel(
+      id: json['id'] ?? '',
+      postId: json['postId'] ?? '',
+      providerId: json['providerId'] ?? '',
+      offerPrice: (json['offerPrice'] as num?)?.toDouble() ?? 0.0,
+      status: json['status'] ?? '',
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'])
+          : null,
+      cancellationReason: json['cancellationReason'],
+      provider:
+      json['provider'] != null ? UserModel.fromJson(json['provider']) : null,
+      author:
+      json['author'] != null ? UserModel.fromJson(json['author']) : null,
+    );
+  }
+}
+
+/* -------------------- USER -------------------- */
+
+class UserModel {
+  final String id;
+  final String fullName;
+  final String? image;
+  final String phone;
+  final double averageRating;
+  final int totalReviews;
+
+  UserModel({
+    required this.id,
+    required this.fullName,
+    required this.image,
+    required this.phone,
+    required this.averageRating,
+    required this.totalReviews,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'] ?? '',
+      fullName: json['fullName'] ?? '',
+      image: json['image'],
+      phone: json['phone'] ?? '',
+      averageRating: (json['averageRating'] as num?)?.toDouble() ?? 0.0,
+      totalReviews: json['totalReviews'] ?? 0,
     );
   }
 }

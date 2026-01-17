@@ -10,8 +10,8 @@ import '../repository/custome_furniture_repository.dart';
 
 class Catagory extends StatelessWidget {
   Catagory({super.key});
-  final controller = Get.find<CustomFurnitureController>();
-  final addItemController = Get.put(AddDetailsController());
+  final controller = Get.put(CustomFurnitureController());
+  final addItemController = Get.find<AddDetailsController>();
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
@@ -43,13 +43,12 @@ class Catagory extends StatelessWidget {
                 "selected catagory is ${controller.selectedCatagory.value}",
               );
               if (controller.selectedCatagory.value == "All") {
-                CustomeFurnitureRepository.getFurnitureByCatagory("");
-                print(
-                  "selected catagory is ${controller.apiallItem.value.data?.length}",
+                controller.getFurnitureByCatagory("");
+                print("selected catagory is ${controller.apiallItem.value.data?.length}",
                 );
                 return;
               }
-              CustomeFurnitureRepository.getFurnitureByCatagory(
+              controller.getFurnitureByCatagory(
                 controller.selectedCatagory.value,
               );
             },

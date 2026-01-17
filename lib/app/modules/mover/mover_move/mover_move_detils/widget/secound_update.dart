@@ -18,7 +18,7 @@ class SecoundUpdate extends StatelessWidget {
       child: Center(child: Row(children: [
         Image.asset(Assets.iconsRoundTik,color: AppColors.secoundaryColor,),
         SizedBox(width: 10.w,),
-        Expanded(child: Text("On The Way To The Pickup Location ",style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),)),
+        Expanded(child: Text( titel??"On The Way To The Pickup Location ",style: textStyele.bodyMedium!.copyWith(color: AppColors.secoundaryColor,fontWeight: FontWeight.bold),)),
 
       ],),),
     ) ;

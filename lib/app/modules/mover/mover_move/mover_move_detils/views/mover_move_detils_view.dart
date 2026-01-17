@@ -39,8 +39,7 @@ class MoverMoveDetilsView extends GetView<MoverMoveDetilsController> {
               SizedBox(height: 24.h,),
               MoveOfferDetails(offer: "Update Status",details: "Details",isMover: true,),
               SizedBox(height: 24.h,),
-              Obx(() =>  (offercontroller.selectedOfferDetails.value == "Update Status" ||
-                  offercontroller.selectedOfferDetails.value == "offer")  ? UpdateStatus() :
+              Obx(() =>  (offercontroller.selectedOfferDetails.value == "Update Status" || offercontroller.selectedOfferDetails.value == "offer")  ? UpdateStatus(posid: controller.postId,) :
               Obx( () {
 
                 String rawDate = moverController.detailsmodel.value.data?[0].createdAt.toString() ?? "";

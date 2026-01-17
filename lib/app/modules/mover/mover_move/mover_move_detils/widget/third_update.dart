@@ -18,7 +18,7 @@ class ThirdUpdate extends StatelessWidget {
       child: Center(child: Row(children: [
         Image.asset(Assets.iconsRoundTik,color: AppColors.greenColor,),
         SizedBox(width: 10.w,),
-        Expanded(child: AutoSizeText("On The Way To The Pickup Location",maxLines:1,style: textStyele.bodyMedium!.copyWith(color: AppColors.greenColor,fontWeight: FontWeight.bold),))
+        Expanded(child: AutoSizeText( titel??"",maxLines:1,style: textStyele.bodyMedium!.copyWith(color: AppColors.greenColor,fontWeight: FontWeight.bold),))
       ],),),
     );
   }

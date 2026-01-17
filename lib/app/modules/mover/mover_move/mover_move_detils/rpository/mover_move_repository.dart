@@ -6,13 +6,18 @@ import '../../../../../core/const/app_urls.dart';
 import '../../../../../core/network/dio_client.dart';
 import '../../../../move/offer_review/model/details_model.dart';
 import '../../model/mover_move_details.dart';
+import 'package:get/get.dart';
 
+import '../controllers/mover_move_detils_controller.dart';
 
 class MoverMoveDetailsRepository {
+  static final controller = Get.find<MoverMoveDetilsController>();
 
   static Future<MoverMoveDetailsModel> getDetails({String? pram}) async {
     try {
-      var response = await DioClient().get(AppUrls.getOfferForSpecificPost(pram));
+      var response = await DioClient().get(
+        AppUrls.getOfferForSpecificPost(pram),
+      );
       if (response.statusCode == 200) {
         return MoverMoveDetailsModel.fromJson(response.data);
       } else {
@@ -48,4 +53,28 @@ class MoverMoveDetailsRepository {
     }
   }
 
+  static Future<void> moveStatusChange({String? id , String? status}) async {
+    try {
+      controller.detailsLoading.value = true;
+
+      var body = {"moveStatus": status};
+      final response = await DioClient().patch(AppUrls.moveStatusChange(id), data: body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        controller.detailsLoading.value = false;
+        controller.getStatus(pram: id);
+        Get.snackbar("Success", response.data["message"]);
+        debugPrint("${response.data["message"]}");
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        controller.detailsLoading.value = false;
+        Get.snackbar("Error", e.response?.data["message"] ?? "Unknown error");
+        debugPrint("Error status code: ${e.response}");
+      } else {
+        controller.detailsLoading.value = false;
+        debugPrint("Network or other error: ${e.message}");
+      }
+    }
+  }
 }

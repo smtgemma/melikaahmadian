@@ -28,6 +28,7 @@ class AppUrls {
   static String cancelPost(String? id) => "/posts/cancel/$id";
   static String statusChange(String? id) => "/posts/status/$id";
   static String getMoveStatus(String? id) => "/posts/move-status/$id";
+  static String moveStatusChange(String? id) => "/posts/move-status/$id";
 }
 
 

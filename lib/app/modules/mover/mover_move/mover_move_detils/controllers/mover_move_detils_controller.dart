@@ -18,13 +18,28 @@ class MoverMoveDetilsController extends GetxController {
   final detailsLoading = false.obs;
 
 
-  RxList<StatusModel> status = [
-    StatusModel(statusString: "On The Way To The Pickup Location",sttus: 1,statusStatus: true),
-    StatusModel(statusString: "Reached The Pickup Location",sttus: 0,statusStatus: false),
-    StatusModel(statusString: "On The way To Dropoff Location",sttus: 0,statusStatus: false),
-    StatusModel(statusString: "Reached The Dropoff Location",sttus: 0,statusStatus: false),
-    StatusModel(statusString: "Mark As completed Move",sttus: 0,statusStatus: false),
-  ].obs ;
+  // RxList<StatusModel> status = [
+  //   StatusModel(statusString: "On The Way To The Pickup Location",sttus: 1,statusStatus: true),
+  //   StatusModel(statusString: "Reached The Pickup Location",sttus: 0,statusStatus: false),
+  //   StatusModel(statusString: "On The way To Dropoff Location",sttus: 0,statusStatus: false),
+  //   StatusModel(statusString: "Reached The Dropoff Location",sttus: 0,statusStatus: false),
+  //   StatusModel(statusString: "Mark As completed Move",sttus: 0,statusStatus: false),
+  // ].obs ;
+
+ List<String> uiStatus = [
+    "On The Way To The Pickup Location",
+    "Reached The Pickup Location",
+    "On The way To Dropoff Location",
+    "Reached The Dropoff Location",
+    "Mark As completed Move",
+  ] ;
+ List<String> uploadeStatus = [
+    "NOT_STARTED",
+    "ON_WAY_TO_PICKUP",
+    "REACHED_PICKUP",
+    "ON_WAY_TO_DROPOFF",
+    "REACHED_DROPOFF",
+  ] ;
 
 
   Rx<MoverMoveDetailsModel> detailsmodel = MoverMoveDetailsModel().obs ;

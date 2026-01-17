@@ -205,24 +205,53 @@ class MoverChatController extends GetxController {
       log('💬 New message received: $data');
       if (data is Map<String, dynamic>) {
         try {
-          final isMe = data['senderId'] == currentUserId.value;
+          final messageConversationId = data['conversationId'] ?? '';
+          final senderId = data['senderId'] ?? '';
+
+          log('📍 Message for conversation: $messageConversationId, Current: ${currentConversationId.value}');
+
+          // Parse message
+          final isMe = senderId == currentUserId.value;
           final message = MessageModel.fromJson(
             data,
             isMe,
             currentUserId.value,
           );
 
-          if (message.conversationId == currentConversationId.value) {
-            messages.add(message);
+          // 🔴 IMPORTANT: Add to messages list if in current conversation
+          if (messageConversationId == currentConversationId.value) {
+            // Check if message already exists (avoid duplicates from optimistic UI)
+            final existingIndex = messages.indexWhere((m) => m.id == message.id);
+
+            if (existingIndex != -1) {
+              // Update existing message (from optimistic UI)
+              messages[existingIndex] = message;
+              log('✏️ Updated optimistic message: ${message.id}');
+            } else {
+              // Add new message from other user
+              messages.add(message);
+              log('➕ Added new message to list: ${message.id}');
+            }
+
             lastMessageTimestamp.value = message.timestamp;
           }
 
-          // Update chat list
+          // 🟢 ALWAYS update chat list (even if not in current conversation)
           _updateChatListWithNewMessage(message);
-        } catch (e) {
-          log('❌ Error parsing new message: $e');
+          log('✅ Chat list updated with new message');
+
+        } catch (e, s) {
+          log('❌ Error parsing new message: $e', stackTrace: s);
         }
       }
+    });
+
+    socket.on('user_joined', (data) {
+      log('🚪 User joined: $data');
+    });
+
+    socket.on('user_left', (data) {
+      log('👋 User left: $data');
     });
 
     socket.on('message_status', (data) {
@@ -363,33 +392,25 @@ class MoverChatController extends GetxController {
     log('➡️ sendMessage() called');
 
     if (text.trim().isEmpty) {
-      log('⚠️ Message text is empty, abort sending');
+      log('⚠️ Message text is empty');
       return;
     }
 
-    if (currentConversationId.value == null) {
-      log('⚠️ No active conversation, cannot send message');
+    if (currentConversationId.value == null || currentConversationId.value!.isEmpty) {
+      log('⚠️ No active conversation');
+      Get.snackbar('Error', 'No active conversation');
       return;
     }
 
     if (!isSocketConnected.value) {
-      log('❌ Socket not connected, cannot send message');
-      Get.snackbar('Error', 'Socket connection lost');
+      log('❌ Socket not connected');
+      Get.snackbar('Error', 'Connection lost');
       return;
     }
 
     final tempId = DateTime.now().millisecondsSinceEpoch.toString();
-    final payload = {
-      'conversationId': currentConversationId.value,
-      'text': text.trim(),
-      if (imageUrl != null) 'image': imageUrl,
-      if (fileUrl != null) 'file': fileUrl,
-    };
 
-    log('🆔 Generated temp message ID: $tempId');
-    log('📦 Payload to send: $payload');
-
-    // 🔹 Optimistic UI
+    // Optimistic UI
     final optimisticMessage = MessageModel(
       id: tempId,
       conversationId: currentConversationId.value!,
@@ -404,46 +425,68 @@ class MoverChatController extends GetxController {
     );
 
     messages.add(optimisticMessage);
-    log('⚡ Optimistic UI updated: message added locally');
+    log('⚡ Added optimistic message: $tempId');
+
+    final payload = {
+      'conversationId': currentConversationId.value,
+      'text': text.trim(),
+      if (imageUrl != null) 'image': imageUrl,
+      if (fileUrl != null) 'file': fileUrl,
+    };
 
     try {
-      socket.emitWithAck(
-        'send_message',
-        payload,
-        ack: (data) {
-          // যদি server ack event support করে
-          log('✅ Server ACK received for message: $data');
+      socket.emitWithAck('send_message', payload, ack: (response) {
+        log('✅ Server ACK: $response');
 
-          // আপনি চাইলে এখানে status update করতে পারেন
-          // _updateMessageStatus(tempId, 'sent');
-        },
-      );
+        if (response is Map && response['success'] == true) {
+          final serverData = response['data'];
+          if (serverData != null) {
+            final messageId = serverData['_id'] ?? serverData['id'] ?? '';
+            log('🔄 Replacing temp ID $tempId with server ID: $messageId');
 
-      log('📤 send_message emitted to server');
+            // Replace optimistic message with server message
+            final index = messages.indexWhere((m) => m.id == tempId);
+            if (index != -1) {
+              final serverMessage = MessageModel.fromJson(
+                serverData,
+                true,
+                currentUserId.value,
+              );
+              messages[index] = serverMessage;
+            }
+          }
+        } else {
+          log('❌ Server returned error: $response');
+          _markMessageFailed(tempId);
+        }
+      });
+
+      messageChatController.clear();
     } catch (e, s) {
-      log('❌ Error emitting send_message: $e', stackTrace: s);
+      log('❌ Error emitting message: $e', stackTrace: s);
+      _markMessageFailed(tempId);
+    }
+  }
 
-      // update message status to failed
-      final index = messages.indexWhere((m) => m.id == tempId);
-      if (index != -1) {
-        messages[index] = MessageModel(
-          id: optimisticMessage.id,
-          conversationId: optimisticMessage.conversationId,
-          senderId: optimisticMessage.senderId,
-          senderName: optimisticMessage.senderName,
-          text: optimisticMessage.text,
-          imageUrl: optimisticMessage.imageUrl,
-          fileUrl: optimisticMessage.fileUrl,
-          timestamp: optimisticMessage.timestamp,
-          isSentByMe: true,
-          status: MessageStatus.failed,
-        );
-      }
-
+  void _markMessageFailed(String messageId) {
+    final index = messages.indexWhere((m) => m.id == messageId);
+    if (index != -1) {
+      final msg = messages[index];
+      messages[index] = MessageModel(
+        id: msg.id,
+        conversationId: msg.conversationId,
+        senderId: msg.senderId,
+        senderName: msg.senderName,
+        senderImage: msg.senderImage,
+        text: msg.text,
+        imageUrl: msg.imageUrl,
+        fileUrl: msg.fileUrl,
+        timestamp: msg.timestamp,
+        isSentByMe: true,
+        status: MessageStatus.failed,
+      );
       Get.snackbar('Error', 'Failed to send message');
     }
-
-    messageChatController.clear();
   }
 
   void setTyping(bool typing) {

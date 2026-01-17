@@ -193,7 +193,7 @@ class _MessageChatViewState extends State<MessageChatView>
           children: [
             // Modern Header
             _buildHeader(),
-            Divider(height: 1.h),
+            // Divider(height: 1.h),
 
             // Messages List
             Expanded(

@@ -1,4 +1,4 @@
- class AppUrls {
+class AppUrls {
   static const baseUrl = "http://206.162.244.175:6008/api/v1";
   static const aibaseUrl = "http://206.162.244.175:3033/api/v1";
   static const refreshToken = "${baseUrl}/auth/refresh-token";
@@ -13,6 +13,9 @@
   static const getFurnitureByCatagory = "/furniture";
   static const post = "/posts";
   static const my_post = "/posts/my-posts";
+  static const getAllChat = "$baseUrl/conversations/my-conversations";
+  static getMyChatList(int page, int limit) =>
+      "$baseUrl/conversations/695f341bfb3399f08442e8a7/messages?page=$page&limit=$limit";
   static const get_my_offer = "/offers/my-offers";
   static const forget_password = "/auth/forgot-password";
   static const analyzVideo = "analyze-video";
@@ -20,6 +23,7 @@
 
   static String getOfferForSpecificPost(String? id) => "/offers/post/$id";
   static String getSinglePost(String? id) => "/posts/$id";
+}
   static String getUserProfileId(String? id) => "/users/$id";
   static String getReviewByUser(String? id) => "/reviews/user/$id";
   static String cancelPost(String? id) => "/posts/cancel/$id";

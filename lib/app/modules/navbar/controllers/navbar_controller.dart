@@ -11,18 +11,16 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 import '../../mover/mover_chat/views/mover_chat_view.dart';
 
 class NavbarController extends GetxController {
-
   RxInt selectedIndex = 0.obs;
   RxList item = [
     HomeView(),
-   MoveView(),
-    VideoCmeraView(isbackbutton: true,),
+    MoveView(),
+    VideoCmeraView(isbackbutton: true),
     MoverChatView(),
-   SettingView()
-  ].obs ;
+    SettingView(),
+  ].obs;
   @override
   void onInit() {
     super.onInit();
   }
-
 }

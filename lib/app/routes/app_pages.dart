@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/audio_call/bindings/audio_call_binding.dart';
+import '../modules/audio_call/views/audio_call_view.dart';
 import '../modules/auth/application_submit/bindings/application_submit_binding.dart';
 import '../modules/auth/application_submit/views/application_submit_view.dart';
 import '../modules/auth/bio/bindings/bio_binding.dart';
@@ -315,7 +317,6 @@ class AppPages {
       name: _Paths.SETTING,
       page: () => const SettingView(),
       binding: SettingBinding(),
-
     ),
     GetPage(
       name: _Paths.CENCEL_REQUEST,
@@ -421,6 +422,11 @@ class AppPages {
       name: _Paths.NOTIFICATION,
       page: () => const NotificationView(),
       binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.AUDIO_CALL,
+      page: () => const AudioCallView(),
+      binding: AudioCallBinding(),
     ),
   ];
 }

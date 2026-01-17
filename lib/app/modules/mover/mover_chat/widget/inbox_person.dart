@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:melikaahmadian/app/core/const/app_colors.dart';
-import 'package:get/get.dart';
-import '../../../../core/widget/app_image_frame_radious_widget.dart';
-import '../views/message_chat_view.dart';
-class InboxPerson extends StatelessWidget {
-  String ? imagepath ;
-  String ? name ;
-  String ? time ;
-  String ? count ;
 
-   InboxPerson({super.key,this.imagepath,this.name,this.time,this.count});
+class InboxPersonTile extends StatelessWidget {
+  final String name;
+  final String email;
+  final String role;
+  final String? imageUrl;
+  final String lastMessage;
+  final VoidCallback onTap;
+
+  const InboxPersonTile({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.role,
+    required this.lastMessage,
+    required this.onTap,
+    this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var textStyele = TextTheme.of(context);
     return ListTile(
-      onTap: (){
-        Get.to(MessageChatView());
-      },
-      title: Text(name ?? "Mike James",style: textStyele.titleMedium,),
-      leading: AppImageFrameRadiousWidget(radious: 30,),
-      subtitle: Text("Hello, how are you?",style: textStyele.bodyMedium,),
-      trailing: CircleAvatar(
-        backgroundColor: AppColors.onPrimaryColor,
-        child: Text(count ?? "2",style: textStyele.bodyMedium!.copyWith(color: AppColors.errorColor,fontWeight: FontWeight.bold),),),
-
-
+      onTap: onTap,
+      leading: CircleAvatar(
+        backgroundImage:
+        imageUrl != null ? NetworkImage(imageUrl!) : null,
+        child: imageUrl == null ? const Icon(Icons.person) : null,
+      ),
+      title: Text(name),
+      subtitle: Text(lastMessage),
+      trailing: Text(role),
     );
   }
 }

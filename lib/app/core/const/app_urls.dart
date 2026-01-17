@@ -14,8 +14,8 @@ class AppUrls {
   static const post = "/posts";
   static const my_post = "/posts/my-posts";
   static const getAllChat = "$baseUrl/conversations/my-conversations";
-  static getMyChatList(int page, int limit) =>
-      "$baseUrl/conversations/695f341bfb3399f08442e8a7/messages?page=$page&limit=$limit";
+  static getMyChatList(String id, int page, int limit) =>
+      "$baseUrl/conversations/$id/messages?page=$page&limit=$limit";
   static const get_my_offer = "/offers/my-offers";
   static const forget_password = "/auth/forgot-password";
   static const analyzVideo = "analyze-video";

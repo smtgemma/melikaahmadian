@@ -27,10 +27,10 @@ class Conversation {
   final String id;
   final List<String> participants;
   final String createdAt;
-  final String updatedAt;
+   String updatedAt;
   final List<dynamic> messages;
   final OtherParticipant? otherParticipant;
-  final dynamic lastMessage;
+   dynamic lastMessage;
 
   Conversation({
     required this.id,

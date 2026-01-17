@@ -31,9 +31,9 @@ class UpdateStatus extends StatelessWidget {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount:  5,
-                itemBuilder: (context, index) {
-                  final data = controller.uiStatus;
+                itemCount: controller.uiStatus.length,
+                  itemBuilder: (context, index) {
+                 // final data = controller.uiStatus;
                   return Padding(
                     padding:  EdgeInsets.only(bottom: 08),
                     child: ThirdUpdate(
@@ -54,7 +54,7 @@ class UpdateStatus extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final data = controller.uiStatus;
                   final isLast = index == itemCount - 1;
-                  final postStatus = controller.uploadeStatus[index];
+                  final postStatus = (controller.uploadeStatus[index] ) ;
 
 
 
@@ -63,8 +63,9 @@ class UpdateStatus extends StatelessWidget {
                       padding:  EdgeInsets.only(bottom: 8),
                       child: GestureDetector(
                         onTap: () {
+                          print( postStatus);
                           print("Last item clicked");
-                          MoverMoveDetailsRepository.moveStatusChange(id: controller.postId,status: postStatus[index] );
+                          MoverMoveDetailsRepository.moveStatusChange(id: controller.postId,status: postStatus);
 
                         },
                         child: SecoundUpdate(

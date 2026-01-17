@@ -23,12 +23,12 @@ class AppUrls {
 
   static String getOfferForSpecificPost(String? id) => "/offers/post/$id";
   static String getSinglePost(String? id) => "/posts/$id";
-}
   static String getUserProfileId(String? id) => "/users/$id";
   static String getReviewByUser(String? id) => "/reviews/user/$id";
   static String cancelPost(String? id) => "/posts/cancel/$id";
   static String statusChange(String? id) => "/posts/status/$id";
   static String getMoveStatus(String? id) => "/posts/move-status/$id";
+}
 
 
 
@@ -39,7 +39,8 @@ class AppUrls {
 
 
 
- }//https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg
+
+ //https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg
 
  // Obx(() {
  // final data =

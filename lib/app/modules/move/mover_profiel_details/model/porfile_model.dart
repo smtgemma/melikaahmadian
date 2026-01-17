@@ -1,14 +1,14 @@
 class ProfileModel {
-  final bool success;
-  final int statusCode;
-  final String message;
-  final ProfileData data;
+  final bool? success;
+  final int? statusCode;
+  final String? message;
+  final ProfileData? data;
 
   ProfileModel({
-    required this.success,
-    required this.statusCode,
-    required this.message,
-    required this.data,
+     this.success,
+     this.statusCode,
+     this.message,
+     this.data,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -21,41 +21,39 @@ class ProfileModel {
   }
 }
 
-// --------------------------------------------------------
+// ------------------------------------------------------
 
 class ProfileData {
   final String id;
   final String fullName;
   final String image;
-  final String role;
-  final String status;
-  final String email;
-  final String createdAt;
-  final String accountWith;
-  final bool isVerified;
-  final bool isEmailVerified;
   final String bio;
   final List<String> specialization;
-  final double averageRating;
-  final int totalReview;
+  final String createdAt;
+  final int moves;
+  final bool isVerified;
   final List<ProviderDocument> providerDocuments;
+  final String experience;
+  final String joinedAt;
+  final double averageRating;
+  final int totalReviews;
+  final List<Gallery> gallery;
 
   ProfileData({
     required this.id,
     required this.fullName,
     required this.image,
-    required this.role,
-    required this.status,
-    required this.email,
-    required this.createdAt,
-    required this.accountWith,
-    required this.isVerified,
-    required this.isEmailVerified,
     required this.bio,
     required this.specialization,
-    required this.averageRating,
-    required this.totalReview,
+    required this.createdAt,
+    required this.moves,
+    required this.isVerified,
     required this.providerDocuments,
+    required this.experience,
+    required this.joinedAt,
+    required this.averageRating,
+    required this.totalReviews,
+    required this.gallery,
   });
 
   factory ProfileData.fromJson(Map<String, dynamic> json) {
@@ -63,25 +61,26 @@ class ProfileData {
       id: json['id'] ?? '',
       fullName: json['fullName'] ?? '',
       image: json['image'] ?? '',
-      role: json['role'] ?? '',
-      status: json['status'] ?? '',
-      email: json['email'] ?? '',
-      createdAt: json['createdAt'] ?? '',
-      accountWith: json['accountWith'] ?? '',
-      isVerified: json['isVerified'] ?? false,
-      isEmailVerified: json['isEmailVerified'] ?? false,
       bio: json['bio'] ?? '',
       specialization: List<String>.from(json['specialization'] ?? []),
-      averageRating: (json['averageRating'] ?? 0).toDouble(),
-      totalReview: json['totalReview'] ?? 0,
+      createdAt: json['createdAt'] ?? '',
+      moves: json['moves'] ?? 0,
+      isVerified: json['isVerified'] ?? false,
       providerDocuments: (json['ProviderDocuments'] as List? ?? [])
           .map((e) => ProviderDocument.fromJson(e))
+          .toList(),
+      experience: json['experience'] ?? '',
+      joinedAt: json['joinedAt'] ?? '',
+      averageRating: (json['averageRating'] ?? 0).toDouble(),
+      totalReviews: json['totalReviews'] ?? 0,
+      gallery: (json['gallery'] as List? ?? [])
+          .map((e) => Gallery.fromJson(e))
           .toList(),
     );
   }
 }
 
-// --------------------------------------------------------
+// ------------------------------------------------------
 
 class ProviderDocument {
   final String name;
@@ -94,6 +93,25 @@ class ProviderDocument {
 
   factory ProviderDocument.fromJson(Map<String, dynamic> json) {
     return ProviderDocument(
+      name: json['name'] ?? '',
+      url: json['url'] ?? '',
+    );
+  }
+}
+
+// ------------------------------------------------------
+
+class Gallery {
+  final String name;
+  final String url;
+
+  Gallery({
+    required this.name,
+    required this.url,
+  });
+
+  factory Gallery.fromJson(Map<String, dynamic> json) {
+    return Gallery(
       name: json['name'] ?? '',
       url: json['url'] ?? '',
     );

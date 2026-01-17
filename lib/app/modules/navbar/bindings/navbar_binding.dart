@@ -16,5 +16,18 @@ class NavbarBinding extends Bindings {
     Get.lazyPut<MoveController>(() => MoveController());
     Get.lazyPut<OfferReviewController>(() => OfferReviewController());
     Get.lazyPut<MoverChatController>(() => MoverChatController());
+    Get.lazyPut<NavbarController>(
+      () => NavbarController(),
+    );
+    Get.lazyPut<AddDetailsController>(
+      () => AddDetailsController(),
+    );
+    Get.lazyPut<SettingController>(
+            () => SettingController(),fenix: true
+    );
+    Get.lazyPut<MoveController>(
+          () => MoveController(),
+    );
+
   }
 }

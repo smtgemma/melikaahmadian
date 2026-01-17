@@ -15,38 +15,46 @@ class LogInRepository {
     try {
       controller.isLoading.value = true;
 
-      var body = {"email": controller.emailTextEditingController.text, "password": controller.passTextEditingController.text};
+      final body = {
+        "email": controller.emailTextEditingController.text.trim(),
+        "password": controller.passTextEditingController.text.trim(),
+      };
+
       final response = await DioClient().post(AppUrls.login, data: body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        controller.isLoading.value = false;
-        SharedPrefHelper.setString(SharedPrefHelper.accessToken, response.data["data"]["accessToken"]);
-        SharedPrefHelper.setString(SharedPrefHelper.refreshToken, response.data["data"]["refreshToken"]);
-        SharedPrefHelper.setString(SharedPrefHelper.userId, response.data["data"]["id"]);
-        SharedPrefHelper.setString(SharedPrefHelper.userRoll, response.data["data"]["role"]);
+        final data = response.data["data"];
 
-        final accessToken = SharedPrefHelper.getString(SharedPrefHelper.accessToken);
-        final refreshToken = SharedPrefHelper.getString(SharedPrefHelper.refreshToken);
-        final userId = SharedPrefHelper.getString(SharedPrefHelper.userId);
-        final userRoll = SharedPrefHelper.getString(SharedPrefHelper.userRoll);
+        await SharedPrefHelper.setString(
+            SharedPrefHelper.accessToken, data["accessToken"]);
+        await SharedPrefHelper.setString(
+            SharedPrefHelper.refreshToken, data["refreshToken"]);
+        await SharedPrefHelper.setString(
+            SharedPrefHelper.userId, data["id"]);
+        await SharedPrefHelper.setString(
+            SharedPrefHelper.userRoll, data["role"]);
 
-        debugPrint("accessToken : $accessToken");
-        debugPrint("refreshToken : $refreshToken");
-        debugPrint("userId : $userId");
-        debugPrint("userRoll : $userRoll");
-         Get.toNamed(Routes.NAVBAR);
-        Get.snackbar("Success", response.data["message"]);
-        debugPrint("${response.data["message"]}");
-      }
-    } on DioError catch (e) {
-      if (e.response != null) {
-        controller.isLoading.value = false;
-        Get.snackbar("Error", e.response?.data["message"] ?? "Unknown error");
-        debugPrint("Error status code: ${e.response}");
-      } else {
-        controller.isLoading.value = false;
-        debugPrint("Network or other error: ${e.message}");
+        debugPrint("accessToken : ${data["accessToken"]}");
+        debugPrint("refreshToken : ${data["refreshToken"]}");
+        debugPrint("userId : ${data["id"]}");
+        debugPrint("userRole : ${data["role"]}");
+
+        Get.offAllNamed(Routes.NAVBAR); // better than toNamed after login
+        Get.snackbar("Success", response.data["message"] ?? "Login successful");
       }
     }
+    on DioException catch (e) { // Dio v5
+      final msg = e.response?.data?["message"] ?? "Something went wrong";
+      Get.snackbar("Error", msg);
+      debugPrint("Dio Error: ${e.response?.statusCode} | $msg");
+    }
+    catch (e) {
+      debugPrint("Unexpected error: $e");
+      Get.snackbar("Error", "Unexpected error occurred");
+    }
+    finally {
+      controller.isLoading.value = false;
+    }
   }
+
 }

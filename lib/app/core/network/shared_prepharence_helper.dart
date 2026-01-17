@@ -10,6 +10,9 @@ class SharedPrefHelper {
   static String userId = "userid";
   static String skillId = "skillId";
   static String userRoll = "userRoll";
+  static String postId = "postid";
+  static String postMoverId = "postMoverId";
+  static String ai = "ai";
 
   /// Initialize SharedPreferences
   static Future<void> init() async {

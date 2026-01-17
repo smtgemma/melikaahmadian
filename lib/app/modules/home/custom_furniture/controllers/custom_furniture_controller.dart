@@ -1,11 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/model/product_model.dart';
 
 import '../../../../../generated/assets.dart';
 import '../model/get_furniture_model.dart';
+import '../repository/custome_furniture_repository.dart';
 
 class CustomFurnitureController extends GetxController {
   //TODO: Implement CustomFurnitureController
+
    //catagory
   RxList catagory = [
     "All",
@@ -17,6 +20,9 @@ class CustomFurnitureController extends GetxController {
   ].obs ;
   RxList commersialCatagory  = [ "Restaurant","Bakery","Factory"].obs;
 
+  RxBool isLoading = false.obs ;
+
+
 
   RxInt catagoryIndex = 0.obs ;
   final selectedCatagory = "".obs;
@@ -26,18 +32,43 @@ class CustomFurnitureController extends GetxController {
   final selectedItem = "".obs;
   RxList<ProductModel> addProduct =<ProductModel>[].obs ;
 
+ // Rx<GetFurnitureModel> funitureModel =GetFurnitureModel().obs ;
+
 
   //
   RxList moverCatagory  = [ "Ongoing","All Moves","Posted","Completed","Cancelled"].obs;
-  RxList moverMoveCatagory  = [ "Offered","All Moves","Ongoing","Completed","Cancelled"].obs;
+  RxList moverMoveCatagory  = [ "Offered","Ongoing","Completed","Cancelled"].obs;
 
   RxBool furnitureLoading = false.obs ;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getFurnitureByCatagory("");
+
+    // if category comes from arguments
+
+  }
 
 
 
   //final apiallItem =Rxn<GetFurnitureModel>() ;
 
   Rx<GetFurnitureModel> apiallItem = GetFurnitureModel().obs ;
+
+  Future<void> getFurnitureByCatagory(String catagory) async {
+    try {
+      furnitureLoading.value = true;
+      apiallItem.value = await CustomeFurnitureRepository.getFurnitureByCatagory(catagory);
+    } catch (e) {
+      furnitureLoading.value = false;
+      debugPrint("moves controller Error: $e");
+    } finally {
+      furnitureLoading.value = false;
+    }
+  }
+
+
 
 
   RxList<ProductModel> allItem =[
@@ -104,10 +135,6 @@ class CustomFurnitureController extends GetxController {
 
 
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onReady() {

@@ -6,7 +6,6 @@ import '../modules/auth/application_submit/bindings/application_submit_binding.d
 import '../modules/auth/application_submit/views/application_submit_view.dart';
 import '../modules/auth/bio/bindings/bio_binding.dart';
 import '../modules/auth/bio/views/bio_view.dart';
-import '../modules/auth/cencel_mover_details/bindings/cencel_mover_details_binding.dart';
 import '../modules/auth/create_account/bindings/create_account_binding.dart';
 import '../modules/auth/create_account/views/create_account_view.dart';
 import '../modules/auth/create_account_with_email/bindings/create_account_with_email_binding.dart';
@@ -52,6 +51,7 @@ import '../modules/home/views/home_view.dart';
 import '../modules/move/bindings/move_binding.dart';
 import '../modules/move/cencel_move/bindings/cencel_move_binding.dart';
 import '../modules/move/cencel_move/views/cencel_move_view.dart';
+import '../modules/move/cencel_mover_details/bindings/cencel_mover_details_binding.dart';
 import '../modules/move/cencel_mover_details/views/cencel_mover_details_view.dart';
 import '../modules/move/mover_profiel_details/bindings/mover_profiel_details_binding.dart';
 import '../modules/move/mover_profiel_details/views/mover_profiel_details_view.dart';
@@ -129,7 +129,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.NAVBAR;
+  static const INITIAL = Routes.MOVER_NAVBAR;
 
   static final routes = [
     GetPage(
@@ -143,6 +143,11 @@ class AppPages {
       binding: SplashBinding(),
     ),
     GetPage(
+      name: _Paths.CENCEL_MOVER_DETAILS,
+      page: () => const CencelMoverDetailsView(),
+      binding: CencelMoverDetailsBinding(),
+    ),
+    GetPage(
       name: _Paths.ROLE_SELECTION,
       page: () => RoleSelectionView(),
       binding: RoleSelectionBinding(),
@@ -151,11 +156,6 @@ class AppPages {
       name: _Paths.SELECT_OPTION,
       page: () => const SelectOptionView(),
       binding: SelectOptionBinding(),
-    ),
-    GetPage(
-      name: _Paths.CENCEL_MOVER_DETAILS,
-      page: () => const CencelMoverDetailsView(),
-      binding: CencelMoverDetailsBinding(),
     ),
     GetPage(
       name: _Paths.LOG_IN,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_image_frame_radious_widget.dart';
@@ -9,6 +10,8 @@ import 'package:melikaahmadian/app/core/widget/move_video.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
+import '../../../../core/network/shared_prepharence_helper.dart';
+import '../../mover_profiel_details/controllers/mover_profiel_details_controller.dart';
 import '../../mover_profiel_details/views/mover_profiel_details_view.dart';
 import '../../mover_profiel_details/widget/experence_box.dart';
 import '../controllers/offer_review_controller.dart';
@@ -41,16 +44,31 @@ class Offer extends StatelessWidget {
 
       return Expanded(
         child:  Obx(() {
+           var data = controller.offerModel.value.data ;
           if(controller.offerLoading.value){
             return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
+          }else if (data == null || data.isEmpty) {
+            return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(height: 200),
+                Center(
+                  child: Text(
+                    "No Offer",
+                    style: textStyele.bodyLarge,
+                  ),
+                ),
+              ],
+            );
           }
-          // return ListView.builder(
+
+           // return ListView.builder(
           //   itemCount: 10,
           //   itemBuilder: (context, index) {
           //   return Text("data");
           // },) ;
           return  ListView.builder(
-            itemCount: controller.offerModel.value.data?.length ?? 1,
+            itemCount: controller.offerModel.value.data?.length ?? 0,
             itemBuilder: (context, index) {
               final   data = controller.offerModel.value.data?[index];
              // return Text("data");
@@ -58,8 +76,10 @@ class Offer extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 200,
-                    child: MoveVideo(videoPath: data?.postMedia?[0].url ?? "",),
+                    child: MoveVideo(videoPath: data?.postMedia?[0].url ?? "",isasset: true,),
                   ),
+                  Text( data?.postMedia?[0].url ?? ""),
+
                   Container(
                     decoration: BoxDecoration(
                         color: AppColors.cardColor,
@@ -182,10 +202,13 @@ class Offer extends StatelessWidget {
 
                         SizedBox(height: 24.h),
 
+
                         AppButton(
                           titel: "Accept Offer",
                           onPress: () {
-                            Get.toNamed(Routes.PAYMENT_DETAILS);
+                            Get.toNamed(Routes.PAYMENT_DETAILS,arguments: {
+                              AppArgumentString.providrId = data?.provider?.id ?? "",
+                            });
                           },
                         ),
 
@@ -197,17 +220,26 @@ class Offer extends StatelessWidget {
                           bodycolor: AppColors.primaryColor,
                           borderColor: AppColors.secoundaryColor,
                           onPress: () {
-                            Get.to(
-                                  () => MoverProfielDetailsView(),
+                            debugPrint("View Profile id : ${data?.providerId}");
+                            SharedPrefHelper.setString(SharedPrefHelper.postMoverId, data?.providerId ?? "");
+                            final postMoverId = SharedPrefHelper.getString(SharedPrefHelper.postMoverId);
+                            debugPrint("postMoverId: $postMoverId");
+
+
+
+                            Get.put(MoverProfielDetailsController());
+                            Get.to(() => MoverProfielDetailsView(),
                               arguments: {
                                 "bio": "Professional mover with 5 years experience",
                                 "name": "Mike James",
                                 "rating": "4.5",
                                 "reviews": "152",
+                                AppArgumentString.providrId: data?.providerId ?? "sdcs",
                               },
                             );
                           },
                         ),
+
 
                         SizedBox(height: 24.h),
                       ],

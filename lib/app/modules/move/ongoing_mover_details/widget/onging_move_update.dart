@@ -7,10 +7,13 @@ import 'package:melikaahmadian/generated/assets.dart';
 import 'package:get/get.dart';
 import '../../../../core/const/app_argument_string.dart';
 import '../../../../core/const/app_colors.dart';
+import '../repository/ongoing_profile_details_repository.dart';
 import '../views/compeleted_move.dart';
 
 class OngingMoveUpdate extends StatelessWidget {
-  const OngingMoveUpdate({super.key});
+  String? id ;
+
+   OngingMoveUpdate({super.key,this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +36,14 @@ class OngingMoveUpdate extends StatelessWidget {
           ),
          ),
         SizedBox(height: 24.h,),
-        AppButton(titel: "Mark As completed Move",child: true,iconPath: Assets.iconsRoundTik,onPress: (){
-          bottomSheet(context);
+        AppButton(titel: "Mark As completed Move",child: true,iconPath: Assets.iconsRoundTik,
+          onPress: (){
+          bottomSheet(context,id: id);
         },)
       ],
     );
   }
-  void bottomSheet(BuildContext context) {
+  void bottomSheet(BuildContext context,{String? id}) {
     var textStyele = TextTheme.of(context);
     showModalBottomSheet(context: context, builder: (context) {
       return  Container(
@@ -51,7 +55,8 @@ class OngingMoveUpdate extends StatelessWidget {
             Text("Do you want to mark the move ascompleted?",textAlign: TextAlign.center,style: textStyele.titleMedium,),
             SizedBox(height: 12.h,),
             AppButton(titel: "Yes, Mark As Completed",onPress: (){
-              Get.to(CompeletedMove());
+              OngoingProfileDetailsRepository.compeletedMove(id: id);
+           //   Get.to(CompeletedMove());
             },),
             SizedBox(height: 12.h,),
             AppButton(titel: "No, Don’t Mark As Completed",containerColor: 1,onPress: (){Get.back();},)

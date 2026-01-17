@@ -11,6 +11,9 @@ class DioClient {
   static final DioClient _instance = DioClient._internal();
   factory DioClient() => _instance;
 
+  final ai = SharedPrefHelper.getString(SharedPrefHelper.ai);
+
+
   late Dio dio;
 
   bool _isRefreshing = false;
@@ -19,7 +22,7 @@ class DioClient {
   DioClient._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: AppUrls.baseUrl,
+        baseUrl:  AppUrls.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
@@ -176,12 +179,12 @@ class DioClient {
   }
 
   /// POST request
-  Future<Response> post(String path, {dynamic data, ProgressCallback? onSendProgress}) async {
+  Future<Response> post(String path, {dynamic data, ProgressCallback? onSendProgress, Duration? duration }) async {
     return dio.post(
       path,
       data: data,
       onSendProgress: onSendProgress,
-    );
+    ).timeout(duration ?? Duration(seconds: 30));
   }
 
   /// PUT request

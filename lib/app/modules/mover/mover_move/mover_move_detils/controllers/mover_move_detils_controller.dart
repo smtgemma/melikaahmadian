@@ -1,8 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/modules/mover/mover_move/mover_move_detils/model/status_model.dart';
 
+import '../../../../../core/const/app_argument_string.dart';
+import '../../../../../core/network/shared_prepharence_helper.dart';
+import '../../../../move/offer_review/model/details_model.dart';
+import '../../../../move/offer_review/repository/offer_review_repository.dart';
+import '../../Repository/mover_move_repository.dart';
+
+import '../../model/mover_move_details.dart';
+import '../../model/status_model.dart';
+import '../rpository/mover_move_repository.dart';
+
 class MoverMoveDetilsController extends GetxController {
   //TODO: Implement MoverMoveDetilsController
+
+  final detailsLoading = false.obs;
+
 
   RxList<StatusModel> status = [
     StatusModel(statusString: "On The Way To The Pickup Location",sttus: 1,statusStatus: true),
@@ -12,10 +26,19 @@ class MoverMoveDetilsController extends GetxController {
     StatusModel(statusString: "Mark As completed Move",sttus: 0,statusStatus: false),
   ].obs ;
 
-  final count = 0.obs;
+
+  Rx<MoverMoveDetailsModel> detailsmodel = MoverMoveDetailsModel().obs ;
+  Rx<MoverStatusModel> statusmodel = MoverStatusModel().obs ;
+  String? postId ;
+
   @override
   void onInit() {
-    super.onInit();
+     super.onInit();
+    // final args = Get.arguments;
+    //
+    // postId = args?[AppArgumentString.postId];
+
+
   }
 
   @override
@@ -27,6 +50,41 @@ class MoverMoveDetilsController extends GetxController {
   void onClose() {
     super.onClose();
   }
+  Future<void> refresh ()async{
+    postId = SharedPrefHelper.getString(SharedPrefHelper.postId);
 
-  void increment() => count.value++;
+    getDetails(pram: postId);
+    getStatus(pram: postId);
+  }
+
+
+  Future<void> getDetails({String? pram}) async {
+    try {
+      detailsLoading.value = true;
+      var response = await MoverMoveDetailsRepository.getDetails(pram: pram);
+      detailsmodel.value = response;
+    } catch (e) {
+      detailsLoading.value = false;
+      debugPrint("offer controller catch Error: $e");
+
+    }finally{
+      detailsLoading.value = false;
+    }
+
+  }
+
+  Future<void> getStatus({String? pram}) async {
+    try {
+      detailsLoading.value = true;
+      var response = await MoverMoveDetailsRepository.getStatus(pram: pram);
+      statusmodel.value = response;
+    } catch (e) {
+      detailsLoading.value = false;
+      debugPrint("offer controller catch Error: $e");
+
+    }finally{
+      detailsLoading.value = false;
+    }
+
+  }
 }

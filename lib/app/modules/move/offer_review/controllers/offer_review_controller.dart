@@ -63,6 +63,10 @@ class OfferReviewController extends GetxController {
     getOffer(pram: offerId);
     getDetails(pram: offerId);
   }
+  Future<void> accpectRefresh ()async{
+    // getOffer(pram: offerId);
+    getDetails(pram: offerId);
+  }
 
   Future<void> getOffer({String? pram}) async {
     try {

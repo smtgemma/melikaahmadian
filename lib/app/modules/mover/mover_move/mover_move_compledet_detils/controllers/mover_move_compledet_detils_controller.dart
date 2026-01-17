@@ -4,6 +4,9 @@ import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 class MoverMoveCompledetDetilsController extends GetxController {
   //TODO: Implement MoverMoveCompledetDetilsController
   String moveType = "";
+  String moveid = "";
+  RxBool detailsLoading = false.obs;
+
 
   final count = 0.obs;
   @override
@@ -11,6 +14,7 @@ class MoverMoveCompledetDetilsController extends GetxController {
     super.onInit();
     final argu = Get.arguments;
     moveType = argu?[AppArgumentString.moverStatus];
+    moveid = argu?[AppArgumentString.postId];
 
 
   }
@@ -25,5 +29,5 @@ class MoverMoveCompledetDetilsController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+
 }

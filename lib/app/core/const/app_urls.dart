@@ -24,6 +24,7 @@
   static String getReviewByUser(String? id) => "/reviews/user/$id";
   static String cancelPost(String? id) => "/posts/cancel/$id";
   static String statusChange(String? id) => "/posts/status/$id";
+  static String getMoveStatus(String? id) => "/posts/move-status/$id";
 
 
 

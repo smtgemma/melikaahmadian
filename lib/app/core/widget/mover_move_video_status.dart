@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/status.dart';
 import 'package:melikaahmadian/app/modules/move/offer_review/widget/offer.dart';
@@ -15,6 +16,7 @@ import 'package:melikaahmadian/generated/assets.dart';
 import 'package:video_player/video_player.dart';
 import '../../modules/move/controllers/move_controller.dart';
 import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
+import '../../modules/mover/mover_move/mover_move_detils/controllers/mover_move_detils_controller.dart';
 import 'move_post_video.dart';
 
 class MoverMoveStatusVideo extends StatelessWidget {
@@ -52,6 +54,7 @@ class MoverMoveStatusVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textStyele = Theme.of(context).textTheme;
+    final moverController = Get.put(MoverMoveDetilsController());
 
     // final controller = Get.put(MoveController());
     //final offercontroller = Get.put(OfferReviewController());
@@ -181,18 +184,38 @@ class MoverMoveStatusVideo extends StatelessWidget {
                        if (isType == AppArgumentString.Offered) {
                         Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER);
                       } else if (isType == AppArgumentString.moverPending) {
-                        Get.toNamed(Routes.MOVER_MOVE_DETILS);
+                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
+                           AppArgumentString.moverStatus: "Pending",
+                           AppArgumentString.postId: postId,
+                         });
+                         moverController.getDetails(pram: postId);
                       } else if (isType == AppArgumentString.moverAccepted) {
-                        Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
+                         SharedPrefHelper.setString(SharedPrefHelper.postId, postId.toString());
+                        Get.toNamed(Routes.MOVER_MOVE_DETILS,arguments: {
                           AppArgumentString.moverStatus: "Accepted",
+                          AppArgumentString.postId: postId,
                         });
+                        moverController.getDetails(pram: postId);
+                        moverController.getStatus(pram: postId);
+                      } else if (isType == AppArgumentString.moverRejected) {
+                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
+                           AppArgumentString.moverStatus: "Rejected",
+                           AppArgumentString.postId: postId,
+                         });
+                         moverController.getDetails(pram: postId);
                       } else if (isType == AppArgumentString.movercenceled) {
-                        Get.toNamed(
-                          Routes.MOVER_INFORMATION_ABOUT_THE_CANCALATION,
-                        );
-                      } else {
-                        debugPrint("Unknown type: $isType");
-                      }
+                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
+                           AppArgumentString.moverStatus: "Cancelled",
+                           AppArgumentString.postId: postId,
+                         });
+                         moverController.getDetails(pram: postId);
+                       }else if (isType == AppArgumentString.movercompeleted) {
+                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
+                           AppArgumentString.moverStatus: "Completed",
+                           AppArgumentString.postId: postId,
+                         });
+                         moverController.getDetails(pram: postId);
+                       }
                     } else if (isNavigator == true && offer == "0"){
                       Get.snackbar("No offer available", "");
                       debugPrint("Navigator disabled");

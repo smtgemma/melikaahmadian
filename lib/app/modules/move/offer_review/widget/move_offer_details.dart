@@ -9,7 +9,8 @@ import '../controllers/offer_review_controller.dart';
 class MoveOfferDetails extends StatelessWidget {
   String? offer;
   String? details ;
-   MoveOfferDetails({super.key,this.offer,this.details});
+  bool? isMover ;
+   MoveOfferDetails({super.key,this.offer,this.details,this.isMover});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +29,22 @@ class MoveOfferDetails extends StatelessWidget {
            controller.selectedOfferDetails.value = offer ?? "Details" ;
            debugPrint(controller.selectedOfferDetails.value);
            controller.offerDetailsControole(isoffer: 1);
-           controller.getOffer(pram: controller.offerId);
+           if(isMover == true){
+             debugPrint("mover");
+           }else{
+             controller.getOffer(pram: controller.offerId);
+           }
+
          },)),),
           Obx(() => Expanded(child: AppButton(containerColor: controller.details.value,titel: details ?? "Offer",onPress: (){
             controller.selectedOfferDetails.value = details ?? "Offer" ;
             debugPrint(controller.selectedOfferDetails.value);
             controller.offerDetailsControole(isdetails: 1);
-            controller.getDetails(pram: controller.offerId);
+            if(isMover == true){
+              debugPrint("mover");
+            }else{
+              controller.getOffer(pram: controller.offerId);
+            }
           },)),)
         ],
       ),

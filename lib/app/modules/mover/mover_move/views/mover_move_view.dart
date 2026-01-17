@@ -64,7 +64,7 @@ class MoverMoveView extends GetView<MoverMoveController> {
                       padding:  EdgeInsets.only(bottom: 10),
                       child: MoverMoveStatusVideo(
                         isOffer:true ,
-                        postId: item?.id,
+                        postId: item?.postId,
                         videoUrl: item?.post?.media?[0].url,
                         from: item?.post?.dropoffAddress?.address ?? "",
                         to: item?.post?.pickupAddress?.address ?? "",
@@ -72,8 +72,8 @@ class MoverMoveView extends GetView<MoverMoveController> {
                         date: formattedDate,
                         isNavigator: true,
                         titel: item.status ?? "",
-                        color: item?.status == "POSTED" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ONGOING" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
-                        textColor: item?.status == "POSTED" ?  AppColors.BurntOrange : item?.status == "ONGOING" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
+                        color: item?.status == "PENDING" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ACCEPTED" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
+                        textColor: item?.status == "PENDING" ?  AppColors.BurntOrange : item?.status == "ACCEPTED" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor :item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
                         isType: item?.status ?? "",
                       ),
                     );

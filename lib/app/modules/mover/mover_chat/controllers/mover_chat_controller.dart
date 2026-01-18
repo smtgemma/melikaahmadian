@@ -208,7 +208,9 @@ class MoverChatController extends GetxController {
           final messageConversationId = data['conversationId'] ?? '';
           final senderId = data['senderId'] ?? '';
 
-          log('📍 Message for conversation: $messageConversationId, Current: ${currentConversationId.value}');
+          log(
+            '📍 Message for conversation: $messageConversationId, Current: ${currentConversationId.value}',
+          );
 
           // Parse message
           final isMe = senderId == currentUserId.value;
@@ -221,7 +223,9 @@ class MoverChatController extends GetxController {
           // 🔴 IMPORTANT: Add to messages list if in current conversation
           if (messageConversationId == currentConversationId.value) {
             // Check if message already exists (avoid duplicates from optimistic UI)
-            final existingIndex = messages.indexWhere((m) => m.id == message.id);
+            final existingIndex = messages.indexWhere(
+              (m) => m.id == message.id,
+            );
 
             if (existingIndex != -1) {
               // Update existing message (from optimistic UI)
@@ -239,7 +243,6 @@ class MoverChatController extends GetxController {
           // 🟢 ALWAYS update chat list (even if not in current conversation)
           _updateChatListWithNewMessage(message);
           log('✅ Chat list updated with new message');
-
         } catch (e, s) {
           log('❌ Error parsing new message: $e', stackTrace: s);
         }
@@ -396,7 +399,8 @@ class MoverChatController extends GetxController {
       return;
     }
 
-    if (currentConversationId.value == null || currentConversationId.value!.isEmpty) {
+    if (currentConversationId.value == null ||
+        currentConversationId.value!.isEmpty) {
       log('⚠️ No active conversation');
       Get.snackbar('Error', 'No active conversation');
       return;
@@ -411,21 +415,21 @@ class MoverChatController extends GetxController {
     final tempId = DateTime.now().millisecondsSinceEpoch.toString();
 
     // Optimistic UI
-    final optimisticMessage = MessageModel(
-      id: tempId,
-      conversationId: currentConversationId.value!,
-      senderId: currentUserId.value,
-      senderName: 'You',
-      text: text.trim(),
-      imageUrl: imageUrl,
-      fileUrl: fileUrl,
-      timestamp: DateTime.now(),
-      isSentByMe: true,
-      status: MessageStatus.sending,
-    );
-
-    messages.add(optimisticMessage);
-    log('⚡ Added optimistic message: $tempId');
+    // final optimisticMessage = MessageModel(
+    //   id: tempId,
+    //   conversationId: currentConversationId.value!,
+    //   senderId: currentUserId.value,
+    //   senderName: 'You',
+    //   text: text.trim(),
+    //   imageUrl: imageUrl,
+    //   fileUrl: fileUrl,
+    //   timestamp: DateTime.now(),
+    //   isSentByMe: true,
+    //   status: MessageStatus.sending,
+    // );
+    //
+    // messages.add(optimisticMessage);
+    // log('⚡ Added optimistic message: $tempId');
 
     final payload = {
       'conversationId': currentConversationId.value,
@@ -435,31 +439,35 @@ class MoverChatController extends GetxController {
     };
 
     try {
-      socket.emitWithAck('send_message', payload, ack: (response) {
-        log('✅ Server ACK: $response');
+      socket.emitWithAck(
+        'send_message',
+        payload,
+        ack: (response) {
+          log('✅ Server ACK: $response');
 
-        if (response is Map && response['success'] == true) {
-          final serverData = response['data'];
-          if (serverData != null) {
-            final messageId = serverData['_id'] ?? serverData['id'] ?? '';
-            log('🔄 Replacing temp ID $tempId with server ID: $messageId');
+          if (response is Map && response['success'] == true) {
+            final serverData = response['data'];
+            if (serverData != null) {
+              final messageId = serverData['_id'] ?? serverData['id'] ?? '';
+              log('🔄 Replacing temp ID $tempId with server ID: $messageId');
 
-            // Replace optimistic message with server message
-            final index = messages.indexWhere((m) => m.id == tempId);
-            if (index != -1) {
-              final serverMessage = MessageModel.fromJson(
-                serverData,
-                true,
-                currentUserId.value,
-              );
-              messages[index] = serverMessage;
+              // Replace optimistic message with server message
+              final index = messages.indexWhere((m) => m.id == tempId);
+              if (index != -1) {
+                final serverMessage = MessageModel.fromJson(
+                  serverData,
+                  true,
+                  currentUserId.value,
+                );
+                messages[index] = serverMessage;
+              }
             }
+          } else {
+            log('❌ Server returned error: $response');
+            _markMessageFailed(tempId);
           }
-        } else {
-          log('❌ Server returned error: $response');
-          _markMessageFailed(tempId);
-        }
-      });
+        },
+      );
 
       messageChatController.clear();
     } catch (e, s) {

@@ -18,6 +18,7 @@ import '../../modules/move/controllers/move_controller.dart';
 import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
 import '../../modules/mover/mover_move/mover_move_detils/controllers/mover_move_detils_controller.dart';
 import 'move_post_video.dart';
+import 'moves_post_video.dart';
 
 class MoverMoveStatusVideo extends StatelessWidget {
   String? offer;
@@ -76,7 +77,7 @@ class MoverMoveStatusVideo extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 150,
-                  child: SafeMoveVideo(),
+                  child: MovessVideo(videoPath: videoUrl,),
                 ),
 
                 /// Offer Badge

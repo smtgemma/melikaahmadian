@@ -10,19 +10,19 @@ import 'package:video_player/video_player.dart';
 
 import '../../modules/move/controllers/move_controller.dart';
 
-class MoveVideo extends StatefulWidget {
+class MovessVideo extends StatefulWidget {
   String? videoPath;
   bool? isasset;
-  MoveVideo({super.key,  this.videoPath, this.isasset});
+  MovessVideo({super.key,  this.videoPath, this.isasset});
 
   @override
-  State<MoveVideo> createState() => _MoveVideoState();
+  State<MovessVideo> createState() => _MovessVideoState();
 }
 
-class _MoveVideoState extends State<MoveVideo> {
+class _MovessVideoState extends State<MovessVideo> {
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
-   Future<void>? _initializeVideoPlayerFuture;
+  Future<void>? _initializeVideoPlayerFuture;
 
   @override
   void initState() {
@@ -44,12 +44,13 @@ class _MoveVideoState extends State<MoveVideo> {
     }
 
     _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((
-      _,
-    ) {
+        _,
+        ) {
       _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
-        autoPlay: true,
+        autoPlay: false,
         looping: false,
+        showControls: false,
         aspectRatio: _videoPlayerController.value.aspectRatio,
       );
       setState(() {});

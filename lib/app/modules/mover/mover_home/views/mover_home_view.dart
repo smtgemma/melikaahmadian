@@ -6,7 +6,9 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/app_background.dart';
+import '../../../../core/widget/move_post_video.dart';
 import '../../../../core/widget/move_status_video.dart';
+import '../../../../core/widget/move_video.dart';
 import '../../../../core/widget/mover_move_video_status.dart';
 import '../../../home/widget/quote.dart';
 import '../controllers/mover_home_controller.dart';
@@ -59,7 +61,7 @@ class MoverHomeView extends GetView<MoverHomeController> {
               SizedBox(height: 24.h,),
               Text("Upcoming Moves & Updates",style: textStyele.titleMedium,),
               SizedBox(height: 16.h,),
-              // MoveStatusVideo(),
+              //MoveStatusVideo(),
 
               Obx(() {
                 if (controller.isLoading.value) {
@@ -111,6 +113,9 @@ class MoverHomeView extends GetView<MoverHomeController> {
                   },
                 );
               })
+             // SafeMoveVideo()
+              //MoveVideo()
+
 
 
             ],

@@ -13,6 +13,7 @@ class AppArgumentString {
  static String movercenceled = "CANCELLED";
  static String moverPending = "PENDING";
  static String moverAccepted = "ACCEPTED";
+ static String moverPosted = "POSTED";
  static String moverRejected = "REJECTED";
  static String name = "name";
  static String email = "email";

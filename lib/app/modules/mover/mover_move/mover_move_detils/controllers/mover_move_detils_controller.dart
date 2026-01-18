@@ -26,13 +26,14 @@ class MoverMoveDetilsController extends GetxController {
   //   StatusModel(statusString: "Mark As completed Move",sttus: 0,statusStatus: false),
   // ].obs ;
 
- List<String> uiStatus = [
+  List<String> uiStatus = [
     "On The Way To The Pickup Location",
     "Reached The Pickup Location",
     "On The way To Dropoff Location",
     "Reached The Dropoff Location",
     "Mark As completed Move",
-  ] ;
+  ];
+
  List<String> uploadeStatus = [
     "NOT_STARTED",
     "ON_WAY_TO_PICKUP",
@@ -40,6 +41,14 @@ class MoverMoveDetilsController extends GetxController {
     "ON_WAY_TO_DROPOFF",
     "REACHED_DROPOFF",
   ] ;
+ List<String> cancelStatus = [
+    "Unexpected Personal Emergency",
+    "Client’s Problem",
+    "Vehicle Breakdown",
+    "Wrong address added",
+    "Wrong item video",
+  ] ;
+
 
 
   Rx<MoverMoveDetailsModel> detailsmodel = MoverMoveDetailsModel().obs ;

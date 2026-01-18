@@ -56,8 +56,8 @@ class MoverMoveStatusVideo extends StatelessWidget {
     var textStyele = Theme.of(context).textTheme;
     final moverController = Get.put(MoverMoveDetilsController());
 
-    // final controller = Get.put(MoveController());
-    //final offercontroller = Get.put(OfferReviewController());
+   //  final controller = Get.put(MoveController());
+    final offercontroller = Get.put(OfferReviewController());
 
     return Container(
       height: 120,
@@ -195,6 +195,7 @@ class MoverMoveStatusVideo extends StatelessWidget {
                           AppArgumentString.moverStatus: "Accepted",
                           AppArgumentString.postId: postId,
                         });
+                        offercontroller.selectedOfferDetails.value = "Update Status";
                         moverController.getDetails(pram: postId);
                         moverController.getStatus(pram: postId);
                       } else if (isType == AppArgumentString.moverRejected) {
@@ -212,6 +213,12 @@ class MoverMoveStatusVideo extends StatelessWidget {
                        }else if (isType == AppArgumentString.movercompeleted) {
                          Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
                            AppArgumentString.moverStatus: "Completed",
+                           AppArgumentString.postId: postId,
+                         });
+                         moverController.getDetails(pram: postId);
+                       }else if (isType == AppArgumentString.moverPosted) {
+                         Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER,arguments: {
+
                            AppArgumentString.postId: postId,
                          });
                          moverController.getDetails(pram: postId);

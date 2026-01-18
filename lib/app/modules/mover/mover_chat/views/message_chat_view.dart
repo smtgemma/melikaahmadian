@@ -193,7 +193,7 @@ class _MessageChatViewState extends State<MessageChatView>
           children: [
             // Modern Header
             _buildHeader(),
-            Divider(height: 1.h),
+            // Divider(height: 1.h),
 
             // Messages List
             Expanded(
@@ -642,28 +642,28 @@ class _MessageChatViewState extends State<MessageChatView>
         child: Row(
           children: [
             // Add button
-            GestureDetector(
-              onTap: () {
-                Get.snackbar('Info', 'Add media feature coming soon');
-              },
-              child: Container(
-                width: 50.w,
-                height: 50.w,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.add,
-                    color: AppColors.onPrimaryColor,
-                    size: 30.sp,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 12.w),
-            // Input field
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.snackbar('Info', 'Add media feature coming soon');
+            //   },
+            //   child: Container(
+            //     width: 50.w,
+            //     height: 50.w,
+            //     decoration: BoxDecoration(
+            //       color: Colors.grey.shade400,
+            //       shape: BoxShape.circle,
+            //     ),
+            //     child: Center(
+            //       child: Icon(
+            //         Icons.add,
+            //         color: AppColors.onPrimaryColor,
+            //         size: 30.sp,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(width: 12.w),
+            // // Input field
             Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.r),

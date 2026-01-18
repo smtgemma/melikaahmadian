@@ -6,6 +6,7 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 
+import '../../../../core/widget/move_video.dart';
 import '../../../../routes/app_pages.dart';
 import '../controllers/log_in_controller.dart';
 import '../repository/log_in_repository.dart';
@@ -77,6 +78,7 @@ class LogInView extends GetView<LogInController> {
                     SizedBox(height: 24.h,),
                     Obx(() => AppButton(titel: "Continue",onPress: (){
                       if(_globalKey.currentState!.validate()){
+                       // Get.to(MoveVideo(videoPath: "https://ciancollective.s3.us-east-1.amazonaws.com/posts/videos/1768641540714-775329823.mp4",)) ;
                         LogInRepository.login() ;
 
 
@@ -88,7 +90,6 @@ class LogInView extends GetView<LogInController> {
             )),
             SizedBox(height: 12.h,),
             GestureDetector(
-
               onTap: (){
 
                 Get.toNamed(Routes.ROLE_SELECTION);

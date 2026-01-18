@@ -23,8 +23,8 @@ class DioClient {
     dio = Dio(
       BaseOptions(
         baseUrl:  AppUrls.baseUrl,
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
+        connectTimeout: const Duration(seconds: 120),
+        receiveTimeout: const Duration(seconds: 120),
         headers: {
           "Accept": "application/json",
         },
@@ -170,7 +170,6 @@ class DioClient {
 
   // ================= API METHODS =================
 
-  /// GET request
   Future<Response> get(
       String path, {
         Map<String, dynamic>? queryParameters,

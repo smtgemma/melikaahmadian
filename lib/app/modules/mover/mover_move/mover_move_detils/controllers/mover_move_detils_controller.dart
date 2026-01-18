@@ -41,6 +41,14 @@ class MoverMoveDetilsController extends GetxController {
     "ON_WAY_TO_DROPOFF",
     "REACHED_DROPOFF",
   ] ;
+ List<String> cancelStatus = [
+    "Unexpected Personal Emergency",
+    "Client’s Problem",
+    "Vehicle Breakdown",
+    "Wrong address added",
+    "Wrong item video",
+  ] ;
+
 
 
   Rx<MoverMoveDetailsModel> detailsmodel = MoverMoveDetailsModel().obs ;

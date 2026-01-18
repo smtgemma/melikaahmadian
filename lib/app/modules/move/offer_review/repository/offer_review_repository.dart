@@ -53,7 +53,7 @@ class OfferReviewRepository {
     }
   }
 
-  static Future<void> canclMove({String? id , String? reason}) async {
+  static Future<void> canclMove({String? id , String? reason,bool? isMover}) async {
     try {
       Get.snackbar("Wating..", "");
 
@@ -64,7 +64,41 @@ class OfferReviewRepository {
       final response = await DioClient().patch(AppUrls.cancelPost(id), data: body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.toNamed(Routes.NAVBAR);
+
+          Get.toNamed(Routes.NAVBAR);
+
+
+
+
+        Get.snackbar("Success", response.data["message"]);
+        debugPrint("${response.data["message"]}");
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+
+        Get.snackbar("Error", e.response?.data["message"] ?? "Unknown error");
+        debugPrint("Error status code: ${e.response}");
+      } else {
+        debugPrint("Network or other error: ${e.message}");
+      }
+    }
+  }
+  static Future<void> cancelOffer({String? id , String? reason,bool? isMover}) async {
+    try {
+      Get.snackbar("Wating..", "");
+
+
+      var body = {
+        "reason": reason,
+      };
+      final response = await DioClient().patch(AppUrls.cancelOffer(id), data: body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+
+          Get.toNamed(Routes.MOVER_NAVBAR);
+
+
+
         Get.snackbar("Success", response.data["message"]);
         debugPrint("${response.data["message"]}");
       }

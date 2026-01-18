@@ -34,8 +34,6 @@ class MoverMoveDetilsView extends GetView<MoverMoveDetilsController> {
               Text("Accepted Move Details",style:textStyele.titleLarge,),
               SizedBox(height: 4.h,),
               Text("Details of a particular move.",style: textStyele.bodyMedium,),
-              Text("Details of a particular move." + controller.postId.toString(),style: textStyele.bodyMedium,),
-
               SizedBox(height: 24.h,),
               MoveOfferDetails(offer: "Update Status",details: "Details",isMover: true,),
               SizedBox(height: 24.h,),
@@ -76,8 +74,10 @@ class MoverMoveDetilsView extends GetView<MoverMoveDetilsController> {
                   videoPath: moverController.detailsmodel.value.data?[0].postMedia?[0].url.toString(),
                   price: moverController.detailsmodel.value.data?[0].offerPrice.toString(),
                   isRequestButton: true,
+                  offerId: moverController.detailsmodel.value.data?[0].id.toString(),
+                );
 
-                ) ;
+
 
               },) )
             ],

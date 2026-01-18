@@ -11,7 +11,9 @@ import '../../../../../core/widget/move_video.dart';
 import '../../../../../routes/app_pages.dart';
 import '../../../../home/custom_furniture/widget/produc_countity.dart';
 import '../../../../move/offer_review/model/details_model.dart';
+import '../../../../move/offer_review/repository/offer_review_repository.dart';
 import '../../../../move/offer_review/widget/single_information.dart';
+import '../controllers/mover_move_detils_controller.dart';
 class MoverMoveDetils extends StatelessWidget {
   bool? isCencel;
   bool? isRequestButton;
@@ -39,6 +41,7 @@ class MoverMoveDetils extends StatelessWidget {
   List<FurnitureModel>? listfurniture;
 
   String? postId;
+  String? offerId;
 
   String ? picAddress;
 
@@ -49,10 +52,12 @@ class MoverMoveDetils extends StatelessWidget {
   String? ratring;
   String? price;
 
-   MoverMoveDetils({super.key, this.name, this.starRation, this.reviewRating, this.isCencel, this.picLat, this.picLong, this.drolat, this.drolong, this.data, this.time, this.selectedType, this.listfurniture, this.postId, this.picAddress, this.dropAddress, this.videoPath, this.ratring,this.isRequestButton,this.price,});
+   MoverMoveDetils({super.key, this.name, this.starRation, this.reviewRating, this.isCencel, this.picLat, this.picLong, this.drolat, this.drolong, this.data, this.time, this.selectedType, this.listfurniture, this.postId, this.picAddress, this.dropAddress, this.videoPath, this.ratring,this.isRequestButton,this.price,this.offerId});
 
+  final controller = Get.put(MoverMoveDetilsController());
   @override
   Widget build(BuildContext context) {
+
     var textStyele = TextTheme.of(context);
     return SingleChildScrollView(
       child: Column(
@@ -276,7 +281,7 @@ class MoverMoveDetils extends StatelessWidget {
           isRequestButton == true ?  AppButton(
             titel: "Request To Cancel Move",
             onPress: () {
-              bottomSheet(context);
+              bottomSheet(context,postid: offerId);
             },
           ) : SizedBox()  ,
       
@@ -285,7 +290,7 @@ class MoverMoveDetils extends StatelessWidget {
       ),
     );
   }
-  void bottomSheet(BuildContext context) {
+  void bottomSheet(BuildContext context,{String? postid}) {
     var textStyele = TextTheme.of(context);
     showModalBottomSheet(
       backgroundColor: AppColors.primaryColor,
@@ -294,20 +299,22 @@ class MoverMoveDetils extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (context) {
+      builder: (context,) {
         return SizedBox(
           height: 350, // 🔹 bottom sheet height
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Container(
               child: ListView(
-                children: List.generate(5, (index) {
+                children: List.generate(controller.cancelStatus.length, (index) {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 08),
                     child: AppButton(
-                      titel: "Wrong address added",
+                      titel: controller.cancelStatus[index],
                       onPress: (){
-                        Get.toNamed(Routes.MOVER_NAVBAR);
+                       Get.back();
+
+                        OfferReviewRepository.cancelOffer(reason: controller.cancelStatus[index],id: postid,isMover: true );
                       },
                       containerColor: 1,
                     ),

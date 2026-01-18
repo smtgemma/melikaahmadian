@@ -12,6 +12,8 @@ class AppUrls {
   static const providerOnbording = "/users/provider-onboarding";
   static const getFurnitureByCatagory = "/furniture";
   static const post = "/posts";
+  static const sendOffer = "/offers";
+
   static const my_post = "/posts/my-posts";
   static const getAllChat = "$baseUrl/conversations/my-conversations";
   static getMyChatList(String id, int page, int limit) =>
@@ -26,6 +28,7 @@ class AppUrls {
   static String getUserProfileId(String? id) => "/users/$id";
   static String getReviewByUser(String? id) => "/reviews/user/$id";
   static String cancelPost(String? id) => "/posts/cancel/$id";
+  static String cancelOffer(String? id) => "/offers/cancel/$id";
   static String statusChange(String? id) => "/posts/status/$id";
   static String getMoveStatus(String? id) => "/posts/move-status/$id";
   static String moveStatusChange(String? id) => "/posts/move-status/$id";

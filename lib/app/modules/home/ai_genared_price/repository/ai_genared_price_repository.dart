@@ -23,7 +23,6 @@ class AiGenaredPriceRepository {
     try {
       priceController.isLoading.value = true;
 
-      // ✅ FIX 1: Parse date and add 'Z' for UTC timezone
       final parsedDate = DateFormat('dd MMM yyyy').parse(
         addDeatilsController.dataEditingController.text,
       );
@@ -36,9 +35,9 @@ class AiGenaredPriceRepository {
       debugPrint("⏰ Schedule Time: $scheduleTime");
 
       // ✅ Convert ProductModel → Furniture with logging
-      final List<Furniture> furnitureList = customFurnitureController.addProduct
+      final List<Furniture> furnitureList = customFurnitureController.selectedProducts
           .map((product) {
-        final int qty = (product.count == null || product.count < 1)
+        final int qty = (product.count < 1)
             ? 1
             : product.count;
         debugPrint("🪑 Furniture: ${product.titel}, fixed qty: $qty");

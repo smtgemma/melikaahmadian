@@ -1,84 +1,86 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
-
 import '../../add_details/controllers/add_details_controller.dart';
 import '../controllers/custom_furniture_controller.dart';
-import '../repository/custome_furniture_repository.dart';
 
-class Catagory extends StatelessWidget {
-  Catagory({super.key});
-  final controller = Get.put(CustomFurnitureController());
-  final addItemController = Get.find<AddDetailsController>();
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var textStyele = TextTheme.of(context);
+    final furnitureController = Get.find<CustomFurnitureController>();
+    final addDetailsController = Get.find<AddDetailsController>();
+    final textTheme = Theme.of(context).textTheme;
+
     return SizedBox(
-      height: 40.h,
-      child: ListView.builder(
-        itemCount: addItemController.selectedDateText.value == "Commercial"
-            ? controller.commersialCatagory.length
-            : addItemController.selectedDateText.value == "mover"
-            ? controller.moverCatagory.length
-            : addItemController.selectedDateText.value == "mover_move"
-            ? controller.moverMoveCatagory.length
-            : controller.catagory.length,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          var data = addItemController.selectedDateText.value == "Commercial"
-              ? controller.commersialCatagory[index]
-              : addItemController.selectedDateText.value == "mover"
-              ? controller.moverCatagory[index]
-              : addItemController.selectedDateText.value == "mover_move"
-              ? controller.moverMoveCatagory[index]
-              : controller.catagory[index];
-          return GestureDetector(
-            onTap: () {
-              controller.catagoryIndex.value = index;
-              controller.selectedCatagory.value = data;
-              debugPrint(
-                "selected catagory is ${controller.selectedCatagory.value}",
-              );
-              if (controller.selectedCatagory.value == "All") {
-                controller.getFurnitureByCatagory("");
-                print("selected catagory is ${controller.apiallItem.value.data?.length}",
-                );
-                return;
-              }
-              controller.getFurnitureByCatagory(
-                controller.selectedCatagory.value,
+      height: 48.h,
+      child: Obx(
+            () {
+          // Get appropriate category list based on house type
+          final categoryList =
+          furnitureController.getCategoryList(addDetailsController.selectedDateText.value);
+
+          return ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: categoryList.length,
+            separatorBuilder: (context, index) => SizedBox(width: 8.w),
+            itemBuilder: (context, index) {
+              final category = categoryList[index];
+              final isSelected =
+                  furnitureController.categoryIndex.value == index;
+
+              return GestureDetector(
+                  onTap: () async {
+                    furnitureController.categoryIndex.value = index;
+                    furnitureController.selectedCategory.value = category;
+
+                    // Fetch furniture for selected category
+                    final query = category.toLowerCase() == "all" ? "" : category;
+                    await furnitureController
+                        .getFurnitureByCategoryBackground(query);
+
+                    debugPrint("Selected category: $category");
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.secoundaryColor
+                          : AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(8.w),
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.secoundaryColor
+                            : AppColors.textSecoundaryColor,
+                        width: 1.5,
+                      ),
+                      boxShadow: isSelected
+                          ? [
+                        BoxShadow(
+                          color: AppColors.secoundaryColor.withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: Offset(0, 4),
+                        ),
+                      ]
+                          : [],
+                    ),
+                    child: Center(
+                      child: Text(
+                        category,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: isSelected
+                              ? AppColors.primaryColor
+                              : AppColors.secoundaryColor,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  )
               );
             },
-            child: Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Obx(
-                () => Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: controller.catagoryIndex.value == index
-                        ? AppColors.secoundaryColor
-                        : AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(8.w),
-                    border: Border.all(
-                      color: AppColors.textSecoundaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  child: Text(
-                    data,
-                    style: textStyele.bodyMedium!.copyWith(
-                      color: controller.catagoryIndex.value == index
-                          ? AppColors.primaryColor
-                          : AppColors.secoundaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
           );
         },
       ),

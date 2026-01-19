@@ -54,8 +54,7 @@ class MoveCompeletedController extends GetxController {
                       }
                       ratingValue.value = index + 1;
                       update();
-                      debugPrint(ratingValue.value.toString());
-                               },
+                      debugPrint(ratingValue.value.toString());},
                     child: Obx(() =>
                     rating.length > index
                         ? Image.asset(Assets.iconsYellowStar)

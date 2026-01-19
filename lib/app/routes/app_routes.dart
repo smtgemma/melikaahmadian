@@ -54,7 +54,8 @@ abstract class Routes {
   static const MOVER_SEARCH_POST = _Paths.MOVER_SEARCH_POST;
   static const MOVER_LOCATION_CITY = _Paths.MOVER_LOCATION_CITY;
   static const MOVER_SERCHED_LOCATIONED = _Paths.MOVER_SERCHED_LOCATIONED;
-  static const MOVER_MOVE_DETILS_SEND_OFFER = _Paths.MOVER_MOVE_DETILS_SEND_OFFER;
+  static const MOVER_MOVE_DETILS_SEND_OFFER =
+      _Paths.MOVER_MOVE_DETILS_SEND_OFFER;
   static const MOVER_MOVE_DETILS = _Paths.MOVER_MOVE_DETILS;
   static const MOVER_MOVE_COMPLEDET_DETILS = _Paths.MOVER_MOVE_COMPLEDET_DETILS;
   static const MOVER_INFORMATION_ABOUT_THE_CANCALATION =
@@ -67,6 +68,8 @@ abstract class Routes {
   static const NOTIFICATION = _Paths.NOTIFICATION;
   static const CENCEL_REQUEST = _Paths.CENCEL_REQUEST;
   static const AUDIO_CALL = _Paths.AUDIO_CALL;
+  static const TERMS_CONDITION = _Paths.TERMS_CONDITION;
+  static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
 }
 
 abstract class _Paths {
@@ -135,4 +138,6 @@ abstract class _Paths {
   static const NOTIFICATION = '/notification';
   static const CENCEL_REQUEST = '/cencel-request';
   static const AUDIO_CALL = '/audio-call';
+  static const TERMS_CONDITION = '/terms-condition';
+  static const PRIVACY_POLICY = '/privacy-policy';
 }

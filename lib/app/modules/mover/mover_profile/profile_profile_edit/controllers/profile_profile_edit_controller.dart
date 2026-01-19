@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../repository/profile_profile_edit_repository.dart';
+
 class ProfileProfileEditController extends GetxController {
   //TODO: Implement ProfileProfileEditController
   final nameTextEditingController = TextEditingController(text: "meskatul");
@@ -14,6 +16,7 @@ class ProfileProfileEditController extends GetxController {
 
   final specilizTextController = TextEditingController();
   RxList specilized = [].obs ;
+  RxBool isLoading = false.obs ;
 
   final count = 0.obs;
   @override
@@ -47,6 +50,7 @@ class ProfileProfileEditController extends GetxController {
 
     if (image != null) {
       selectedImage.value = File(image.path);
+      ProfileProfileEditRepository.uploadProfilePicture(imagePath: image.path) ;
     }
   }
 

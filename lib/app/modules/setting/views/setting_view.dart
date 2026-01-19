@@ -105,13 +105,15 @@ class SettingView extends GetView<SettingController> {
                 ),
                 ProfileType(
                   titel: "Terms & Condition",
-                  onpress: () {},
+                  onpress: () {
+                    Get.toNamed(Routes.TERMS_CONDITION);
+                  },
                   iconPath: Assets.iconsTrams,
                 ),
                 ProfileType(
                   titel: "Privacy Policy",
                   onpress: () {
-                    SettingReository.getProfile();
+                    Get.toNamed(Routes.PRIVACY_POLICY);
                   },
                   iconPath: Assets.iconsPrivacy,
                 ),

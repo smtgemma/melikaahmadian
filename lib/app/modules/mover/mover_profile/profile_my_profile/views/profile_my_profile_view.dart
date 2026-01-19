@@ -236,24 +236,48 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
             //image
             SizedBox(
               height: 250.h,
-              child: GridView.builder(
-
-                itemCount: profileController.vehicleImages.length,
-               // scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              child: Obx(
+                    () => GridView.builder(
+                  itemCount: profileController.vehicleImages.value.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
-                return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      profileController.vehicleImages[index],
-                      fit: BoxFit.cover,
-                    )
-                );
-              },),
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                  ),
+                  itemBuilder: (context, index) {
+                    final data = profileController.vehicleImages.value[index];
+
+                    // If URL is null or empty, show placeholder
+                    if (data == null || data.isEmpty) {
+                      return AppImageFrameRadiousWidget(radious: 50);
+                    }
+
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        data,
+                        fit: BoxFit.cover,
+                        // This handles invalid URLs
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey[300],
+                            child: const Icon(
+                              Icons.broken_image,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
+
             //mover review
-            // MoverReview(),
+            SizedBox(height: 24.h,),
+             MoverReview(),
             SizedBox(height: 24.h,),
             AppButton(child: true,iconPath: Assets.iconsProfileEdit,titel: "Edit Information",onPress: (){Get.toNamed(Routes.PROFILE_PROFILE_EDIT);},),
             SizedBox(height: 24.h,),
@@ -266,7 +290,10 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
         ),
       ),),),
     ), onRefresh: (){
+     // debugPrint("profile controller refresh ${profileController.profileModel.value.data?.id}") ;
       profileController.getProfile();
+     controller.getReview(id: profileController.profileModel.value.data?.id);
+      controller.refresh();
       return Future.delayed(const Duration(seconds: 1));
     });
   }

@@ -27,7 +27,7 @@ class MoverProfielDetailsController extends GetxController {
     providerid = argu[AppArgumentString.providrId] ?? '';
     debugPrint("profile controller oninit ${providerid}");
     getprofile(id: id) ;
-    getReview(id: id) ;
+    getReview(id: id);
   }
 
   @override

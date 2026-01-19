@@ -38,8 +38,17 @@ class LogInRepository {
         debugPrint("refreshToken : ${data["refreshToken"]}");
         debugPrint("userId : ${data["id"]}");
         debugPrint("userRole : ${data["role"]}");
+        if (data["role"] == "PROVIDER") {
+          debugPrint("Provider");
+          Get.offAllNamed(Routes.MOVER_NAVBAR);
+        }else{
+          debugPrint("user");
+          Get.offAllNamed(Routes.NAVBAR);
+        }
+       // controller.emailTextEditingController.clear() ;
+       // controller.passTextEditingController.clear() ;
 
-        Get.offAllNamed(Routes.NAVBAR); // better than toNamed after login
+         // better than toNamed after login
         Get.snackbar("Success", response.data["message"] ?? "Login successful");
       }
     }

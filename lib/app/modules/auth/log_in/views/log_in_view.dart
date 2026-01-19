@@ -51,7 +51,7 @@ class LogInView extends GetView<LogInController> {
                     SizedBox(height: 12.h,),
                    Obx(() =>  TextFormField(
                      onTap: (){
-                       controller.visibility();
+
                      },
                      controller: controller.passTextEditingController,
                      obscureText: controller.isVisibility.value == false,
@@ -64,7 +64,7 @@ class LogInView extends GetView<LogInController> {
                      },
                      cursorHeight: 16.h,
                      style: textStyle.labelLarge!.copyWith(color: AppColors.secoundaryColor),
-                     decoration: InputDecoration(hintText: "Enter password",suffixIcon: controller.isVisibility.value == true ? Icon(Icons.visibility_outlined): Icon(Icons.visibility_off_outlined)),
+                     decoration: InputDecoration(hintText: "Enter password",suffixIcon: controller.isVisibility.value == true ? IconButton(onPressed: (){controller.visibility();}, icon: Icon(Icons.visibility_outlined)):IconButton(onPressed: (){controller.visibility();}, icon:  Icon(Icons.visibility_off_outlined))),
                    ),),
                     SizedBox(height: 08.h,),
                     GestureDetector(

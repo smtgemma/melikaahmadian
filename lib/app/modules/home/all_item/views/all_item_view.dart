@@ -29,7 +29,7 @@ class AllItemView extends GetView<AllItemController> {
               SizedBox(height: 4.h,),
               Text("AI analyzed your video and detected these furnitures.",),
               SizedBox(height: 12.h,),
-              ProducCountity(),
+              ProductQuantityWidget(),
               SizedBox(height: 12.h,),
               AppButton(containerColor: 1,titel: "Add More Items",onPress: (){Get.toNamed(Routes.CUSTOM_FURNITURE);},child: true,iconPath: Assets.iconsAdd,),
               SizedBox(height: 12.h,),

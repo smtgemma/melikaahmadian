@@ -41,7 +41,7 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(12.w),
               ),
-              child: MoveVideo(videoPath: videoPath, isasset: true),
+              child: MoveVideo(videoPath: videoPath, isAsset: true),
             ),
             SizedBox(height: 24.h),
             AppButton(

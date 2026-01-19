@@ -8,7 +8,7 @@ class NotificationService {
   final logger = Logger();
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static const String channelId = 'high_importance_channel';
   static const String channelName = 'High Importance Notifications';
@@ -16,21 +16,21 @@ class NotificationService {
   Future<void> initFM() async {
     // ✅ Android initialization with EXACT channel ID
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     // ✅ iOS initialization
     final DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+        DarwinInitializationSettings(
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     final InitializationSettings initializationSettings =
-    InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
+        InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS,
+        );
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -66,8 +66,10 @@ class NotificationService {
   /// Create Android notification channel (REQUIRED for Android 8+)
   Future<void> _createAndroidNotificationChannel() async {
     final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+        flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
 
     if (androidImplementation != null) {
       await androidImplementation.createNotificationChannel(
@@ -86,18 +88,18 @@ class NotificationService {
     }
   }
 
-
   /// Request Android runtime permissions (Android 13+)
   Future<void> _requestAndroidPermissions() async {
     if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-      flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+          flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin
+              >();
 
       if (androidImplementation != null) {
-        final bool? granted =
-        await androidImplementation.requestNotificationsPermission();
+        final bool? granted = await androidImplementation
+            .requestNotificationsPermission();
         if (granted ?? false) {
           logger.i("✅ Android notification permission granted");
         } else {
@@ -173,10 +175,10 @@ class NotificationService {
       logger.i("Body: ${message.notification?.body}");
       logger.i("Data: ${message.data}");
 
-      final title = message.notification?.title ??
-          message.data['title'] ??
-          'New Message';
-      final body = message.notification?.body ??
+      final title =
+          message.notification?.title ?? message.data['title'] ?? 'New Message';
+      final body =
+          message.notification?.body ??
           message.data['body'] ??
           'You have a new message';
 

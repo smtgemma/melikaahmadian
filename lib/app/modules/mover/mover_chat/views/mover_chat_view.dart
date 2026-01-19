@@ -188,7 +188,6 @@ class MoverChatView extends GetView<MoverChatController> {
                 userId: user?.id,
                 imagePath: user?.image,
                 name: user?.fullName,
-                lastMessage: lastMessage,
                 conversationId: conversationId,
               ),
               transition: Transition.rightToLeft,

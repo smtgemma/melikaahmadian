@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "241680787197",
+    "project_id": "melikaahmadian-c7555",
+    "storage_bucket": "melikaahmadian-c7555.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241680787197:android:97cb9779867e8701068094",
+        "android_client_info": {
+          "package_name": "com.example.melikaahmadian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241680787197-om9j5rknjg22v5dlvn32m6j77gv6oqi1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.melikaahmadian",
+            "certificate_hash": "27bbbcda42290340086aacd856ddb5040f0b1da1"
+          }
+        },
+        {
+          "client_id": "241680787197-b3lkitacl59iimpp2n9q5b6mpf0enadb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh5HP6k2ubcfmbo0ADIadtZ15_WYdDzSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241680787197-b3lkitacl59iimpp2n9q5b6mpf0enadb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "241680787197-29ugmfjn4uevsc2lg0r9shhnnm76bjp2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.melikaahmadian"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

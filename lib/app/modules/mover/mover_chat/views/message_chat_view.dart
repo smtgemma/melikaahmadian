@@ -13,16 +13,14 @@ import '../controllers/mover_chat_controller.dart';
 class MessageChatView extends StatefulWidget {
   final String? imagePath;
   final String? name;
-  final String? lastMessage;
-  final String conversationId;
+  final String? conversationId;
   final String? userId;
 
   const MessageChatView({
     super.key,
     this.imagePath,
     this.name,
-    this.lastMessage,
-    required this.conversationId,
+    this.conversationId,
     this.userId,
   });
 
@@ -45,7 +43,14 @@ class _MessageChatViewState extends State<MessageChatView>
   @override
   void initState() {
     super.initState();
-    controller = Get.find<MoverChatController>();
+    if (Get.isRegistered<MoverChatController>()) {
+      controller = Get.find<MoverChatController>();
+    } else {
+      controller = MoverChatController();
+    }
+
+    controller.currentConversationId.value = widget.conversationId ?? '';
+    // controller = Get.find<MoverChatController>();
     scrollController = ScrollController();
     animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -53,11 +58,11 @@ class _MessageChatViewState extends State<MessageChatView>
     );
 
     /// 1️⃣ Join socket room FIRST
-    controller.joinChat(widget.conversationId);
+    controller.joinChat(widget.conversationId ?? '');
 
     /// 2️⃣ Load old messages (after next frame so ScrollController can attach)
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchMessageHistory(widget.conversationId);
+      fetchMessageHistory(widget.conversationId ?? '');
 
       /// Add pagination listener after controller is ready
       scrollController.addListener(_paginationListener);
@@ -79,7 +84,7 @@ class _MessageChatViewState extends State<MessageChatView>
     if (scrollController.position.pixels <=
         scrollController.position.minScrollExtent + 50) {
       if (!_isFetching && hasMoreMessages.value) {
-        fetchMessageHistory(widget.conversationId, loadMore: true);
+        fetchMessageHistory(widget.conversationId ?? '', loadMore: true);
       }
     }
   }

@@ -2,6 +2,7 @@ class AppUrls {
   static const baseUrl = "http://206.162.244.175:6008/api/v1";
   static const aibaseUrl = "http://206.162.244.175:3033/api/v1";
   static const refreshToken = "${baseUrl}/auth/refresh-token";
+  static const loginWithGoogle = "${baseUrl}/auth/google-login";
 
   static const createAccount = "/auth/create-account";
   static const login = "/auth/login";
@@ -16,6 +17,7 @@ class AppUrls {
 
   static const my_post = "/posts/my-posts";
   static const getAllChat = "$baseUrl/conversations/my-conversations";
+  static const createConversation = "$baseUrl/conversations";
   static getMyChatList(String id, int page, int limit) =>
       "$baseUrl/conversations/$id/messages?page=$page&limit=$limit";
   static const get_my_offer = "/offers/my-offers";

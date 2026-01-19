@@ -401,6 +401,7 @@ class MoverChatController extends GetxController {
 
     if (currentConversationId.value == null ||
         currentConversationId.value!.isEmpty) {
+      print('conversation id is ${currentConversationId.value}');
       log('⚠️ No active conversation');
       Get.snackbar('Error', 'No active conversation');
       return;

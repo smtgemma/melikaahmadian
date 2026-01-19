@@ -34,7 +34,7 @@ class MoverProfileRepository {
     try {
       final postMoverId = SharedPrefHelper.getString(SharedPrefHelper.postMoverId);
       debugPrint("postMoverId: $postMoverId");
-      var response = await DioClient().get(AppUrls.getReviewByUser(postMoverId));
+      var response = await DioClient().get(AppUrls.getReviewByUser(id ?? postMoverId));
       if(response.statusCode == 200){
         return ReviewModel.fromJson(response.data);
       }else{

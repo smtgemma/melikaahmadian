@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../controllers/mover_profiel_details_controller.dart';
 
 class MoverReview extends StatelessWidget {
+
   MoverReview({super.key});
 
   @override
@@ -44,98 +45,124 @@ class MoverReview extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12.h),
-          Obx(() {
-            final itemCount = controller.isMore.value
-                ? 2:controller.reviewmodel.value.data!.length ;
-            return Column(
-              children: List.generate(itemCount, (index) {
-                final review = controller.reviewmodel.value.data?[index];
-                String createdAt = review?.createdAt.toString() ?? "";
+      Obx(() {
+        final reviews = controller.reviewmodel.value.data ?? [];
 
-                DateTime date = DateTime.parse(createdAt);
-                int year = date.year;
-                final imagereviewer = review?.reviewer?.image ;
+        // ✅ If no reviews
+        if (reviews.isEmpty) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.h),
+            child: Text(
+              "No reviews yet",
+              style: textStyele.bodyMedium,
+            ),
+          );
+        }
 
-                print(year);
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        final itemCount = controller.isMore.value
+            ? (reviews.length >= 2 ? 2 : reviews.length)
+            : reviews.length;
+
+        return Column(
+          children: List.generate(itemCount, (index) {
+            final review = reviews[index];
+
+            /// ✅ SAFE DATE PARSE
+            final createdAt = review.createdAt ?? "";
+            String displayDate = "N/A";
+
+            if (createdAt.isNotEmpty) {
+              try {
+                final date = DateTime.parse(createdAt);
+                displayDate = date.year == DateTime.now().year
+                    ? "Today"
+                    : date.year.toString();
+              } catch (e) {
+                debugPrint("❌ Invalid date: $createdAt");
+              }
+            }
+
+            /// ✅ IMAGE
+            final imageReviewer = review.reviewer?.image;
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
+                        /// ✅ PROFILE IMAGE
+                        (imageReviewer == null || imageReviewer.isEmpty)
+                            ? AppImageFrameRadiousWidget(
+                          radious: 50,
+                          imageLink:
+                          "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                        )
+                            : AppImageFrameRadiousWidget(
+                          radious: 50,
+                          imageLink: imageReviewer,
+                        ),
+
+                        SizedBox(width: 12.w),
+
+                        /// NAME + DATE
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                review.reviewer?.fullName ?? "",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: textStyele.titleMedium,
+                              ),
+                              SizedBox(height: 4.h),
+                              Text(
+                                displayDate,
+                                style: textStyele.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /// RATING
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            /// Leading Image
-
-                               (imagereviewer == null || imagereviewer.isEmpty)   ? AppImageFrameRadiousWidget(radious: 50,
-                                  imageLink:
-                                      "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
-                                ) :
-                               AppImageFrameRadiousWidget(
-                                radious: 50,
-                                imageLink:
-                                    controller.profileModel.value?.data?.image,
+                            Image.asset(Assets.iconsColorStar),
+                            SizedBox(width: 4.w),
+                            Text(
+                              "${review.rating ?? 0}/5",
+                              style: textStyele.titleMedium!.copyWith(
+                                fontSize: 14.sp,
                               ),
-
-                            SizedBox(width: 12.w),
-
-                            /// Title & Subtitle
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    review?.reviewer.fullName ?? "",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: textStyele.titleMedium,
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    year == DateTime.now().year
-                                        ? "Today"
-                                        : year.toString(),
-                                    style: textStyele.bodyMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            /// Rating
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(Assets.iconsColorStar),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  "${review?.rating}/5",
-                                  style: textStyele.titleMedium!.copyWith(
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          "${review?.comment ?? ""} ",
-                          textAlign: TextAlign.start,
-                          style: textStyele.bodyMedium,
-                        ),
                       ],
                     ),
-                  ),
-                );
-              }),
+
+                    SizedBox(height: 8.h),
+
+                    /// COMMENT
+                    Text(
+                      review.comment ?? "",
+                      style: textStyele.bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
             );
           }),
+        );
+      }),
+
         ],
       ),
     );

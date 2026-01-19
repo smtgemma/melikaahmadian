@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 
 import '../../../../../generated/assets.dart';
 import '../../../../core/const/app_colors.dart';
@@ -76,8 +77,8 @@ class MoverProfileView extends GetView<MoverProfileController> {
                       isProfile: true,onpress: (){Get.toNamed(Routes.PROFILE_MY_PROFILE);}),),
                   ProfileType(titel: "Change Password",onpress: (){Get.toNamed(Routes.PROFILE_CHANGE_PASSWORD);},),
                   ProfileType(titel: "My Earning",onpress: (){Get.toNamed(Routes.MY_ERANING);},iconPath: Assets.iconsRoudedDolar),
-                  ProfileType(titel: "Terms & Condition",onpress: (){},iconPath: Assets.iconsTrams,),
-                  ProfileType(titel: "Privacy Policy",onpress: (){},iconPath: Assets.iconsPrivacy,),
+                  ProfileType(titel: "Terms & Condition",onpress: (){Get.toNamed(Routes.TERMS_CONDITION);},iconPath: Assets.iconsTrams,),
+                  ProfileType(titel: "Privacy Policy",onpress: (){Get.toNamed(Routes.PRIVACY_POLICY);},iconPath: Assets.iconsPrivacy,),
                   ProfileType(titel: "Log Out",onpress: (){
                     showCustomDialog(context);
                   },iconPath: Assets.iconsLogout,textcolor: AppColors.errorColor,),
@@ -108,7 +109,7 @@ class MoverProfileView extends GetView<MoverProfileController> {
           ),
           contentPadding: EdgeInsets.zero,
           content: Container(
-            height: 172.h,
+            height: 208.h,
             width: double.infinity,
             padding:  EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -129,6 +130,7 @@ class MoverProfileView extends GetView<MoverProfileController> {
                     },)),
                     SizedBox(width: 08.w,),
                     Expanded(child: AppButton(titel: "Yes",bodycolor: AppColors.errorColor,containerColor: 0,onPress: (){
+                      SharedPrefHelper.clear();
                       Get.toNamed(Routes.LOG_IN);
                     },)),
 

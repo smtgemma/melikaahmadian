@@ -24,7 +24,7 @@ class MoverProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getProfile();
+    getProfile() ;
 
   }
 
@@ -42,7 +42,7 @@ class MoverProfileController extends GetxController {
     try{
       vehicleImages.clear() ;
       isLoading.value = true ;
-      final data = await MoverProfileRepositorys.getProfile();
+      final data = await MoverProfileRepositorysd.getProfile();
       profileModel.value = data ;
       nameTextEditingController.text = profileModel.value.data?.fullName ?? "";
       emailTextEditingController.text = profileModel.value.data?.email ?? "";

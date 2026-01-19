@@ -272,6 +272,29 @@ class DioClient {
 // }
 
 
+// static Future<MoverProfileModel> getProfile() async {
+// try {
+// final response = await DioClient().get(AppUrls.getMyProfile);
+//
+// debugPrint("✅ API Response: ${response.data}");
+//
+// if (response.statusCode == 200 || response.statusCode == 201) {
+// return compute(parseMoverProfileModel, response.data);
+// } else {
+// throw Exception("API Failed: ${response.data}");
+// }
+// } on DioError catch (e) {
+// debugPrint("Dio Error: ${e.message}");
+// debugPrint("Status Code: ${e.response?.statusCode}");
+// debugPrint("❌ Response Data: ${e.response?.data}");
+// rethrow;
+// } catch (e) {
+// debugPrint("❌ Unknown Error: $e");
+// rethrow;
+// }
+// }
+
+
 
 
 

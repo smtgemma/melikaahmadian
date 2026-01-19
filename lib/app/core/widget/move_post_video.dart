@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
@@ -14,68 +15,54 @@ class SafeMoveVideo extends StatefulWidget {
 class _SafeMoveVideoState extends State<SafeMoveVideo> {
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
-  late Future<void> _initializeVideoPlayerFuture;
   bool _isError = false;
   bool _isInitialized = false;
-  bool _userWantsToPlay = false; // Add this flag
+  bool _userWantsToPlay = false;
+
+  get _initializeVideoPlayerFuture => null;
 
   @override
   void initState() {
     super.initState();
 
     _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
+      Uri.parse(
+        widget.videoUrl ??
+            'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      ),
     );
-
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
-      _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
-        autoPlay: false, //video inital vabe off takbe
-        fullScreenByDefault: true,
-        looping: false,
-        allowFullScreen: false,
-        showControls: true, //video inital vabe off takbe
-        aspectRatio: _videoPlayerController.value.aspectRatio,
-        allowPlaybackSpeedChanging: true,
-        deviceOrientationsAfterFullScreen: [
-          DeviceOrientation.portraitUp, // fullscreen থেকে বের হলে আবার portrait
-        ],
-        deviceOrientationsOnEnterFullScreen: [
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft, // fullscreen গেলে landscape হবে
-        ],
-      );
-      _videoPlayerController.pause();
-      setState(() {});
-    });
   }
 
-  // Future<void> _initializeVideo() async {
-  //   if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
-  //     setState(() => _isError = true);
-  //     return;
-  //   }
-  //
-  //   try {
-  //     _controller = VideoPlayerController.network(widget.videoUrl!);
-  //     await _controller!.initialize();
-  //
-  //     if (!mounted) return;
-  //
-  //     _chewieController = ChewieController(
-  //       videoPlayerController: _controller!,
-  //       autoPlay: true, // Auto-play once initialized
-  //       looping: false,
-  //       showControls: true,
-  //       allowFullScreen: false,
-  //     );
-  //
-  //     setState(() => _isInitialized = true);
-  //   } catch (e) {
-  //     debugPrint("⚠️ Video init error: $e");
-  //     if (mounted) setState(() => _isError = true);
-  //   }
-  // }
+  Future<void> _initializeAndPlay() async {
+    try {
+      await _videoPlayerController.initialize();
+
+      _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        autoPlay: true, // ✅ play automatically after tap
+        looping: true,
+        allowFullScreen: true,
+        showControls: true,
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+        deviceOrientationsAfterFullScreen: [
+          DeviceOrientation.portraitUp,
+        ],
+        deviceOrientationsOnEnterFullScreen: [
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ],
+      );
+
+      if (!mounted) return;
+
+      setState(() {
+        _isInitialized = true;
+      });
+    } catch (e) {
+      debugPrint("Video init error: $e");
+      if (mounted) setState(() => _isError = true);
+    }
+  }
 
   @override
   void dispose() {
@@ -85,6 +72,37 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
   }
 
   @override
+  // Widget build(BuildContext context) {
+  //   if(_initializeVideoPlayerFuture == null) {
+  //     return SizedBox(height: 200.h, width: double.infinity,child:   SizedBox(
+  //       width: 40,
+  //       height: 40,
+  //       child: Center(child: CircularProgressIndicator()),
+  //     ) );
+  //   }
+  //   return SizedBox(
+  //     height: 200.h,
+  //     width: double.infinity,
+  //     child: FutureBuilder(
+  //       future: _initializeVideoPlayerFuture,
+  //       builder: (context, snapshot) {
+  //         if (snapshot.connectionState == ConnectionState.done &&
+  //             _chewieController != null) {
+  //           return Chewie(controller: _chewieController!);
+  //         } else if (snapshot.hasError) {
+  //           return Text('Error: ${snapshot.error}');
+  //         } else {
+  //           return SizedBox(
+  //             width: 40,
+  //             height: 40,
+  //             child: Center(child: CircularProgressIndicator()),
+  //           );
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
+
   Widget build(BuildContext context) {
     if (_isError) {
       return Container(
@@ -95,12 +113,12 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
       );
     }
 
+    /// ▶️ Preview with play icon
     if (!_userWantsToPlay) {
-      // Show a thumbnail/preview with play button
       return GestureDetector(
-        onTap: () {
+        onTap: () async {
           setState(() => _userWantsToPlay = true);
-          //  _initializeVideo();
+          await _initializeAndPlay(); // ✅ load & play
         },
         child: Container(
           height: 120,
@@ -115,6 +133,7 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
       );
     }
 
+    /// ⏳ Loading
     if (!_isInitialized) {
       return const SizedBox(
         height: 120,
@@ -122,6 +141,7 @@ class _SafeMoveVideoState extends State<SafeMoveVideo> {
       );
     }
 
+    /// 🎬 Playing
     return SizedBox(
       height: 120,
       child: Chewie(controller: _chewieController!),

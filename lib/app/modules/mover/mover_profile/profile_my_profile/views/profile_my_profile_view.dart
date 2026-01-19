@@ -15,6 +15,7 @@ import '../../../../move/mover_profiel_details/widget/about.dart';
 import '../../../../move/mover_profiel_details/widget/experence_box.dart';
 import '../../../../move/mover_profiel_details/widget/mover_review.dart';
 import '../../../../move/mover_profiel_details/widget/specialties.dart';
+import '../../controllers/mover_profile_controller.dart';
 import '../controllers/profile_my_profile_controller.dart';
 
 class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
@@ -22,9 +23,10 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
   @override
   Widget build(BuildContext context) {
    // final imagecontroller = Get.put(ImageUplodController());
+    final profileController = Get.find<MoverProfileController>();
     var textStyele = TextTheme.of(context);
-    return Scaffold(
-      body: AppBackground(child: SingleChildScrollView(
+    return  RefreshIndicator(child: Scaffold(
+      body: Obx(() =>  profileController.isLoading.value == true ? Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor)) :  AppBackground(child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,12 +42,28 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 41.h,),
-                    AppImageFrameRadiousWidget(radious: 50,),
+                    Obx(() {
+                      final data =
+                          profileController.profileModel.value.data?.image;
+                      if (data == null || data.isEmpty) {
+                        return AppImageFrameRadiousWidget(
+                          radious: 50,
+                          imageLink:
+                          "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                        );
+                      }
+
+                      return AppImageFrameRadiousWidget(
+                        radious: 50,
+                        imageLink:
+                        profileController.profileModel.value.data?.image,
+                      );
+                    }),
                     SizedBox(height:08.h ,),
                     Center(
                       child: Column(
                         children: [
-                          Text("Mike James",style: textStyele.titleLarge!.copyWith(color: AppColors.primaryColor),),
+                          Obx(() => Text(profileController.profileModel.value.data?.fullName ?? "",style: textStyele.titleLarge!.copyWith(color: AppColors.primaryColor),),),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -53,11 +71,11 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
                                 children: [
                                   Image.asset(Assets.iconsColorStar),
                                   SizedBox(width: 04,),
-                                  Text( "4.5",style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor,fontSize: 14),)
+                                  Text( profileController.profileModel.value.data?.averageRating?.toStringAsFixed(1) ??"0.0",style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor,fontSize: 14),)
                                 ],
                               ),
                               SizedBox(width: 08.w,),
-                              Text( "${"152"} Reviews",style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor)),
+                              Text( "${profileController.profileModel.value.data?.totalReview ?? "0"} Reviews",style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor)),
                             ],),
                         ],
                       ),
@@ -90,16 +108,49 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
             // move and experice
             Row(
               children: [
-                Expanded(child: ExperenceBo()),
+                Obx(() => Expanded(child: ExperenceBo(rating: profileController?.profileModel?.value?.data?.moves?.toString() ?? "0",),),),
                 SizedBox(width: 12.w,),
-                Expanded(child: ExperenceBo(iconsPath: Assets.iconsBag,color: AppColors.greenColor.withAlpha(10),title: "Years",rating: "5+",isbag: true,)),
+                Obx(() {
+                  // Get the created date from the profile
+                  String date = profileController.profileModel.value?.data?.createdAt ?? "";
+
+                  // Safety check: if date is empty, show 0
+                  int experienceYears = 0;
+                  if (date.isNotEmpty) {
+                    DateTime createdDate = DateTime.parse(date);
+                    DateTime now = DateTime.now();
+
+                    experienceYears = now.year - createdDate.year;
+
+                    // Adjust if current month/day is before created month/day
+                    if (now.month < createdDate.month ||
+                        (now.month == createdDate.month && now.day < createdDate.day)) {
+                      experienceYears--;
+                    }
+
+                    // Ensure non-negative
+                    if (experienceYears < 0) experienceYears = 0;
+                  }
+
+                  // Return your ExperienceBo widget
+                  return Expanded(
+                    child: ExperenceBo(
+                      iconsPath: Assets.iconsBag,
+                      color: AppColors.greenColor.withAlpha(10),
+                      title: "Years",
+                      rating: experienceYears.toString(),
+                      isbag: true,
+                    ),
+                  );
+                }),
+
               ],
             ),
             SizedBox(height: 24.h,),
             Text("Basic Information",style: textStyele.titleLarge  ,),
             SizedBox(height: 12.h),
             TextField(
-              controller: controller.nameTextEditingController,
+              controller: profileController.nameTextEditingController,
               readOnly: true,
               decoration: InputDecoration(
                 filled: true,
@@ -123,9 +174,35 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
               ),
             ),
 
+            // SizedBox(height: 12.h),
+            // TextField(
+            //   controller: controller.phoneTextEditingController,
+            //   readOnly: true,
+            //   decoration: InputDecoration(
+            //     filled: true,
+            //     fillColor: AppColors.cardColor,
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //       borderSide: BorderSide.none,
+            //     ),
+            //     enabledBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //       borderSide: BorderSide.none,
+            //     ),
+            //     focusedBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //       borderSide: BorderSide.none,
+            //     ),
+            //     disabledBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //       borderSide: BorderSide.none,
+            //     ),
+            //   ),
+            // ),
+
             SizedBox(height: 12.h),
             TextField(
-              controller: controller.phoneTextEditingController,
+              controller: profileController.emailTextEditingController,
               readOnly: true,
               decoration: InputDecoration(
                 filled: true,
@@ -149,81 +226,34 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
               ),
             ),
 
-            SizedBox(height: 12.h),
-            TextField(
-              controller: controller.emailTextEditingController,
-              readOnly: true,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: AppColors.cardColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 12.h),
-            TextField(
-              controller: controller.addressTextEditingController,
-              readOnly: true,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: AppColors.cardColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
             SizedBox(height: 24.h),
             //About
-            About(),
+            Obx(() =>   About(bio: profileController.profileModel.value.data?.bio ?? "",),),
             SizedBox(height: 24.h,),
-            Specialties(),
+            Specialties(specialties: profileController.selectedSpecialties.value ?? [],),
             SizedBox(height: 24.h,),
-            Text("Vehicle Photos",style: textStyele.titleLarge  ,),
+            Text("Vehicle Photos",style: textStyele.titleLarge,),
             //image
             SizedBox(
               height: 250.h,
               child: GridView.builder(
 
-                itemCount: 2,
+                itemCount: profileController.vehicleImages.length,
+               // scrollDirection: Axis.horizontal,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
                 return ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(Assets.imagesTruck)
+                    child: Image.network(
+                      profileController.vehicleImages[index],
+                      fit: BoxFit.cover,
+                    )
                 );
               },),
             ),
             //mover review
-            MoverReview(),
+            // MoverReview(),
             SizedBox(height: 24.h,),
             AppButton(child: true,iconPath: Assets.iconsProfileEdit,titel: "Edit Information",onPress: (){Get.toNamed(Routes.PROFILE_PROFILE_EDIT);},),
             SizedBox(height: 24.h,),
@@ -234,7 +264,10 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
 
           ],
         ),
-      ),),
-    );
+      ),),),
+    ), onRefresh: (){
+      profileController.getProfile();
+      return Future.delayed(const Duration(seconds: 1));
+    });
   }
 }

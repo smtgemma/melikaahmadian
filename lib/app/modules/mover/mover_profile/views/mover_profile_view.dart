@@ -18,56 +18,83 @@ class MoverProfileView extends GetView<MoverProfileController> {
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
 
-    return Scaffold(
-      body: AppBackground(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 35.h,),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppImageFrameRadiousWidget(radious: 50,),
-                    SizedBox(height: 12.h,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return RefreshIndicator(child:  Scaffold(
+      body:  Obx(() {
+        if(controller.isLoading.value){
+          return AppBackground(child: Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,)));
+        }else{
+          return AppBackground(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 35.h,),
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("Mike James",style: textStyele.titleLarge,),
-                        SizedBox(width: 08.w,),
+                        Obx(() {
+                          final data =
+                              controller.profileModel.value.data?.image;
+                          if (data == null || data.isEmpty) {
+                            return AppImageFrameRadiousWidget(
+                              radious: 50,
+                              imageLink:
+                              "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                            );
+                          }
+
+                          return AppImageFrameRadiousWidget(
+                            radious: 50,
+                            imageLink:
+                            controller.profileModel.value.data?.image,
+                          );
+                        }),
+                        SizedBox(height: 12.h,),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(Assets.iconsColorStar),
-                            SizedBox(width: 12,),
-                            Text("4.5",style: textStyele.titleMedium,)
+                            Obx(() =>   Text(controller.profileModel.value.data?.fullName ?? "",style: textStyele.titleLarge,),),
+                            SizedBox(width: 08.w,),
+                            Row(
+                              children: [
+                                Image.asset(Assets.iconsColorStar),
+                                SizedBox(width: 12,),
+                                Obx(() =>  Text(controller.profileModel.value.data?.averageRating?.toStringAsFixed(1).toString() ??"0.0",style: textStyele.titleMedium,),)
 
 
+                              ],
+                            )
                           ],
-                        )
+                        ),
+                        Obx(() => Text( controller.profileModel.value.data?.email ?? "",style: textStyele.bodyMedium,),)
+
                       ],
-                    ),
-                    Text("mikejames@gmail.com",style: textStyele.bodyMedium,)
+                    ),),
+                  SizedBox(height: 24.h,),
+                  Obx(() =>  ProfileType( titel:controller.profileModel.value.data?.fullName ?? "" ,
+                      profileImage:controller.profileModel.value.data?.image ??"https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                      isProfile: true,onpress: (){Get.toNamed(Routes.PROFILE_MY_PROFILE);}),),
+                  ProfileType(titel: "Change Password",onpress: (){Get.toNamed(Routes.PROFILE_CHANGE_PASSWORD);},),
+                  ProfileType(titel: "My Earning",onpress: (){Get.toNamed(Routes.MY_ERANING);},iconPath: Assets.iconsRoudedDolar),
+                  ProfileType(titel: "Terms & Condition",onpress: (){},iconPath: Assets.iconsTrams,),
+                  ProfileType(titel: "Privacy Policy",onpress: (){},iconPath: Assets.iconsPrivacy,),
+                  ProfileType(titel: "Log Out",onpress: (){
+                    showCustomDialog(context);
+                  },iconPath: Assets.iconsLogout,textcolor: AppColors.errorColor,),
+                  ProfileType(titel: "Temporary Switch User",onpress: (){
+                    {Get.toNamed(Routes.NAVBAR);}
+                  },iconPath: Assets.iconsLogout,textcolor: AppColors.errorColor,),
 
-                  ],
-                ),),
-              SizedBox(height: 24.h,),
-              ProfileType(isProfile: true,onpress: (){Get.toNamed(Routes.PROFILE_MY_PROFILE);}),
-              ProfileType(titel: "Change Password",onpress: (){Get.toNamed(Routes.PROFILE_CHANGE_PASSWORD);},),
-              ProfileType(titel: "My Earning",onpress: (){Get.toNamed(Routes.MY_ERANING);},iconPath: Assets.iconsRoudedDolar),
-              ProfileType(titel: "Terms & Condition",onpress: (){},iconPath: Assets.iconsTrams,),
-              ProfileType(titel: "Privacy Policy",onpress: (){},iconPath: Assets.iconsPrivacy,),
-              ProfileType(titel: "Log Out",onpress: (){
-                showCustomDialog(context);
-              },iconPath: Assets.iconsLogout,textcolor: AppColors.errorColor,),
-              ProfileType(titel: "Temporary Switch User",onpress: (){
-                {Get.toNamed(Routes.NAVBAR);}
-              },iconPath: Assets.iconsLogout,textcolor: AppColors.errorColor,),
-
-            ],
-          ),
-        ),
-      ),
-    );
+                ],
+              ),
+            ),
+          ) ;
+        }
+      },),
+    ), onRefresh: (){
+      controller.getProfile();
+      return Future.delayed(const Duration(seconds: 1));
+    });
   }
   void showCustomDialog(BuildContext context) {
     var textStyele = TextTheme.of(context);

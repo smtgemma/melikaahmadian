@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_image_frame_radious_widget.dart';
 
@@ -21,14 +22,14 @@ class ProfileType extends StatelessWidget {
     return Column(
       children: [
         Container(
-         // height: 70.h,
+          // height: 70.h,
           padding: EdgeInsets.all( isProfile == true ? 0.w : 07.w),
           decoration: BoxDecoration(
             color: AppColors.cardColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: isProfile == true ? ListTile(
-            leading: AppImageFrameRadiousWidget(),
+            leading: AppImageFrameRadiousWidget(imageLink: profileImage,),
             title: Text( titel ?? "Mike James",style: textStyele.titleMedium,),
             subtitle: Text( subtitel ?? "My profile",style: textStyele.bodyMedium!.copyWith(fontSize: 14)),
             trailing: InkWell(

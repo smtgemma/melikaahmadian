@@ -10,12 +10,14 @@ import '../../../../../../generated/assets.dart';
 import '../../../../../core/const/app_colors.dart';
 import '../../../../../core/widget/App_button.dart';
 import '../../../../../core/widget/app_image_frame_radious_widget.dart';
+import '../../controllers/mover_profile_controller.dart';
 import '../controllers/profile_profile_edit_controller.dart';
 
 class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
   const ProfileProfileEditView({super.key});
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<MoverProfileController>();
     var textStyele = TextTheme.of(context);
     return Scaffold(
       body: AppBackground(
@@ -46,7 +48,7 @@ class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
               Text("Edit information you provided about yourself.",style: textStyele.bodyMedium,),
               SizedBox(height: 12.h),
               TextField(
-                controller: controller.nameTextEditingController,
+                controller: profileController.nameTextEditingController,
                 cursorHeight: 20,
                 decoration: InputDecoration(
                   filled: true,
@@ -69,83 +71,84 @@ class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
                   ),
                 ),
               ),
+              // SizedBox(height: 12.h),
+              // TextField(
+              //   cursorHeight: 20,
+              //   controller: controller.phoneTextEditingController,
+              //   decoration: InputDecoration(
+              //     filled: true,
+              //     fillColor: AppColors.cardColor,
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     disabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 12.h),
-              TextField(
-                cursorHeight: 20,
-                controller: controller.phoneTextEditingController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.cardColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              TextField(
-                controller: controller.emailTextEditingController,
-                cursorHeight: 20,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.cardColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              TextField(
-                controller: controller.addressTextEditingController,
-                cursorHeight: 20,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.cardColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
+              // TextField(
+              //   controller: controller.emailTextEditingController,
+              //   cursorHeight: 20,
+              //   decoration: InputDecoration(
+              //     filled: true,
+              //     fillColor: AppColors.cardColor,
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     disabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 12.h),
+              // TextField(
+              //   controller: controller.addressTextEditingController,
+              //   cursorHeight: 20,
+              //   decoration: InputDecoration(
+              //     filled: true,
+              //     fillColor: AppColors.cardColor,
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     disabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 24.h),
               Text("Edit Your Specialty",style: textStyele.titleMedium,),
+
               SizedBox(height: 24.h),
               //add
               Row(
@@ -167,69 +170,34 @@ class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
                       if(controller.specilizTextController.text.isEmpty){
                         return null ;
                       }
-                      controller.specilized.add(controller.specilizTextController.text.trim());
-                      controller.specilizTextController.clear() ;
+                      profileController.selectedSpecialties.add(controller.specilizTextController.text) ;
+                      controller.specilizTextController.clear();
+
                     },),
                   )
                 ],
               ),
-              Obx(() => Column(
-                children: List.generate(
-                  controller.specilized.length,
-                      (index) {
-                    var data = controller.specilized[index];
+               SizedBox(height: 24.h),
+               // spechileties
+               Obx(() {
+                 return Wrap(
+                   spacing: 8,
+                   runSpacing: 8,
 
-                    return Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color: AppColors.onPrimaryColor,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: Text(
-                                data,
-                                style: textStyele.bodyLarge!.copyWith(
-                                  color: AppColors.secoundaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 5,
-                          top: 4,
-                          child: InkWell(
-                            onTap: () {
-                              controller.specilized.removeAt(index);
-                            },
-                            child: Container(
-                              height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                color: AppColors.secoundaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.close,
-                                  color: AppColors.primaryColor,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              )),
+                   children: List.generate(profileController.selectedSpecialties.length,
+                         (index) {
+                       return Chip(
+                         backgroundColor: AppColors.secoundaryColor,
+                         label: Text(profileController.selectedSpecialties[index],style: textStyele.bodyMedium!.copyWith(color: AppColors.primaryColor),),
+                         deleteIcon:  Icon(Icons.close,color: AppColors.primaryColor,),
+                         onDeleted: (){
+                           profileController.selectedSpecialties.removeAt(index) ;
+                         },
+                       );
+                     },
+                   ),
+                 );
+               },),
               SizedBox(height: 24.h),
               Text("Upload Photo For Client To See in Profiloe",style: textStyele.titleMedium,),
               SizedBox(height:24.h,),
@@ -289,6 +257,7 @@ class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
                   );
                 },
               )),
+              SizedBox(height: 12.h),
 
               //Upload Vehicle Photo
               InkWell(

@@ -129,7 +129,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.MOVER_NAVBAR;
+  static const INITIAL = Routes.NAVBAR;
 
   static final routes = [
     GetPage(

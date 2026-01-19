@@ -9,7 +9,7 @@ class Assets {
   static const String iconsAdd = 'assets/icons/add.png';
   static const String iconsAlmari = 'assets/icons/almari.png';
   static const String iconsAppartment = 'assets/icons/appartment.png';
-  static const String iconsBack = 'assets/icons/back.png';
+  static const String iconsBack = 'assets/icons/backButton.svg';
   static const String iconsBag = 'assets/icons/bag.png';
   static const String iconsBed = 'assets/icons/bed.png';
   static const String iconsBook = 'assets/icons/book.png';

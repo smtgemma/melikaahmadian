@@ -76,9 +76,9 @@ class Offer extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 200,
-                    child: MoveVideo(videoPath: data?.postMedia?[0].url ?? "",isAsset: true,),
+                    child: MoveVideo(videoPath: data?.postMedia?[0].url ?? ""),
                   ),
-                  Text( data?.postMedia?[0].url ?? ""),
+
 
                   Container(
                     decoration: BoxDecoration(

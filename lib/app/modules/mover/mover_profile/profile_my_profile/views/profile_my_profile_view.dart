@@ -258,6 +258,16 @@ class ProfileMyProfileView extends GetView<ProfileMyProfileController> {
                         data,
                         fit: BoxFit.cover,
                         // This handles invalid URLs
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child; // image loaded
+
+                          return Container(
+                            color: Colors.grey[300],
+                            child:  Center(
+                              child: CircularProgressIndicator(strokeWidth: 2,color: AppColors.secoundaryColor,),
+                            ),
+                          );
+                        },
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
                             color: Colors.grey[300],

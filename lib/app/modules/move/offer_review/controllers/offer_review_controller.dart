@@ -14,7 +14,7 @@ class OfferReviewController extends GetxController {
   final offerLoading = false.obs;
   final detailsLoading = false.obs;
 
-  final selectedOfferDetails = "Offer".obs;
+  final selectedOfferDetails = "Details".obs;
 
   Rx<OfferModel> offerModel = OfferModel().obs ;
   Rx<DetailsModel> detailsmodel = DetailsModel().obs ;
@@ -34,9 +34,11 @@ class OfferReviewController extends GetxController {
   @override
   void onInit() {
     //postMoveId =
+
+    super.onInit();
     getOffer(pram: offerId);
     getDetails(pram: offerId);
-    super.onInit();
+    selectedOfferDetails.value = "Details";
   }
 
   @override

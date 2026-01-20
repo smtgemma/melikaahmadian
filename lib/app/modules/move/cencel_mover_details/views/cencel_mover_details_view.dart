@@ -23,9 +23,9 @@ class CencelMoverDetailsView extends GetView<CencelMoverDetailsController> {
           children: [
             AppBackButton(),
             SizedBox(height: 24,),
-            Text("Cencel Moves",style:textStyele.titleLarge,),
+            Text("${controller.moverStatus == null ? "Cencel" : controller.moverStatus} Moves",style:textStyele.titleLarge,),
             SizedBox(height: 4.h,),
-            Text("Details of Cencel moves & mover.",style: textStyele.bodyMedium,),
+            Text("Details of moves & mover.",style: textStyele.bodyMedium,),
             SizedBox(height: 24,),
             Obx( () {
 
@@ -59,6 +59,8 @@ class CencelMoverDetailsView extends GetView<CencelMoverDetailsController> {
                   selectedType: controller.detailsmodel.value?.data?.houseType.toString(),
                   listfurniture: controller.detailsmodel.value?.data?.furniture,
                   postId: controller.detailsmodel.value?.data?.id.toString(),
+                  videoPath: controller.detailsmodel.value?.data?.media?[0].url,
+
 
 
 

@@ -77,7 +77,7 @@ class MoverMoveStatusVideo extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 150,
-                  child: MovessVideo(videoPath: videoUrl,),
+                  child:MovessVideo(videoPath: videoUrl,),
                 ),
 
                 /// Offer Badge

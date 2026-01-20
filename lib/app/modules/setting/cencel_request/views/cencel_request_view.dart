@@ -15,21 +15,77 @@ class CencelRequestView extends GetView<CencelRequestController> {
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
     return Scaffold(
-     body: AppBackground(
-       child: Column(
-         crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           AppBackButton(),
-           Text("Move Cancel Request",style: textStyele.titleMedium,),
-           SizedBox(height: 04.h),
-           Text("Are you sure you want to cancel this move?",style: textStyele.bodyMedium,),
-           SizedBox(height: 24.h),
-           MoveStatusVideo(color: AppColors.errorColor.withAlpha(10),textColor: AppColors.errorColor,titel: "Cancel",isNavigator: true,isType: "cancelled",)
+     body: RefreshIndicator(child:  ListView(
+       children: [
+         AppBackground(
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               AppBackButton(),
+               Text("Move Cancel Request",style: textStyele.titleMedium,),
+               SizedBox(height: 04.h),
+               Text("Are you sure you want to cancel this move?",style: textStyele.bodyMedium,),
+               SizedBox(height: 24.h),
+               Obx(() {
+                 if (controller.isLoading.value) {
+                   return Center(
+                     child: CircularProgressIndicator(
+                       color: AppColors.secoundaryColor,
+                     ),
+                   );
+                 }
+
+                 final data = controller.moveModel.value.data;
+
+                 if (data == null || data.isEmpty) {
+                   return Center(
+                     child: Text(
+                       "No Moves Found",
+                       style: textStyele.titleMedium,
+                     ),
+                   );
+                 }
+
+                 return ListView.builder(
+                   shrinkWrap: true,
+                   itemCount: data.length,
+                   itemBuilder: (context, index) {
+                     final item = data[index];
+                     String apiDate = item.scheduleDate ?? "";
+
+                     String formattedDate = apiDate.split("T").first;
+
+                     print(formattedDate); // 2026-01-10
+                     return Padding(
+                       padding:  EdgeInsets.only(bottom: 10),
+                       child: MoveStatusVideo(
+                         isOffer:item?.status == "CANCELLED" ? true : item?.status == "ONGOING" ? true :  item?.status == "COMPLETED" ? true : false ,
+                         postId: item?.id,
+                         videoUrl: item?.media?[0].url,
+                         from: item?.dropoffAddress?.address ?? "",
+                         to: item?.pickupAddress?.address ?? "",
+                         offer:  item?.status == "CANCELLED" ? "-1": item?.totalOffers.toString() ?? "",
+                         date: formattedDate,
+                         isNavigator: true,
+                         titel: item.status ?? "",
+                         color: item?.status == "POSTED" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ONGOING" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
+                         textColor: item?.status == "POSTED" ?  AppColors.BurntOrange : item?.status == "ONGOING" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
+                         isType: item?.status ?? "",
+                       ),
+                     );
+                   },
+                 );
+               }),
 
 
-         ],
-       ),
-     ),
+             ],
+           ),
+         )
+       ],
+     ), onRefresh: (){
+        controller.getMoves();
+       return Future.delayed(const Duration(seconds: 1));
+     }),
     );
   }
 }

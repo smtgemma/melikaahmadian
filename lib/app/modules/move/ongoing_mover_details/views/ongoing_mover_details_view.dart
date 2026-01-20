@@ -63,6 +63,7 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
                    selectedType: controller.detailsmodel.value.data?.houseType.toString(),
                    listfurniture: controller.detailsmodel.value.data?.furniture,
                    postId: controller.detailsmodel.value.data?.id.toString(),
+                   videoPath: controller.detailsmodel.value.data?.media?[0].url,
 
                  ) ;
                }else{

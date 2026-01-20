@@ -54,8 +54,7 @@ class Detils extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MoveVideo(
-                  videoPath:
-                      controller.detailsmodel.value.data?.media?[0].url ?? "",
+                  videoPath: controller.detailsmodel.value.data?.media?[0].url ?? "",
                 ),
                 SizedBox(height: 24.h),
                 Text("Location Details", style: textStyele.titleLarge),

@@ -23,25 +23,33 @@ class PaymentDetailsView extends GetView<PaymentDetailsController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBackButton(),
-              SizedBox(height: 24,),
+              SizedBox(height: 24),
               PaymentDetails(),
-              SizedBox(height: 24,),
+              SizedBox(height: 24),
               PaymentMathode(),
-              SizedBox(height: 24,),
-              AppButton(titel: "Pay Now",onPress: (){
-                Get.toNamed(Routes.APPLICATION_SUBMIT,arguments: {
-                  AppArgumentString.payment : AppArgumentString.payment
-                });
-              },),
-              SizedBox(height: 24,),
-
-          
+              SizedBox(height: 24),
+              Obx(
+                () => (controller.isLoading.value)
+                    ? Center(child: CircularProgressIndicator())
+                    : AppButton(
+                        titel: "Pay Now",
+                        onPress: () async {
+                          await controller.onPayPressed();
+                          Get.toNamed(
+                            Routes.APPLICATION_SUBMIT,
+                            arguments: {
+                              AppArgumentString.payment:
+                                  AppArgumentString.payment,
+                            },
+                          );
+                        },
+                      ),
+              ),
+              SizedBox(height: 24),
             ],
           ),
         ),
       ),
-
-
     );
   }
 }

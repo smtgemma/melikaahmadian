@@ -4,12 +4,7 @@ class OfferModel {
   final String? message;
   final List<OfferData>? data;
 
-  OfferModel({
-     this.success,
-     this.statusCode,
-     this.message,
-     this.data,
-  });
+  OfferModel({this.success, this.statusCode, this.message, this.data});
 
   factory OfferModel.fromJson(Map<String, dynamic> json) {
     return OfferModel(
@@ -36,15 +31,15 @@ class OfferData {
   final Provider? provider;
 
   OfferData({
-     this.id,
-     this.postId,
-     this.providerId,
-     this.offerPrice,
-     this.status,
-     this.createdAt,
-     this.updatedAt,
+    this.id,
+    this.postId,
+    this.providerId,
+    this.offerPrice,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
     this.cancellationReason,
-     this.postMedia,
+    this.postMedia,
     this.provider,
   });
 
@@ -73,11 +68,7 @@ class PostMedia {
   final String? url;
   final String? key;
 
-  PostMedia({
-     this.type,
-     this.url,
-     this.key,
-  });
+  PostMedia({this.type, this.url, this.key});
 
   factory PostMedia.fromJson(Map<String, dynamic> json) {
     return PostMedia(
@@ -97,12 +88,12 @@ class Provider {
   final int? totalReview;
 
   Provider({
-     this.id,
-     this.fullName,
+    this.id,
+    this.fullName,
     this.image,
-     this.specialization,
-     this.averageRating,
-     this.totalReview,
+    this.specialization,
+    this.averageRating,
+    this.totalReview,
   });
 
   factory Provider.fromJson(Map<String, dynamic> json) {

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
+import 'package:melikaahmadian/app/core/const/app_urls.dart';
+import 'package:melikaahmadian/app/core/network/dio_client.dart';
 import 'package:melikaahmadian/app/modules/move/offer_review/model/details_model.dart';
 import 'package:melikaahmadian/app/modules/move/offer_review/model/offer_model.dart';
 
@@ -13,23 +15,24 @@ class OfferReviewController extends GetxController {
   final details = 1.obs;
   final offerLoading = false.obs;
   final detailsLoading = false.obs;
+  final isLoading = false.obs;
 
   final selectedOfferDetails = "Details".obs;
 
-  Rx<OfferModel> offerModel = OfferModel().obs ;
-  Rx<DetailsModel> detailsmodel = DetailsModel().obs ;
+  Rx<OfferModel> offerModel = OfferModel().obs;
+  Rx<DetailsModel> detailsmodel = DetailsModel().obs;
+  final _networkCaller = DioClient();
 
-  String? offerId ;
-  String? postMoveId ;
+  String? offerId;
+  String? postMoveId;
 
   RxList<String> cancelMove = [
     "Wrong address added",
     "Wrong item video",
     "Not needed anymore",
     "Mover delay",
-    "Mover unresponsive"
+    "Mover unresponsive",
   ].obs;
-
 
   @override
   void onInit() {
@@ -52,6 +55,20 @@ class OfferReviewController extends GetxController {
     super.onClose();
   }
 
+  Future<void> acceptOffer(String offerId) async {
+    isLoading.value = true;
+    final response = await _networkCaller.patch(
+      AppUrls.acceptOffer(offerId),
+      data: {},
+    );
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+      print('Offer accepted');
+    } else {
+      isLoading.value = false;
+    }
+  }
+
   void offerDetailsControole({int? isoffer, int? isdetails}) {
     if (isoffer == 1) {
       offer.value = 0;
@@ -61,11 +78,13 @@ class OfferReviewController extends GetxController {
       details.value = 0;
     }
   }
-  Future<void> refresh ()async{
+
+  Future<void> refresh() async {
     getOffer(pram: offerId);
     getDetails(pram: offerId);
   }
-  Future<void> accpectRefresh ()async{
+
+  Future<void> accpectRefresh() async {
     // getOffer(pram: offerId);
     getDetails(pram: offerId);
   }
@@ -78,12 +97,11 @@ class OfferReviewController extends GetxController {
     } catch (e) {
       offerLoading.value = false;
       debugPrint("offer controller catch Error: $e");
-
-    }finally{
+    } finally {
       offerLoading.value = false;
     }
-
   }
+
   Future<void> getDetails({String? pram}) async {
     try {
       detailsLoading.value = true;
@@ -92,10 +110,8 @@ class OfferReviewController extends GetxController {
     } catch (e) {
       detailsLoading.value = false;
       debugPrint("offer controller catch Error: $e");
-
-    }finally{
+    } finally {
       detailsLoading.value = false;
     }
-
   }
 }

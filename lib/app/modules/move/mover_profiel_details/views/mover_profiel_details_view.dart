@@ -256,26 +256,60 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                     style: textStyele.titleLarge,
                   ),
                   SizedBox(height: 12.h),
-                  Obx(() {
-                    final data = controller.profileModel.value?.data?.image;
-                    if (data == null || data.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "Image not available",
-                          style: textStyele.titleLarge!.copyWith(
-                            color: AppColors.strtoColor,
-                          ),
-                        ),
-                      );
-                    }
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        controller.profileModel.value?.data?.gallery[0].url ?? "",
+
+
+                SizedBox(
+                  height: 250.h,
+                  child: Obx(
+                        () => GridView.builder(
+                      itemCount: controller.vehicleImages.value.length ?? 0,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
                       ),
-                    );
-                  }),
+                      itemBuilder: (context, index) {
+                        final data = controller.vehicleImages.value[index];
+
+                        // If URL is null or empty, show placeholder
+                        if (data == null || data.isEmpty) {
+                          return AppImageFrameRadiousWidget(radious: 50);
+                        }
+
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            data,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child; // image loaded
+
+                              return Container(
+                                color: Colors.grey[300],
+                                child:  Center(
+                                  child: CircularProgressIndicator(strokeWidth: 2,color: AppColors.secoundaryColor,),
+                                ),
+                              );
+                            },
+                            // This handles invalid URLs
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey[300],
+                                child: const Icon(
+                                  Icons.broken_image,
+                                  size: 50,
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                   SizedBox(height: 12.h),
+
 
                   // SizedBox(
                   //   height: 250.h,

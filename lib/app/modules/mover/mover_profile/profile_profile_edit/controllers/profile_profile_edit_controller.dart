@@ -17,6 +17,8 @@ class ProfileProfileEditController extends GetxController {
   final specilizTextController = TextEditingController();
   RxList specilized = [].obs ;
   RxBool isLoading = false.obs ;
+  RxBool isupdateLoading = false.obs ;
+  RxBool deleteLoading = false.obs ;
 
   final count = 0.obs;
   @override

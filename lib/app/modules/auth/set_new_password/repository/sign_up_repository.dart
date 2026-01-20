@@ -15,7 +15,7 @@ class SignUpRepository {
   static final createAccountController = Get.find<CreateAccountWithEmailController>();
   static final rollselectionController = Get.put(RoleSelectionController());
 
- static Future<void>signIn()async{
+  static Future<void>signIn()async{
     try{
       setPassController.isLoading.value = true ;
       var body = {
@@ -46,6 +46,39 @@ class SignUpRepository {
         setPassController.isLoading.value = false ;
         debugPrint("Network or other error: ${e.message}");
       }}}
+  static Future<void> changePassword() async {
+    try {
+      setPassController.isLoading.value = true;
+
+      final body = {
+        "newPassword":
+        setPassController.confrimePassTextEditingController.text.trim(),
+      };
+
+      final response = await DioClient().post(
+        AppUrls.resetPassword,
+        data: body,
+
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar("Success", response.data["message"]);
+        Get.offAllNamed(Routes.LOG_IN);
+      }
+    } on DioError catch (e) {
+      setPassController.isLoading.value = false;
+
+      if (e.response != null) {
+        Get.snackbar("Error", e.response?.data["message"] ?? "Unknown error");
+        debugPrint("Error: ${e.response?.data}");
+      } else {
+        debugPrint("Network error: ${e.message}");
+      }
+    } finally {
+      setPassController.isLoading.value = false;
+    }
+  }
+
 
 
 

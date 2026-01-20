@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,6 +13,7 @@ import '../../../../../core/widget/App_button.dart';
 import '../../../../../core/widget/app_image_frame_radious_widget.dart';
 import '../../controllers/mover_profile_controller.dart';
 import '../controllers/profile_profile_edit_controller.dart';
+import '../repository/profile_profile_edit_repository.dart';
 
 class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
   const ProfileProfileEditView({super.key});
@@ -199,6 +201,20 @@ class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
                  );
                },),
               SizedBox(height: 24.h),
+              Row(
+                children: [
+                  Expanded(child: AutoSizeText("Do you want to delete the previous vehicle photo?",style: textStyele.titleMedium,maxLines: 2,)),
+                  SizedBox(width: 12.w,),
+
+
+
+                ],
+              ),
+              SizedBox(height: 24.h),
+              Obx(() =>  AppButton(titel: "Delete",onPress: (){
+                ProfileProfileEditRepository.deletVehiclePhoto() ;
+              },isLoding: controller.deleteLoading.value,width: 100.w,),),
+              SizedBox(height: 24.h),
               Text("Upload Photo For Client To See in Profiloe",style: textStyele.titleMedium,),
               SizedBox(height:24.h,),
               Obx(() => GridView.builder(
@@ -282,9 +298,19 @@ class ProfileProfileEditView extends GetView<ProfileProfileEditController> {
               ),
               SizedBox(height: 24.h,),
               //button
-              AppButton(titel: "Save",onPress: (){
-                Get.toNamed(Routes.MOVER_NAVBAR);
-              },),
+             Obx(() =>  AppButton(titel: "Save",onPress: (){
+              // ProfileProfileEditRepository.updateNameSpecialization() ;
+
+               if(controller.selectedFiles.isEmpty){
+                 ProfileProfileEditRepository.uplodvehiclePicture() ;
+               }else{
+                 ProfileProfileEditRepository.updateNameSpecialization() ;
+                 ProfileProfileEditRepository.uplodvehiclePicture() ;
+               }}
+
+
+               //Get.toNamed(Routes.MOVER_NAVBAR);
+             ,isLoding: controller.isupdateLoading.value,),),
               SizedBox(height: 24.h,),
 
 

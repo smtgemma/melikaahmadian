@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 
+import '../../../../core/const/app_argument_string.dart';
 import '../../../../core/widget/app_back_button.dart';
 import '../../../../core/widget/app_background.dart';
 import '../../../role_selection/controllers/role_selection_controller.dart';
@@ -43,7 +44,12 @@ class VerificationCodeView extends GetView<VerificationCodeController> {
               SizedBox(height: 24.h,),
               Obx(() =>  AppButton(titel: "Continue",onPress: (){
               debugPrint(roleSelectionController.roleSelection.value);
-              VerificationCodeRepository.verfyEmail();
+              if(controller.navigatorType == AppArgumentString.forgetPassword){
+                VerificationCodeRepository.resetOtp(isForgetPassword: controller.navigatorType);
+              }else{
+                VerificationCodeRepository.verfyEmail(isForgetPassword: controller.navigatorType);
+              }
+
 
             },isLoding: controller.isLoading.value,),)
 

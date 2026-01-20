@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 
 import '../../../../core/const/app_urls.dart';
@@ -21,7 +22,9 @@ class CreateAccountRepository {
       final response = await DioClient().post(AppUrls.forget_password,data: body)  ;
       if(response.statusCode == 200 || response.statusCode == 201){
         SharedPrefHelper.setString(SharedPrefHelper.userId, response.data["data"]["id"]);
-        Get.toNamed(Routes.VERIFICATION_CODE,arguments: {"wfwf":"fwfw"}) ;
+        Get.toNamed(Routes.VERIFICATION_CODE,arguments: {
+          AppArgumentString.forgetPassword : AppArgumentString.forgetPassword
+        }) ;
 
         controller.isLoading.value = false;
         Get.snackbar("Success",response.data["message"]);}

@@ -23,6 +23,7 @@ class AppArgumentString {
  static String providrId = "providerid";
  static String ai = "ai";
  static String moverStatus = "moverstatus";
+ static String forgetPassword = "forgetPassword";
 
 
 }

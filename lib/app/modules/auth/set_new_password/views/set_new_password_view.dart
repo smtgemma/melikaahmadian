@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../core/const/app_argument_string.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/App_button.dart';
 import '../../../../core/widget/app_back_button.dart';
@@ -44,7 +45,7 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
                     Obx(
                       () => TextFormField(
                         onTap: () {
-                          controller.visibility();
+
                         },
                         controller: controller.passTextEditingController,
                         obscureText: controller.isVisibility.value == false,
@@ -62,8 +63,8 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
                         decoration: InputDecoration(
                           hintText: "Enter new password",
                           suffixIcon: controller.isVisibility.value == true
-                              ? Icon(Icons.visibility_outlined)
-                              : Icon(Icons.visibility_off_outlined),
+                              ?  IconButton(onPressed: (){ controller.visibility();}, icon: Icon(Icons.visibility_outlined))
+                              :  IconButton(onPressed: (){ controller.visibility();}, icon: Icon(Icons.visibility_off_outlined)),
                         ),
                       ),
                     ),
@@ -71,7 +72,7 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
                     Obx(
                       () => TextFormField(
                         onTap: () {
-                          controller.confrimvisibility();
+
                         },
                         controller:
                             controller.confrimePassTextEditingController,
@@ -92,8 +93,8 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
                           hintText: "Confirm new password",
                           suffixIcon:
                               controller.isConfirmeVisibility.value == true
-                              ? Icon(Icons.visibility_outlined)
-                              : Icon(Icons.visibility_off_outlined),
+                              ? IconButton(onPressed: (){ controller.confrimvisibility();}, icon: Icon(Icons.visibility_outlined))
+                              : IconButton(onPressed: (){ controller.confrimvisibility();}, icon: Icon(Icons.visibility_off_outlined)),
                         ),
                       ),
                     ),
@@ -103,12 +104,17 @@ class SetNewPasswordView extends GetView<SetNewPasswordController> {
                         titel: "Save Password",
                         onPress: () {
                           if (_globalKey.currentState!.validate()) {
-                            if (controller.passTextEditingController.text ==
-                                controller
-                                    .confrimePassTextEditingController
-                                    .text) {
-                              // Get.toNamed(Routes.VERIFICATION_CODE);
-                              SignUpRepository.signIn();
+                            if (controller.passTextEditingController.text == controller.confrimePassTextEditingController.text)
+                            {
+                              if(controller.navigatorType == AppArgumentString.forgetPassword){
+
+
+                                SignUpRepository.changePassword();
+                                return ;
+                              }else{
+                               SignUpRepository.signIn();
+                              }
+
                             } else {
                               Get.snackbar("Error", "Password not match");
                             }

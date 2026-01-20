@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 
 class SetNewPasswordController extends GetxController {
   //TODO: Implement SetNewPasswordController
@@ -11,12 +12,15 @@ class SetNewPasswordController extends GetxController {
   final isLoading = false.obs ;
 
   String? email ;
+  String? navigatorType ;
+
 
 
   @override
   void onInit() {
     final args = Get.arguments;
     final email = args?['email'];
+    navigatorType = args?[AppArgumentString.forgetPassword];
 
     debugPrint("argu email" + email.toString());
     super.onInit();

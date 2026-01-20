@@ -17,6 +17,12 @@ class AppUrls {
   static const uploadProfilePicture = "/users/me/uploads-profile-photo";
   static const treanAndCondition = "/rules/terms-and-conditions";
   static const privacyAndPolicy = "/rules/privacy-policy";
+  static const updateProfileNameSpecialization = "/users/provider/profile";
+  static const deleteVehiclePhoto = "/users/provider/vehicle-photos";
+  static const updateProfilevehicalPhoto = "/users/provider/vehicle-photos";
+  static const changePassword = "/auth/change-password";
+  static const resetPassword  = "/auth/reset-password";
+  static const verifyResetPasswordotp  = "/auth/verify-reset-password-otp";
 
   static const my_post = "/posts/my-posts";
   static const getAllChat = "$baseUrl/conversations/my-conversations";

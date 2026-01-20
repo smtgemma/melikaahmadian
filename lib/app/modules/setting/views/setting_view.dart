@@ -7,6 +7,7 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/core/widget/app_image_frame_radious_widget.dart';
+import 'package:melikaahmadian/app/modules/auth/log_in/controllers/log_in_controller.dart';
 
 import '../../../../generated/assets.dart';
 import '../../../core/const/app_argument_string.dart';
@@ -120,6 +121,7 @@ class SettingView extends GetView<SettingController> {
                 ProfileType(
                   titel: "Log Out",
                   onpress: () {
+                    Get.delete<LogInController>();
                     showCustomDialog(context);
                   },
                   iconPath: Assets.iconsLogout,

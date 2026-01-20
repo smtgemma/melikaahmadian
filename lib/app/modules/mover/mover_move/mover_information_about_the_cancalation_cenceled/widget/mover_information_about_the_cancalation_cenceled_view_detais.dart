@@ -124,7 +124,7 @@ class MoverInformationAboutTheCancalationCenceledViewDetais extends StatelessWid
         SizedBox(height: 24.h),
         Text("Selected Furnitures", style: textStyele.titleLarge),
         SizedBox(height: 12.h),
-        ProducCountity(isReview: true),
+        ProductQuantityWidget(isReview: true),
         SizedBox(height: 24.h),
         Text("Move Price", style: textStyele.titleLarge),
         SizedBox(height: 12.h),

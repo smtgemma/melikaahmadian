@@ -152,7 +152,7 @@ class MoverDetils extends StatelessWidget {
             );
           },
         ),
-        ProducCountity(isReview: true),
+        ProductQuantityWidget(isReview: true),
         Text("Send Your Offer Price", style: textStyele.titleLarge),
         SizedBox(height: 04.h),
         Text("Send an custom offer to the client.", style: textStyele.bodyMedium),

@@ -19,9 +19,9 @@ class NavbarBinding extends Bindings {
     Get.lazyPut<NavbarController>(
       () => NavbarController(),
     );
-    Get.lazyPut<AddDetailsController>(
-      () => AddDetailsController(),
-    );
+    // Get.lazyPut<AddDetailsController>(
+    //       () => AddDetailsController(),
+    // );
     Get.lazyPut<SettingController>(
             () => SettingController(),fenix: true
     );

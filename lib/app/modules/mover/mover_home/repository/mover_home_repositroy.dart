@@ -15,6 +15,7 @@ class MoverHomeRepositroy {
 
   static Future<AllPostModel> getMoves({String? pram}) async {
     try {
+
       final response = await DioClient().get(AppUrls.post, );
 
       if (response.statusCode == 200) {

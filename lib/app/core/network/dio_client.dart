@@ -275,6 +275,14 @@ class DioClient {
 // }
 
 
+
+
+///for comuted
+///MoverSearsePostModel parseMoverProfileModel(Map<String, dynamic> json) {
+//   return MoverSearsePostModel.fromJson(json);
+// }
+
+
 // static Future<MoverProfileModel> getProfile() async {
 // try {
 // final response = await DioClient().get(AppUrls.getMyProfile);

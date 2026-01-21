@@ -1,13 +1,22 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
+import 'package:logger/logger.dart';
 import 'package:melikaahmadian/app/core/const/app_urls.dart';
 import 'package:melikaahmadian/app/core/network/dio_client.dart';
 import '../../video_cmera/controllers/video_cmera_controller.dart';
 import '../controllers/add_details_controller.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+
+import '../model/analayze_ai_video.dart';
+
+
+
 
 class AddDetailsRepository {
   static final videoCameraController = Get.find<VideoCmeraController>();
@@ -135,5 +144,54 @@ class AddDetailsRepository {
       return false;
     }
   }
+
+
+
+  static Future<AnalayzeAiVideo> analyzeVideoApi({
+    required File videoFile,
+    required String homeType,
+    required int roomCount,
+  }) async {
+    try {
+      final uri = Uri.parse("http://72.60.126.182:3033/api/v1/analyze-video");
+      debugPrint("url: $uri");
+
+      final request = http.MultipartRequest("POST", uri);
+
+      // ✅ Text fields
+      request.fields["home_type"] = homeType;
+      request.fields["room_count"] = roomCount.toInt().toString();
+
+
+      // ✅ File field
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          "video_file",
+          videoFile.path,
+        ),
+      );
+
+      // ✅ Send request
+      final streamedResponse = await request.send();
+
+      // ✅ Convert stream to normal response
+      final response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        debugPrint("✅ Success: ${response.body}");
+
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        return AnalayzeAiVideo.fromJson(jsonData);
+      } else {
+        debugPrint("❌ Failed: ${response.statusCode}");
+        debugPrint(response.body);
+        throw Exception("Video analyze failed");
+      }
+    } catch (e) {
+      debugPrint("❌ Error: $e");
+      rethrow;
+    }
+  }
+
 }
 

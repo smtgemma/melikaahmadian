@@ -275,6 +275,7 @@ class _PleaseSearchState extends State<PleaseSearch> {
 
       final locations = await locationFromAddress(description);
 
+
       if (locations.isEmpty) {
         Get.back();
         _showErrorSnackbar("Location not found");
@@ -282,6 +283,8 @@ class _PleaseSearchState extends State<PleaseSearch> {
       }
 
       final location = locations.last;
+
+
 
       if (widget.selecteddrop == 1) {
         addcontroller.dropLatitude.value = location.latitude.toString();

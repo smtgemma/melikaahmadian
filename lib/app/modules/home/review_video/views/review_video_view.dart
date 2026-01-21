@@ -14,7 +14,9 @@ import '../controllers/review_video_controller.dart';
 
 class ReviewVideoView extends GetView<ReviewVideoController> {
   String? videoPath;
-  ReviewVideoView({super.key, this.videoPath});
+  String? navigatorType ;
+
+  ReviewVideoView({super.key, this.videoPath,this.navigatorType});
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +53,10 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
               iconPath: Assets.iconsTik,
               onPress: () {
               //  Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
-                Get.to(AddDetailsView(videoPath: videoPath,));
+                Get.to(AddDetailsView(videoPath: videoPath,navigatorType: navigatorType,));
               },
             ),
+
             SizedBox(height: 12.h),
             AppButton(
               child: true,
@@ -64,6 +67,8 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
                 Get.back();
               },
             ),
+
+
           ],
         ),
       ),

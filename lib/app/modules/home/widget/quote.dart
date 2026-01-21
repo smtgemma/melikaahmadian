@@ -5,6 +5,7 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/modules/home/controllers/home_controller.dart';
+import 'package:melikaahmadian/app/modules/home/video_cmera/views/video_cmera_view.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 import 'package:get/get.dart';
@@ -51,15 +52,17 @@ class Quote extends StatelessWidget {
           SizedBox(height: 12.h,),
           Text(ai == true ? "AI will generate the movingquote based on the video you post.": "Select the items you want to move & post your request. You will receive offers.",textAlign: TextAlign.center,style: textStyele.bodyMedium!.copyWith(color:ai == true ? AppColors.textSecoundaryColor : AppColors.primaryColor),),
           SizedBox(height: 12.h,),
-          AppButton(titel:ai == true ? "Get AI Quote Now" : "Post A Move",containerColor: 1,bodycolor: AppColors.primaryColor,onPress: (){
+          AppButton(titel:ai == true ? "Get AI Quote Now" : "Post A Move",containerColor: 1,bodycolor: AppColors.primaryColor,onPress: ()async{
             if(ai == true){
-              SharedPrefHelper.setString(SharedPrefHelper.ai, SharedPrefHelper.ai);
+             //await SharedPrefHelper.setString(SharedPrefHelper.ai, SharedPrefHelper.ai);
               controller.videoType.value = "ai_video" ;
-              Get.toNamed(Routes.VIDEO_CMERA);
+              Get.to(VideoCmeraView(navigatorType: "ai",));
+
             }else{
-              SharedPrefHelper.setString(SharedPrefHelper.ai, "");
+         //  await   SharedPrefHelper.remove(SharedPrefHelper.ai);
               controller.videoType.value = "normal_video" ;
               Get.toNamed(Routes.VIDEO_CMERA);
+             // Get.toNamed(Routes.VIDEO_CMERA);
             }
           },)
         ],

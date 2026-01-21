@@ -41,10 +41,6 @@ class MoverMoveCompledetDetilsView
                           "${controller.moveType} Move Details",
                           style: textStyele.titleLarge,
                         ),
-                        Text(
-                          "${controller.moveid} Move Details",
-                          style: textStyele.titleLarge,
-                        ),
                         SizedBox(height: 4.h),
                         Text(
                           "Details of a particular move.",

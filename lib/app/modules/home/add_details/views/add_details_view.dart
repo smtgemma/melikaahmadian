@@ -116,7 +116,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
               Text("Time Details", style: textStyle.titleLarge),
               SizedBox(height: 12.h),
 
-              // Date Picker
+             // Date Picker
               TextField(
                 controller: controller.dataEditingController,
                 readOnly: true,
@@ -148,34 +148,34 @@ class AddDetailsView extends GetView<AddDetailsController> {
               SizedBox(height: 12.h),
 
               // Time Picker
-              TextField(
-                controller: controller.timeEditingController,
-                readOnly: true,
-                onTap: () => controller.selectTime(context),
-                decoration: InputDecoration(
-                  hintText: "Select time",
-                  prefixIcon: Icon(
-                    Icons.access_time_outlined,
-                    color: AppColors.secoundaryColor,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.w),
-                    borderSide: BorderSide(color: AppColors.secoundaryColor),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.w),
-                    borderSide: BorderSide(color: AppColors.secoundaryColor),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.w),
-                    borderSide: BorderSide(
-                      color: AppColors.secoundaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12.h),
-                ),
-              ),
+              // TextField(
+              //   controller: controller.timeEditingController,
+              //   readOnly: true,
+              //   onTap: () => controller.selectTime(context),
+              //   decoration: InputDecoration(
+              //     hintText: "Select time",
+              //     prefixIcon: Icon(
+              //       Icons.access_time_outlined,
+              //       color: AppColors.secoundaryColor,
+              //     ),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(12.w),
+              //       borderSide: BorderSide(color: AppColors.secoundaryColor),
+              //     ),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(12.w),
+              //       borderSide: BorderSide(color: AppColors.secoundaryColor),
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(12.w),
+              //       borderSide: BorderSide(
+              //         color: AppColors.secoundaryColor,
+              //         width: 2,
+              //       ),
+              //     ),
+              //     contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+              //   ),
+              // ),
               SizedBox(height: 24.h),
 
               // House Type Selection

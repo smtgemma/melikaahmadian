@@ -213,10 +213,12 @@ class _MoveVideoState extends State<MoveVideo> {
             children: [
               Icon(Icons.error_outline, size: 48, color: Colors.red),
               SizedBox(height: 12.h),
-              Text(
-                _errorMessage,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.red),
+              Expanded(
+                child: Text(
+                  _errorMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ],
           ),

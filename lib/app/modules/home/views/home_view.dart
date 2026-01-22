@@ -91,7 +91,6 @@ class HomeView extends GetView<HomeController> {
                  return Padding(
                    padding: const EdgeInsets.only(bottom: 10),
                    child: MoverMoveStatusVideo(
-
                      isOffer: true,
                      postId: item.id,
                      videoUrl: item.media?.isNotEmpty == true

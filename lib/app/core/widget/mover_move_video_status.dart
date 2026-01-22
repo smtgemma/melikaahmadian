@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +19,7 @@ import '../../modules/mover/mover_move/mover_move_detils/controllers/mover_move_
 import 'move_post_video.dart';
 import 'moves_post_video.dart';
 
-class MoverMoveStatusVideo extends StatelessWidget {
+class MoverMoveStatusVideo extends StatefulWidget {
   String? offer;
   bool? isOffer;
   String? price;
@@ -53,186 +52,363 @@ class MoverMoveStatusVideo extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    var textStyele = Theme.of(context).textTheme;
-    final moverController = Get.put(MoverMoveDetilsController());
+  State<MoverMoveStatusVideo> createState() => _MoverMoveStatusVideoState();
+}
 
-   //  final controller = Get.put(MoveController());
-    final offercontroller = Get.put(OfferReviewController());
+class _MoverMoveStatusVideoState extends State<MoverMoveStatusVideo> {
+  late VideoPlayerController? _videoController;
+  bool _isVideoReady = false;
+  bool _videoError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeVideo();
+  }
+
+  void _initializeVideo() {
+    if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
+      try {
+        _videoController =
+            VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!))
+              ..initialize()
+                  .then((_) {
+                    if (mounted) {
+                      setState(() {
+                        _isVideoReady = true;
+                        _videoError = false;
+                      });
+                    }
+                  })
+                  .catchError((e) {
+                    debugPrint("Video initialization error: $e");
+                    if (mounted) {
+                      setState(() {
+                        _videoError = true;
+                        _isVideoReady = false;
+                      });
+                    }
+                  });
+      } catch (e) {
+        debugPrint("Video URL error: $e");
+        if (mounted) {
+          setState(() {
+            _videoError = true;
+          });
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _videoController?.dispose();
+    super.dispose();
+  }
+
+  Widget _buildVideoWidget() {
+    if (_videoError || widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+      return Container(
+        color: AppColors.cardColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.image_not_supported_outlined,
+                color: AppColors.secoundaryColor,
+                size: 40,
+              ),
+              SizedBox(height: 8.h),
+              Text('No Video', style: Theme.of(context).textTheme.bodySmall),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (!_isVideoReady) {
+      return Container(
+        color: AppColors.cardColor,
+        child: Center(
+          child: SizedBox(
+            width: 30,
+            height: 30,
+            child: CircularProgressIndicator(
+              color: AppColors.secoundaryColor,
+              strokeWidth: 2,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        VideoPlayer(_videoController!),
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black26,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.play_arrow, color: Colors.white, size: 32),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _handleStatusTap() {
+    if (widget.isNavigator == true && widget.offer != "") {
+      if (widget.isType == AppArgumentString.Offered) {
+        Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER);
+      } else if (widget.isType == AppArgumentString.moverPending) {
+        Get.toNamed(
+          Routes.MOVER_MOVE_COMPLEDET_DETILS,
+          arguments: {
+            AppArgumentString.moverStatus: "Pending",
+            AppArgumentString.postId: widget.postId,
+          },
+        );
+        Get.find<MoverMoveDetilsController>().getDetails(pram: widget.postId);
+      } else if (widget.isType == AppArgumentString.moverAccepted) {
+        SharedPrefHelper.setString(
+          SharedPrefHelper.postId,
+          widget.postId.toString(),
+        );
+        Get.toNamed(
+          Routes.MOVER_MOVE_DETILS,
+          arguments: {
+            AppArgumentString.moverStatus: "Accepted",
+            AppArgumentString.postId: widget.postId,
+          },
+        );
+        final offerCtrl = Get.find<OfferReviewController>();
+        final moverCtrl = Get.find<MoverMoveDetilsController>();
+        offerCtrl.selectedOfferDetails.value = "Update Status";
+        moverCtrl.getDetails(pram: widget.postId);
+        moverCtrl.getStatus(pram: widget.postId);
+      } else if (widget.isType == AppArgumentString.moverRejected) {
+        Get.toNamed(
+          Routes.MOVER_MOVE_COMPLEDET_DETILS,
+          arguments: {
+            AppArgumentString.moverStatus: "Rejected",
+            AppArgumentString.postId: widget.postId,
+          },
+        );
+        Get.find<MoverMoveDetilsController>().getDetails(pram: widget.postId);
+      } else if (widget.isType == AppArgumentString.movercenceled) {
+        Get.toNamed(
+          Routes.MOVER_MOVE_COMPLEDET_DETILS,
+          arguments: {
+            AppArgumentString.moverStatus: "Cancelled",
+            AppArgumentString.postId: widget.postId,
+          },
+        );
+        Get.find<MoverMoveDetilsController>().getDetails(pram: widget.postId);
+      } else if (widget.isType == AppArgumentString.movercompeleted) {
+        Get.toNamed(
+          Routes.MOVER_MOVE_COMPLEDET_DETILS,
+          arguments: {
+            AppArgumentString.moverStatus: "Completed",
+            AppArgumentString.postId: widget.postId,
+          },
+        );
+        Get.find<MoverMoveDetilsController>().getDetails(pram: widget.postId);
+      } else if (widget.isType == AppArgumentString.moverPosted) {
+        Get.toNamed(
+          Routes.MOVER_MOVE_DETILS_SEND_OFFER,
+          arguments: {AppArgumentString.postId: widget.postId},
+        );
+        Get.find<MoverMoveDetilsController>().getDetails(pram: widget.postId);
+      }
+    } else if (widget.isNavigator == true && widget.offer == "0") {
+      Get.snackbar(
+        "No offer available",
+        "",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.secoundaryColor,
+        colorText: Colors.white,
+      );
+      debugPrint("Navigator disabled");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var textStyle = Theme.of(context).textTheme;
 
     return Container(
-      height: 120,
+      height: 120.h,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          /// Video Section
           SizedBox(
             height: double.infinity,
-            width: 144,
+            width: 144.w,
             child: Stack(
               children: [
-                SizedBox(
-                  height: 150,
-                  child:MovessVideo(videoPath: videoUrl,),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: _buildVideoWidget(),
                 ),
 
                 /// Offer Badge
-                (isOffer == true)
-                    ?  SizedBox()
-                    : Positioned(
-                  child: AppButton(
-                    containerColor: 1,
-                    width: 71.w,
-                    titel: "${offer ?? "2"} offer",
-                    hight: 21.h,
-                    textSize: 14,
-                    bodycolor: AppColors.primaryColor,
+                if (widget.isOffer != true)
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: AppButton(
+                      containerColor: 1,
+                      width: 71.w,
+                      titel: "${widget.offer ?? "2"} offer",
+                      hight: 21.h,
+                      textSize: 12.sp,
+                      bodycolor: AppColors.primaryColor,
+                    ),
                   ),
-                ),
 
                 /// Price & Date
                 Positioned(
                   bottom: 0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(Assets.iconsDolar),
-                          const SizedBox(width: 4),
-                          Text(
-                            price ?? "320",
-                            style: textStyele.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.6),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        date ?? "26 Nov 2025",
-                        style: textStyele.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
-                        ),
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
                       ),
-                    ],
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(Assets.iconsDolar, scale: 2),
+                            const SizedBox(width: 4),
+                            Text(
+                              widget.price ?? "320",
+                              style: textStyle.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColor,
+                                fontSize: 11.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          widget.date ?? "26 Nov 2025",
+                          style: textStyle.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-
-          SizedBox(width: 10.w),
-
+          SizedBox(width: 12.w),
 
           /// Right Side Content
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
-                /// To
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Image.asset(Assets.iconsTo),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: AutoSizeText(
-                        to ?? "12/24, Toronto",
-                        maxLines: 1,
-                        style: textStyele.bodyMedium!.copyWith(
-                          color: AppColors.secoundaryColor,
+                /// To Address
+                Flexible(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Image.asset(Assets.iconsTo, scale: 2),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: AutoSizeText(
+                          widget.to ?? "12/24, Toronto",
+                          maxLines: 2,
+                          minFontSize: 10,
+                          style: textStyle.bodyMedium!.copyWith(
+                            color: AppColors.secoundaryColor,
+                            fontSize: 11.sp,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
-                SizedBox(height: 8),
-
-                /// From
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Image.asset(Assets.iconsFrom),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: AutoSizeText(
-                        from ?? "12/24, Toronto",
-                        maxLines: 1,
-                        style: textStyele.bodyMedium!.copyWith(
-                          color: AppColors.secoundaryColor,
+                /// From Address
+                Flexible(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Image.asset(Assets.iconsFrom, scale: 2),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: AutoSizeText(
+                          widget.from ?? "12/24, Toronto",
+                          maxLines: 2,
+                          minFontSize: 10,
+                          style: textStyle.bodyMedium!.copyWith(
+                            color: AppColors.secoundaryColor,
+                            fontSize: 11.sp,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-
-                SizedBox(height: 8),
 
                 /// Status Button
-                InkWell(
-                  onTap: () {
-                    if (isNavigator == true && offer != "" ) {
-
-                       if (isType == AppArgumentString.Offered) {
-                        Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER);
-                      } else if (isType == AppArgumentString.moverPending) {
-                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
-                           AppArgumentString.moverStatus: "Pending",
-                           AppArgumentString.postId: postId,
-                         });
-                         moverController.getDetails(pram: postId);
-                      } else if (isType == AppArgumentString.moverAccepted) {
-                         SharedPrefHelper.setString(SharedPrefHelper.postId, postId.toString());
-                        Get.toNamed(Routes.MOVER_MOVE_DETILS,arguments: {
-                          AppArgumentString.moverStatus: "Accepted",
-                          AppArgumentString.postId: postId,
-                        });
-                        offercontroller.selectedOfferDetails.value = "Update Status";
-                        moverController.getDetails(pram: postId);
-                        moverController.getStatus(pram: postId);
-                      } else if (isType == AppArgumentString.moverRejected) {
-                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
-                           AppArgumentString.moverStatus: "Rejected",
-                           AppArgumentString.postId: postId,
-                         });
-                         moverController.getDetails(pram: postId);
-                      } else if (isType == AppArgumentString.movercenceled) {
-                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
-                           AppArgumentString.moverStatus: "Cancelled",
-                           AppArgumentString.postId: postId,
-                         });
-                         moverController.getDetails(pram: postId);
-                       }else if (isType == AppArgumentString.movercompeleted) {
-                         Get.toNamed(Routes.MOVER_MOVE_COMPLEDET_DETILS,arguments: {
-                           AppArgumentString.moverStatus: "Completed",
-                           AppArgumentString.postId: postId,
-                         });
-                         moverController.getDetails(pram: postId);
-                       }else if (isType == AppArgumentString.moverPosted) {
-                         Get.toNamed(Routes.MOVER_MOVE_DETILS_SEND_OFFER,arguments: {
-
-                           AppArgumentString.postId: postId,
-                         });
-                         moverController.getDetails(pram: postId);
-                       }
-                    } else if (isNavigator == true && offer == "0"){
-                      Get.snackbar("No offer available", "");
-                      debugPrint("Navigator disabled");
-                    }
-                  },
-                  child: Status(
-                    titel: titel,
-                    color: color,
-                    textColor: textColor,
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _handleStatusTap,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Status(
+                        titel: widget.titel,
+                        color: widget.color,
+                        textColor: widget.textColor,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -243,5 +419,3 @@ class MoverMoveStatusVideo extends StatelessWidget {
     );
   }
 }
-
-

@@ -1,23 +1,16 @@
 import 'package:get/get.dart';
 
 class AllItemController extends GetxController {
-  //TODO: Implement AllItemController
+  // This controller is minimal as most logic is in CustomFurnitureController
+  // You can add specific logic for AllItemView here if needed in the future
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

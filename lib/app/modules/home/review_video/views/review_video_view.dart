@@ -14,12 +14,13 @@ import '../controllers/review_video_controller.dart';
 
 class ReviewVideoView extends GetView<ReviewVideoController> {
   String? videoPath;
-  String? navigatorType ;
+  String? navigatorType;
 
-  ReviewVideoView({super.key, this.videoPath,this.navigatorType});
+  ReviewVideoView({super.key, this.videoPath, this.navigatorType});
 
   @override
   Widget build(BuildContext context) {
+    print('navigator type is $navigatorType');
     var textStyele = TextTheme.of(context);
 
     return Scaffold(
@@ -47,13 +48,17 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
             ),
             SizedBox(height: 24.h),
             AppButton(
-
               child: true,
               titel: "Use this Video",
               iconPath: Assets.iconsTik,
               onPress: () {
-              //  Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
-                Get.to(AddDetailsView(videoPath: videoPath,navigatorType: navigatorType,));
+                //  Get.toNamed(Routes.ADD_DETAILS, arguments: {'video':  videoPath});
+                Get.to(
+                  AddDetailsView(
+                    videoPath: videoPath,
+                    navigatorType: navigatorType,
+                  ),
+                );
               },
             ),
 
@@ -63,12 +68,10 @@ class ReviewVideoView extends GetView<ReviewVideoController> {
               titel: "Retake Video",
               iconPath: Assets.iconsReload,
               containerColor: 1,
-              onPress: (){
+              onPress: () {
                 Get.back();
               },
             ),
-
-
           ],
         ),
       ),

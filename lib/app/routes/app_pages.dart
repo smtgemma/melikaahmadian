@@ -249,7 +249,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ALL_ITEM,
-      page: () => const AllItemView(),
+      page: () =>  AllItemView(),
       binding: AllItemBinding(),
     ),
     GetPage(

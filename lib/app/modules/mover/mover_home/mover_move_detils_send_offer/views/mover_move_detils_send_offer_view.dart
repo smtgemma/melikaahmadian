@@ -34,6 +34,7 @@ class MoverMoveDetilsSendOfferView
                 // Parse and format the date safely
                 String displayDate;
 
+
                 if (rawDate.isEmpty) {
                   displayDate = "27th November 2025"; // fallback
                 } else {

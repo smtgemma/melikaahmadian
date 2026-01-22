@@ -13,7 +13,8 @@ import '../controllers/ai_genared_price_controller.dart';
 import '../repository/ai_genared_price_repository.dart';
 
 class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
-  const AiGenaredPriceView({super.key});
+  String ? type ;
+   AiGenaredPriceView({super.key,this.type});
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AiGenaredPriceController());
@@ -26,12 +27,12 @@ class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
               children: [
                 AppBackButton(),
                 SizedBox(height: 24.  h,),
-                Text("Write Your Own Price",style: textStyele.titleLarge,),
+                Text(type == "ai" ? "AI Analyzed Price" : "Write Your Own Price",style: textStyele.titleLarge,),
                 SizedBox(height: 4.h,),
-                Text("This price will go to the movers and then can send you custom counter offers.",),
+                Text( type == "ai" ? "AI analyzed your video and generated a price." : "This price will go to the movers and then can send you custom counter offers.",),
                 SizedBox(height: 12.h,),
               //textfield
-              Container(
+                type == "ai" ? SizedBox() :  Container(
                 height: 52.h,
                 width: double.infinity,
                 decoration: BoxDecoration(color: AppColors.cardColor,borderRadius: BorderRadius.circular(12)),
@@ -71,9 +72,12 @@ class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
                    child: Column(
                      mainAxisAlignment: MainAxisAlignment.center,
                      children: [
-                       Text("Write Down Your Estimated Price",style: textStyele!.titleLarge!.copyWith(color: AppColors.primaryColor),),
+                       Text( type == "ai" ? "Estimated Price" : "Write Down Your Estimated Price",style: textStyele!.titleLarge!.copyWith(color: AppColors.primaryColor),),
                        SizedBox(height: 4.h,),
-                       Obx(() => Text("\$${controller.price.value}",style: textStyele!.headlineLarge!.copyWith(color: AppColors.primaryColor),),)
+                       Obx(() => Text("\$${controller.price.value}",style: textStyele!.headlineLarge!.copyWith(color: AppColors.primaryColor),),),
+                       SizedBox(height: 12.h,),
+                       Text( type == "ai" ? "Based on AI. It’s not perfect " : "",style: textStyele!.titleLarge!.copyWith(color: AppColors.dartRed),),
+
 
                      ],
                    ),
@@ -98,12 +102,17 @@ class AiGenaredPriceView extends GetView<AiGenaredPriceController> {
                  )
                ],),
                 SizedBox(height: 24.h,),
-               Obx(() =>  AppButton(titel: "Post Move",onPress: (){
-                 AiGenaredPriceRepository.postMoves();
+               Obx(() =>  AppButton(titel: type == "ai" ? "Back To Home" : "Post Move",onPress: (){
+                 if(type == "ai"){
+                   Get.toNamed(Routes.NAVBAR);
+                 }else{
+                   AiGenaredPriceRepository.postMoves();
+                 }
+
                  //
                },isLoding: controller.isLoading.value,),),
                 SizedBox(height: 12.h,),
-                AppButton(containerColor: 1,titel: "Edit Details",
+                type == "ai" ? SizedBox() :  AppButton(containerColor: 1,titel: "Edit Details",
                   onPress: (){Get.toNamed(Routes.CUSTOM_FURNITURE);},),
 
 

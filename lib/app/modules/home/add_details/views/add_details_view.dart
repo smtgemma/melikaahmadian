@@ -331,6 +331,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
     debugPrint("navigator type $navigatorType");
 
     if (navigatorType == "ai") {
+
       controller.isLoading.value = true;
       try {
         final file = File(videourl!);
@@ -345,6 +346,9 @@ class AddDetailsView extends GetView<AddDetailsController> {
               double.parse(controller.dropLongitude.value),
             ) /
             1000;
+        debugPrint("distance ${controller.distance.value}");
+
+
 
         // Get.toNamed(Routes.AI_QUOTE);
       } catch (e) {

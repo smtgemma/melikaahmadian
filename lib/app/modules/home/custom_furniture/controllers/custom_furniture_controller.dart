@@ -41,7 +41,7 @@ class CustomFurnitureController extends GetxController {
   RxInt categoryIndex = 0.obs;
   RxString selectedCategory = "".obs;
   RxList<ProductModel> selectedProducts = <ProductModel>[
-    ProductModel(titel: "wfwfw",count: 3)
+  //  ProductModel(titel: "wfwfw",count: 3)
   ].obs;
   Rx<GetFurnitureModel> furnitureModel = GetFurnitureModel().obs;
 

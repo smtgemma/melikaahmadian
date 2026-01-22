@@ -317,7 +317,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
       try {
         final file = File(videourl!);
         Get.toNamed(Routes.ALL_ITEM,arguments: {
-        //  AppArgumentString.i
+         AppArgumentString.navigatorType : "ai"
         });
      //  controller.analayzeVideo(videoFile: file);
         //await AddDetailsRepository.aiGenaredVideo();

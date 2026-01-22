@@ -155,16 +155,7 @@ class MoverProfileView extends GetView<MoverProfileController> {
                       iconPath: Assets.iconsLogout,
                       textcolor: AppColors.errorColor,
                     ),
-                    ProfileType(
-                      titel: "Temporary Switch User",
-                      onpress: () {
-                        {
-                          Get.toNamed(Routes.NAVBAR);
-                        }
-                      },
-                      iconPath: Assets.iconsLogout,
-                      textcolor: AppColors.errorColor,
-                    ),
+
                   ],
                 ),
               ),

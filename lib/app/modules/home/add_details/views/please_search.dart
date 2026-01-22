@@ -151,6 +151,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:get_cli/common/utils/json_serialize/json_ast/utils/grapheme_splitter.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
@@ -177,7 +178,8 @@ class _PleaseSearchState extends State<PleaseSearch> {
   String? errorMessage;
 
   static const String _placesApiKey = "AIzaSyBxtzHCf2JEjUgx8aS6eFNpV_-s9vGNfo0";
-  static const String _baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+  static const String _baseURL =
+      'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 
   @override
   void initState() {
@@ -213,7 +215,8 @@ class _PleaseSearchState extends State<PleaseSearch> {
       final String url =
           '$_baseURL?input=$input&key=$_placesApiKey&sessiontoken=$sessionToken';
 
-      final response = await http.get(Uri.parse(url))
+      final response = await http
+          .get(Uri.parse(url))
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -275,7 +278,6 @@ class _PleaseSearchState extends State<PleaseSearch> {
 
       final locations = await locationFromAddress(description);
 
-
       if (locations.isEmpty) {
         Get.back();
         _showErrorSnackbar("Location not found");
@@ -283,8 +285,6 @@ class _PleaseSearchState extends State<PleaseSearch> {
       }
 
       final location = locations.last;
-
-
 
       if (widget.selecteddrop == 1) {
         addcontroller.dropLatitude.value = location.latitude.toString();
@@ -301,7 +301,6 @@ class _PleaseSearchState extends State<PleaseSearch> {
 
       // Reset session token for next search
       sessionToken = uuid.v4();
-
     } catch (e) {
       Get.back();
       _showErrorSnackbar("Failed to get location: $e");
@@ -331,22 +330,21 @@ class _PleaseSearchState extends State<PleaseSearch> {
       body: AppBackground(
         child: SafeArea(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header with back button
-              Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Row(
-                  children: [
-                    AppBackButton(),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Text(
-                        widget.selecteddrop == 1 ? "Drop-off Address" : "Pickup Address",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
+              AppBackButton(),
+              Row(
+                children: [
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Text(
+                      widget.selecteddrop == 1
+                          ? "Drop-off Address"
+                          : "Pickup Address",
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(height: 8.h),
 
@@ -357,18 +355,21 @@ class _PleaseSearchState extends State<PleaseSearch> {
                   controller: searchController,
                   decoration: InputDecoration(
                     hintText: "Search location...",
-                    prefixIcon: Icon(Icons.location_on_outlined, color: AppColors.secoundaryColor),
+                    prefixIcon: Icon(
+                      Icons.location_on_outlined,
+                      color: AppColors.secoundaryColor,
+                    ),
                     suffixIcon: searchController.text.isNotEmpty
                         ? IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        searchController.clear();
-                        setState(() {
-                          suggestions = [];
-                          errorMessage = null;
-                        });
-                      },
-                    )
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              searchController.clear();
+                              setState(() {
+                                suggestions = [];
+                                errorMessage = null;
+                              });
+                            },
+                          )
                         : null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.w),
@@ -380,7 +381,10 @@ class _PleaseSearchState extends State<PleaseSearch> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.w),
-                      borderSide: BorderSide(color: AppColors.secoundaryColor, width: 2),
+                      borderSide: BorderSide(
+                        color: AppColors.secoundaryColor,
+                        width: 2,
+                      ),
                     ),
                     contentPadding: EdgeInsets.symmetric(vertical: 12.h),
                   ),
@@ -390,9 +394,7 @@ class _PleaseSearchState extends State<PleaseSearch> {
               SizedBox(height: 12.h),
 
               // Suggestions List
-              Expanded(
-                child: _buildSuggestionsList(),
-              ),
+              Expanded(child: _buildSuggestionsList()),
             ],
           ),
         ),
@@ -457,8 +459,15 @@ class _PleaseSearchState extends State<PleaseSearch> {
             side: BorderSide(color: AppColors.secoundaryColor.withOpacity(0.3)),
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-            leading: Icon(Icons.location_on, color: AppColors.secoundaryColor, size: 24),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 12.w,
+              vertical: 8.h,
+            ),
+            leading: Icon(
+              Icons.location_on,
+              color: AppColors.secoundaryColor,
+              size: 24,
+            ),
             title: Text(
               mainText,
               style: TextStyle(fontWeight: FontWeight.w600),

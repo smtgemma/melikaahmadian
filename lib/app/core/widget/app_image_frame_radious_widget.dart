@@ -14,6 +14,6 @@ class AppImageFrameRadiousWidget extends StatelessWidget {
 
     return CircleAvatar(
       radius:  radious ,
-      backgroundImage: NetworkImage( imageLink  ??   "https://media.assettype.com/gulfnews%2Fimport%2F2023%2F12%2F04%2FKatrina-Kaif_18c35bf7acc_large.jpg?w=480&auto=format%2Ccompress&fit=max"),);
+      backgroundImage: NetworkImage( imageLink  ??   "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg"),);
   }
 }

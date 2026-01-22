@@ -8,23 +8,30 @@ import '../controllers/custom_furniture_controller.dart';
 class ProductQuantityWidget extends StatelessWidget {
   final bool isReview;
   final String? reviewCountText;
+  final CustomFurnitureController? controller;
 
   const ProductQuantityWidget({
     super.key,
     this.isReview = false,
     this.reviewCountText,
+    this.controller,
   });
 
   @override
+  @override
   Widget build(BuildContext context) {
-    final controller = Get.find<CustomFurnitureController>();
     final textTheme = Theme.of(context).textTheme;
 
+    final ctrl = controller;
+    if (ctrl == null) {
+      return const SizedBox(); // or Center(child: Text("Controller not found"))
+    }
+
     return Obx(
-          () => Column(
+      () => Column(
         children: [
           // Empty state
-          if (controller.selectedProducts.isEmpty)
+          if (ctrl.selectedProducts.isEmpty)
             Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -38,41 +45,29 @@ class ProductQuantityWidget extends StatelessWidget {
             ),
 
           // List of selected products
-          ...List.generate(
-            controller.selectedProducts.length,
-                (index) {
-              final item = controller.selectedProducts[index];
-
-              return _buildProductTile(
-                context,
-                controller,
-                item,
-                index,
-                textTheme,
-              );
-            },
-          ),
+          ...List.generate(ctrl.selectedProducts.length, (index) {
+            final item = ctrl.selectedProducts[index];
+            return _buildProductTile(context, ctrl, item, index, textTheme);
+          }),
         ],
       ),
     );
   }
 
   Widget _buildProductTile(
-      BuildContext context,
-      CustomFurnitureController controller,
-      dynamic item,
-      int index,
-      TextTheme textTheme,
-      ) {
+    BuildContext context,
+    CustomFurnitureController controller,
+    dynamic item,
+    int index,
+    TextTheme textTheme,
+  ) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: AppColors.onPrimaryColor,
         borderRadius: BorderRadius.circular(12.w),
-        border: Border.all(
-          color: AppColors.secoundaryColor.withOpacity(0.2),
-        ),
+        border: Border.all(color: AppColors.secoundaryColor.withOpacity(0.2)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -126,7 +121,10 @@ class ProductQuantityWidget extends StatelessWidget {
 
                 // Quantity display
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(6.w),
@@ -193,9 +191,7 @@ class ProductQuantityWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
           borderRadius: BorderRadius.circular(6.w),
-          border: Border.all(
-            color: AppColors.secoundaryColor.withOpacity(0.2),
-          ),
+          border: Border.all(color: AppColors.secoundaryColor.withOpacity(0.2)),
         ),
         child: Image.asset(
           icon,
@@ -208,13 +204,15 @@ class ProductQuantityWidget extends StatelessWidget {
   }
 
   void _showDeleteConfirmation(
-      BuildContext context,
-      CustomFurnitureController controller,
-      int index,
-      ) {
+    BuildContext context,
+    CustomFurnitureController controller,
+    int index,
+  ) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.w)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.w),
+        ),
         child: Padding(
           padding: EdgeInsets.all(16.w),
           child: Column(
@@ -224,9 +222,9 @@ class ProductQuantityWidget extends StatelessWidget {
               SizedBox(height: 12.h),
               Text(
                 "Remove Item?",
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.h),
               Text(

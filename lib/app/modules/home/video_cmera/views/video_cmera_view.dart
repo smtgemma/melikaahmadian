@@ -15,7 +15,8 @@ import 'package:video_player/video_player.dart';
 
 class VideoCmeraView extends StatefulWidget {
   bool ? isbackbutton  ;
-   VideoCmeraView({super.key,this.isbackbutton});
+  String? navigatorType ;
+   VideoCmeraView({super.key,this.isbackbutton,this.navigatorType});
 
   @override
   State<VideoCmeraView> createState() => _VideoCmeraViewState();
@@ -56,7 +57,7 @@ class _VideoCmeraViewState extends State<VideoCmeraView> {
     videoCameraController.videoPath.value = video.path;
     setState(() => isRecording = false);
     print('video path ${video.path}');
-    Get.to(ReviewVideoView(videoPath: video.path,));
+    Get.to(ReviewVideoView(videoPath: video.path,navigatorType: widget.navigatorType,));
   }
 
   @override

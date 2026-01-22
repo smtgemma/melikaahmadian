@@ -6,6 +6,14 @@ class MoverSearchPostController extends GetxController {
   final pickupController = TextEditingController();
   final dropoffController = TextEditingController();
 
+  RxString picacity =  "".obs;
+  RxString dropcity =  "".obs;
+  RxString dropstate =  "".obs;
+  RxString picstate =  "".obs;
+
+
+
+
   final count = 0.obs;
   @override
   void onInit() {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +21,9 @@ import '../views/please_search.dart';
 
 class AddDetailsView extends GetView<AddDetailsController> {
   final String? videoPath;
+  String? navigatorType ;
 
-  const AddDetailsView({super.key, this.videoPath});
+   AddDetailsView({super.key, this.videoPath,this.navigatorType});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,9 @@ class AddDetailsView extends GetView<AddDetailsController> {
 
               // Title Section
               Text("Pickup & Drop-off", style: textStyle.titleLarge),
+
+
+
               SizedBox(height: 4.h),
               Text(
                 "Where should we move your items?",
@@ -113,10 +119,10 @@ class AddDetailsView extends GetView<AddDetailsController> {
               SizedBox(height: 24.h),
 
               // Time Details Section
-              Text("Time Details", style: textStyle.titleLarge),
+              Text("Date Details", style: textStyle.titleLarge),
               SizedBox(height: 12.h),
 
-             // Date Picker
+              // Date Picker
               TextField(
                 controller: controller.dataEditingController,
                 readOnly: true,
@@ -146,36 +152,37 @@ class AddDetailsView extends GetView<AddDetailsController> {
                 ),
               ),
               SizedBox(height: 12.h),
-
+              Text("Time Details", style: textStyle.titleLarge),
+              SizedBox(height: 12.h),
               // Time Picker
-              // TextField(
-              //   controller: controller.timeEditingController,
-              //   readOnly: true,
-              //   onTap: () => controller.selectTime(context),
-              //   decoration: InputDecoration(
-              //     hintText: "Select time",
-              //     prefixIcon: Icon(
-              //       Icons.access_time_outlined,
-              //       color: AppColors.secoundaryColor,
-              //     ),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(12.w),
-              //       borderSide: BorderSide(color: AppColors.secoundaryColor),
-              //     ),
-              //     enabledBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(12.w),
-              //       borderSide: BorderSide(color: AppColors.secoundaryColor),
-              //     ),
-              //     focusedBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(12.w),
-              //       borderSide: BorderSide(
-              //         color: AppColors.secoundaryColor,
-              //         width: 2,
-              //       ),
-              //     ),
-              //     contentPadding: EdgeInsets.symmetric(vertical: 12.h),
-              //   ),
-              // ),
+              TextField(
+                controller: controller.timeEditingController,
+                readOnly: true,
+                onTap: () => controller.selectTime(context),
+                decoration: InputDecoration(
+                  hintText: "Select time",
+                  prefixIcon: Icon(
+                    Icons.access_time_outlined,
+                    color: AppColors.secoundaryColor,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.w),
+                    borderSide: BorderSide(color: AppColors.secoundaryColor),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.w),
+                    borderSide: BorderSide(color: AppColors.secoundaryColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.w),
+                    borderSide: BorderSide(
+                      color: AppColors.secoundaryColor,
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+                ),
+              ),
               SizedBox(height: 24.h),
 
               // House Type Selection
@@ -255,19 +262,34 @@ class AddDetailsView extends GetView<AddDetailsController> {
                   }),
                 ),
               ),
+              SizedBox(height: 12.h),
+              navigatorType == "ai" ?  Text("House Type Selection", style: textStyle.titleLarge) : SizedBox(),
+              SizedBox(height: 12.h),
+              navigatorType == "ai" ?  TextFormField(
+                controller: controller.roomTextEditingController,
+                cursorHeight: 16.h,
+                style: textStyle.labelLarge!.copyWith(
+                  color: AppColors.secoundaryColor,
+                ),
+                decoration: InputDecoration(hintText: "Total rooms in the home (bedrooms, kitchen, store, etc.)"),
+              )  : SizedBox() ,
               SizedBox(height: 24.h),
 
               // Submit Button
-              Obx(
-                () => AppButton(
-                  titel: controller.ai.value == SharedPrefHelper.ai
-                      ? "Get AI Quote"
-                      : 'Select Your Items',
-                  onPress: () => _handleSubmit(context),
-                  isLoding: controller.isLoading.value,
-                  child: false,
-                ),
-              ),
+             Obx(() =>   AppButton(
+               titel: navigatorType == "ai"
+                   ? "Get AI Quote"
+                   : 'Select Your Items',
+              onPress: () => _handleSubmit(context,navigatorType: navigatorType,videourl: videoPath),
+              //  onPress: (){
+              //    debugPrint("mover");
+              //    final file = File(videoPath!);
+              //
+              //  },
+               isLoding: controller.isLoading.value,
+               child: false,
+             ),),
+
               SizedBox(height: 24.h),
             ],
           ),
@@ -276,7 +298,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
     );
   }
 
-  Future<void> _handleSubmit(BuildContext context) async {
+  Future<void> _handleSubmit(BuildContext context , {String? navigatorType,String? videourl}) async {
     if (!controller.validateAllFields()) {
       Get.snackbar(
         "Required Fields",
@@ -287,11 +309,14 @@ class AddDetailsView extends GetView<AddDetailsController> {
       );
       return;
     }
+    debugPrint("navigator type ${navigatorType}");
 
-    if (controller.ai.value == SharedPrefHelper.ai) {
+    if (navigatorType == "ai") {
       controller.isLoading.value = true;
       try {
-        await AddDetailsRepository.aiGenaredVideo();
+        final file = File(videourl!);
+       controller.analayzeVideo(videoFile: file);
+        //await AddDetailsRepository.aiGenaredVideo();
 
         controller.distance.value =
             Geolocator.distanceBetween(

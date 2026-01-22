@@ -26,7 +26,6 @@ class MoverMoveDetilsSendOfferView
               AppBackButton(),
               SizedBox(height: 24.h,),
               Text("Move Details",style: textStyele.titleLarge,),
-              Text("Move Details ${controller.postId}",style: textStyele.titleLarge,),
               SizedBox(height: 4.h,),
               Text("Details of a particular move.",style: textStyele.bodyMedium,),
               Obx(() {
@@ -34,6 +33,7 @@ class MoverMoveDetilsSendOfferView
 
                 // Parse and format the date safely
                 String displayDate;
+
 
                 if (rawDate.isEmpty) {
                   displayDate = "27th November 2025"; // fallback

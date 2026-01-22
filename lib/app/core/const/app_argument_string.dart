@@ -25,6 +25,8 @@ class AppArgumentString {
  static String ai = "ai";
  static String moverStatus = "moverstatus";
  static String forgetPassword = "forgetPassword";
+ static String navigatorType = "navigatorType";
+ static String ispicup = "ispicup";
 
 
 }

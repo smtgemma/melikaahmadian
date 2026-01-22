@@ -67,7 +67,7 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
 
                  ) ;
                }else{
-               return  OngingMoveUpdate(id:controller.detailsmodel.value.data?.id.toString() ,) ;
+               return  OngingMoveUpdate(id:controller.detailsmodel.value.data?.id.toString() ,status:controller.detailsmodel.value.data?.moveStatus ?? "" ,) ;
                }})
 
 

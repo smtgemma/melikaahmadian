@@ -12,8 +12,9 @@ import '../views/compeleted_move.dart';
 
 class OngingMoveUpdate extends StatelessWidget {
   String? id ;
+  String? status ;
 
-   OngingMoveUpdate({super.key,this.id});
+   OngingMoveUpdate({super.key,this.id,this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,8 @@ class OngingMoveUpdate extends StatelessWidget {
             children: [
               Image.asset(Assets.iconsMessageSend),
               SizedBox(height: 4.h,),
-              Text("Mover is on the way to pickup location.",style: textStyele.titleMedium,),
+              Text(status == "NOT_STARTED" ? "On The Way To The Pickup Location" : status == "NOT_STARTED" ? "ON_WAY_TO_PICKUP" : status == "REACHED_PICKUP"  ? "Reached The Pickup Location" : status == "ON_WAY_TO_DROPOFF" ? "On The way To Dropoff Location" : status == "REACHED_DROPOFF" ? "Reached The Dropoff Location" : "Mark As completed Move"  ,style: textStyele.titleMedium,),
               SizedBox(height: 4.h,),
-              Text("11:19 AM",style: textStyele.bodyMedium,),
             ],
           ),
          ),

@@ -34,7 +34,7 @@ class SettingView extends GetView<SettingController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AppImageFrameRadiousWidget(radious: 50),
+                      AppImageFrameRadiousWidget(radious: 50,imageLink: controller.profileModel.value.data?.image,),
                       SizedBox(height: 12.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,6 +80,7 @@ class SettingView extends GetView<SettingController> {
                 ),
                 SizedBox(height: 24.h),
                   Obx(() => ProfileType(
+                    profileImage: controller.profileModel.value.data?.image,
                titel: controller.profileModel.value.data?.fullName.toString(),
                isProfile: true,
                onpress: () {

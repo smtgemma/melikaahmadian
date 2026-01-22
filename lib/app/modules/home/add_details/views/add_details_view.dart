@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
@@ -315,7 +316,10 @@ class AddDetailsView extends GetView<AddDetailsController> {
       controller.isLoading.value = true;
       try {
         final file = File(videourl!);
-       controller.analayzeVideo(videoFile: file);
+        Get.toNamed(Routes.ALL_ITEM,arguments: {
+        //  AppArgumentString.i
+        });
+     //  controller.analayzeVideo(videoFile: file);
         //await AddDetailsRepository.aiGenaredVideo();
 
         controller.distance.value =

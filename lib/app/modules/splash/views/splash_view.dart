@@ -12,8 +12,10 @@ class SplashView extends GetView<SplashController> {
     Get.put(SplashController());
     var textStyle = TextTheme.of(context);
     return Scaffold(
-      body:  Center(
-        child: Text( "MOVEFORCE", style: textStyle.headlineLarge!.copyWith(fontSize: 44.sp),
+      body: Center(
+        child: Text(
+          "MOVEFORCE",
+          style: textStyle.headlineLarge!.copyWith(fontSize: 44.sp),
         ),
       ),
     );

@@ -332,10 +332,10 @@ class AddDetailsView extends GetView<AddDetailsController> {
       controller.isLoading.value = true;
       try {
         final file = File(videourl!);
-        Get.toNamed(Routes.ALL_ITEM,arguments: {
-         AppArgumentString.navigatorType : "ai"
-        });
-     //  controller.analayzeVideo(videoFile: file);
+        // Get.toNamed(Routes.ALL_ITEM,arguments: {
+        //  AppArgumentString.navigatorType : "ai"
+        // });
+       controller.analayzeVideo(videoFile: file);
         //await AddDetailsRepository.aiGenaredVideo();
 
         controller.distance.value =

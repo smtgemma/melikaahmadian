@@ -151,7 +151,7 @@ class CustomFurnitureController extends GetxController {
   }
 
   /// Get total items selected
-  int getTotalItemsCount() {
+  num getTotalItemsCount() {
     return selectedProducts.fold(0, (sum, item) => sum + (item.count ?? 0));
   }
 

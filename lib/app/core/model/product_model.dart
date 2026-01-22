@@ -1,7 +1,7 @@
 class ProductModel {
   String? titel ;
   String? iconPath ;
-  int count ;
+  num count ;
   String? size ;
   String? category ;
 

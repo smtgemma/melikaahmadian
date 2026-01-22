@@ -12,13 +12,17 @@ class CencelMoverDetailsController extends GetxController {
 
 
 
+
   String? postId ;
+  String? moverStatus ;
+
   final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
     final argu = Get.arguments;
       postId = argu?[AppArgumentString.postId];
+      moverStatus = argu?[AppArgumentString.moverStatus];
       getDetails(pram: postId);
 
 

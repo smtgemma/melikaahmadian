@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getMoves() ;
   }
   Future<void> getMoves() async {
     try {

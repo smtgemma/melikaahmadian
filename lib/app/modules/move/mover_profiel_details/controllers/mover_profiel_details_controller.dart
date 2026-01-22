@@ -15,6 +15,7 @@ class MoverProfielDetailsController extends GetxController {
 
   Rx<ProfileModel> profileModel = ProfileModel().obs ;
   Rx<ReviewModel> reviewmodel = ReviewModel().obs ;
+  RxList<String> vehicleImages = <String>[].obs;
 
   String? providerid ;
   String id = "69636e0c83df709e29a42015" ;
@@ -50,7 +51,15 @@ class MoverProfielDetailsController extends GetxController {
     try {
       profileLoading.value = true;
       var response = await MoverProfileRepository.getDetails(id: id);
+
       profileModel.value = response;
+      for(var item in profileModel.value.data?.providerDocuments ?? []){
+        if(item.name == "Vehicle Photo"){
+          vehicleImages.add(item.url ?? "");
+        }
+
+
+      }
     } catch (e) {
       profileLoading.value = false;
       debugPrint("profile controller catch Error: $e");

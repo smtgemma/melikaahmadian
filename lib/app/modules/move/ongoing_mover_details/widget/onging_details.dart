@@ -60,7 +60,7 @@ class OngingDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MoveVideo(),
+        MoveVideo(videoPath: videoPath,),
         SizedBox(height: 24.h,),
         Text("Your mover", style: textStyele.titleLarge),
         SizedBox(height: 12.h),

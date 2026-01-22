@@ -11,6 +11,7 @@ import 'package:melikaahmadian/app/modules/auth/log_in/controllers/log_in_contro
 
 import '../../../../generated/assets.dart';
 import '../../../core/const/app_argument_string.dart';
+import '../../../core/network/shared_prepharence_helper.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
 import '../repository/setting_reository.dart';
@@ -121,6 +122,7 @@ class SettingView extends GetView<SettingController> {
                 ProfileType(
                   titel: "Log Out",
                   onpress: () {
+                    SharedPrefHelper.clear();
                     Get.delete<LogInController>();
                     showCustomDialog(context);
                   },

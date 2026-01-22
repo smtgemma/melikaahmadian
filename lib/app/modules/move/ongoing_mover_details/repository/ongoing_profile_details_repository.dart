@@ -19,7 +19,7 @@ class OngoingProfileDetailsRepository {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.to(CompeletedMove());
+        Get.to(CompeletedMove(id: id??'',));
         Get.snackbar("Success", response.data["message"]);
         debugPrint("${response.data["message"]}");
       }
@@ -33,32 +33,25 @@ class OngoingProfileDetailsRepository {
     }
   }
 
-
-
   static Future<void> sendReview() async {
     try {
-
-
       var body = {
         "revieweeId": "69636e0c83df709e29a42015",
         "postId": "69646961bb68e9a4e50b4334",
         "rating": 5,
-        "comment": "Great experience"
+        "comment": "Great experience",
       };
       final response = await DioClient().post(AppUrls.login, data: body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         Get.snackbar("Success", response.data["message"]);
         debugPrint("${response.data["message"]}");
       }
     } on DioError catch (e) {
       if (e.response != null) {
-
         Get.snackbar("Error", e.response?.data["message"] ?? "Unknown error");
         debugPrint("Error status code: ${e.response}");
       } else {
-
         debugPrint("Network or other error: ${e.message}");
       }
     }

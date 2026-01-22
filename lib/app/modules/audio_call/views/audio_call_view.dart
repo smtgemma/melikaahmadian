@@ -15,13 +15,7 @@ class AudioCallView extends GetView<AudioCallController> {
       child: Scaffold(
         body: Obx(() {
           return Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.blue.shade900, Colors.blue.shade600],
-              ),
-            ),
+            decoration: BoxDecoration(color: Colors.white),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +31,7 @@ class AudioCallView extends GetView<AudioCallController> {
                               : "Connecting...",
                           style: const TextStyle(
                             fontSize: 16,
-                            color: Colors.white70,
+                            color: Colors.black,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.5,
                           ),
@@ -94,18 +88,44 @@ class AudioCallView extends GetView<AudioCallController> {
                               border: Border.all(
                                 color: controller.remoteUid.value != null
                                     ? Colors.green.shade400
-                                    : Colors.white30,
+                                    : Colors.green,
                                 width: 3,
                               ),
                             ),
-                            child: Center(
-                              child: Icon(
-                                Icons.person,
-                                size: 60,
-                                color: Colors.white.withOpacity(0.8),
+                            child: ClipOval(
+                              child: Image.network(
+                                controller.profileImage.value,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.person,
+                                    size: 60,
+                                    color: Colors.white70,
+                                  );
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      );
+                                    },
                               ),
                             ),
                           ),
+
+                          Text(
+                            controller.userName.value,
+                            style: TextStyle(
+                              fontSize: 28,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
                           const SizedBox(height: 24),
                           Text(
                             controller.remoteUid.value != null
@@ -191,14 +211,14 @@ class AudioCallView extends GetView<AudioCallController> {
                                   controller.muted.value
                                       ? Icons.mic_off
                                       : Icons.mic,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   size: 28,
                                 ),
                               ),
                               label: "Mute",
                               backgroundColor: controller.muted.value
-                                  ? Colors.red.shade400
-                                  : Colors.green.shade400,
+                                  ? Colors.white
+                                  : Color(0xffF5F5F5),
                             ),
 
                             // Speaker Button
@@ -209,14 +229,14 @@ class AudioCallView extends GetView<AudioCallController> {
                                   controller.speakerOn.value
                                       ? Icons.speaker
                                       : Icons.speaker_phone,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   size: 28,
                                 ),
                               ),
                               label: "Speaker",
-                              backgroundColor: controller.muted.value
-                                  ? Colors.red.shade400
-                                  : Colors.green.shade400,
+                              backgroundColor: controller.speakerOn.value
+                                  ? Colors.white
+                                  : Color(0xffF5F5F5),
                             ),
 
                             // End Call Button

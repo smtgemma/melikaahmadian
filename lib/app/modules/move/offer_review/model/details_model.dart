@@ -4,12 +4,7 @@ class DetailsModel {
   final String? message;
   final PostDetailsModel? data;
 
-  DetailsModel({
-     this.success,
-     this.statusCode,
-     this.message,
-    this.data,
-  });
+  DetailsModel({this.success, this.statusCode, this.message, this.data});
 
   factory DetailsModel.fromJson(Map<String, dynamic> json) {
     return DetailsModel(
@@ -160,10 +155,7 @@ class FurnitureModel {
   final String name;
   final int quantity;
 
-  FurnitureModel({
-    required this.name,
-    required this.quantity,
-  });
+  FurnitureModel({required this.name, required this.quantity});
 
   factory FurnitureModel.fromJson(Map<String, dynamic> json) {
     return FurnitureModel(
@@ -214,10 +206,12 @@ class AcceptedOfferModel {
           ? DateTime.tryParse(json['updatedAt'])
           : null,
       cancellationReason: json['cancellationReason'],
-      provider:
-      json['provider'] != null ? UserModel.fromJson(json['provider']) : null,
-      author:
-      json['author'] != null ? UserModel.fromJson(json['author']) : null,
+      provider: json['provider'] != null
+          ? UserModel.fromJson(json['provider'])
+          : null,
+      author: json['author'] != null
+          ? UserModel.fromJson(json['author'])
+          : null,
     );
   }
 }

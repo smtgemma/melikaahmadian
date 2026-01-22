@@ -30,103 +30,100 @@ class MoverHomeView extends GetView<MoverHomeController> {
             slivers: [
               /// Header Section
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
 
-                      /// Name and Notification
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "MoveForce",
-                            style: textStyle.titleMedium!.copyWith(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    /// Name and Notification
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "MoveForce",
+                          style: textStyle.titleMedium!.copyWith(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
                           ),
-                          InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.NOTIFICATION);
-                            },
-                            child: Stack(
-                              children: [
-                                Icon(
-                                  Icons.notifications_none_outlined,
-                                  size: 28,
-                                  color: AppColors.secoundaryColor,
-                                ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.NOTIFICATION);
+                          },
+                          child: Stack(
+                            children: [
+                              Icon(
+                                Icons.notifications_none_outlined,
+                                size: 28,
+                                color: AppColors.secoundaryColor,
+                              ),
 
-                                /// Dynamic Badge
-                                Obx(() {
-                                  final notificationController =
-                                      Get.find<NotificationController>();
-                                  if (notificationController
-                                          .unreadCount
-                                          .value ==
-                                      0) {
-                                    return const SizedBox.shrink();
-                                  }
+                              /// Dynamic Badge
+                              Obx(() {
+                                final notificationController =
+                                    Get.find<NotificationController>();
+                                if (notificationController
+                                        .unreadCount
+                                        .value ==
+                                    0) {
+                                  return const SizedBox.shrink();
+                                }
 
-                                  return Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Container(
-                                      height: 18.h,
-                                      width: 18.w,
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.red.withOpacity(0.4),
-                                            blurRadius: 6,
-                                            offset: const Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          notificationController
-                                                      .unreadCount
-                                                      .value >
-                                                  9
-                                              ? '9+'
-                                              : '${notificationController.unreadCount.value}',
-                                          style: textStyle.labelSmall!.copyWith(
-                                            color: Colors.white,
-                                            fontSize: 9.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                return Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: Container(
+                                    height: 18.h,
+                                    width: 18.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.red.withOpacity(0.4),
+                                          blurRadius: 6,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        notificationController
+                                                    .unreadCount
+                                                    .value >
+                                                9
+                                            ? '9+'
+                                            : '${notificationController.unreadCount.value}',
+                                        style: textStyle.labelSmall!.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 9.sp,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                  );
-                                }),
-                              ],
-                            ),
+                                  ),
+                                );
+                              }),
+                            ],
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 16.h),
-
-                      /// Stats Card
-                      StatOfDayPosetedMove(),
-                      SizedBox(height: 24.h),
-
-                      /// Section Title
-                      Text(
-                        "Upcoming Moves & Updates",
-                        style: textStyle.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
+
+                    /// Stats Card
+                    StatOfDayPosetedMove(),
+                    SizedBox(height: 24.h),
+
+                    /// Section Title
+                    Text(
+                      "Upcoming Moves & Updates",
+                      style: textStyle.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(height: 16.h),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
                 ),
               ),
 
@@ -190,36 +187,33 @@ class MoverHomeView extends GetView<MoverHomeController> {
                 }
 
                 /// List of Moves
-                return SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final item = data[index];
-                      String formattedDate = (item.createdAt ?? "")
-                          .split("T")
-                          .first;
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final item = data[index];
+                    String formattedDate = (item.createdAt ?? "")
+                        .split("T")
+                        .first;
 
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: MoverMoveStatusVideo(
-                          isOffer: true,
-                          postId: item.id,
-                          videoUrl: item.media?.isNotEmpty == true
-                              ? item.media!.first.url
-                              : null,
-                          from: item.dropoffAddress?.address ?? "",
-                          to: item.pickupAddress?.address ?? "",
-                          date: formattedDate,
-                          isNavigator: true,
-                          titel: "Offer",
-                          isType: item.status ?? "",
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: MoverMoveStatusVideo(
+                        isOffer: true,
+                        postId: item.id,
+                        videoUrl: item.media?.isNotEmpty == true
+                            ? item.media!.first.url
+                            : null,
+                        from: item.dropoffAddress?.address ?? "",
+                        to: item.pickupAddress?.address ?? "",
+                        date: formattedDate,
+                        isNavigator: true,
+                        titel: "Offer",
+                        isType: item.status ?? "",
 
-                          /// Optional: Add price if available
-                          price: item.offerPrice?.toString() ?? "0",
-                        ),
-                      );
-                    }, childCount: data.length),
-                  ),
+                        /// Optional: Add price if available
+                        price: item.offerPrice?.toString() ?? "0",
+                      ),
+                    );
+                  }, childCount: data.length),
                 );
               }),
 

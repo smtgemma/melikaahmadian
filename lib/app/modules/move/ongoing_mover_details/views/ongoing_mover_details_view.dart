@@ -20,50 +20,138 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
     final offercontroller = Get.put(OfferReviewController());
     var textStyele = TextTheme.of(context);
     return Scaffold(
-     body: RefreshIndicator(child:  AppBackground(
-       child: SingleChildScrollView(
-         child: Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             AppBackButton(),
-             SizedBox(height: 24,),
-             Text("Ongoing Moves",style:textStyele.titleLarge,),
-             SizedBox(height: 4.h,),
-             Text("Details of ongoing moves & mover.",style: textStyele.bodyMedium,),
-             SizedBox(height: 24.h,),
-             MoveOfferDetails(offer: "Details",details: "Move Update",),
-             SizedBox(height: 24.h,),
-             Obx(() {
-               String rawDate = controller.detailsmodel.value.data?.scheduleDate.toString() ?? "";
+      body: RefreshIndicator(
+        child: AppBackground(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppBackButton(),
+                SizedBox(height: 24),
+                Text("Ongoing Moves", style: textStyele.titleLarge),
+                SizedBox(height: 4.h),
+                Text(
+                  "Details of ongoing moves & mover.",
+                  style: textStyele.bodyMedium,
+                ),
+                SizedBox(height: 24.h),
+                MoveOfferDetails(offer: "Details", details: "Move Update"),
+                SizedBox(height: 24.h),
+                Obx(() {
+                  String rawDate =
+                      controller.detailsmodel.value.data?.scheduleDate
+                          .toString() ??
+                      "";
 
-               // Parse and format the date safely
-               String displayDate;
+                  // Parse and format the date safely
+                  String displayDate;
 
-               if (rawDate.isEmpty) {
-                 displayDate = "27th November 2025"; // fallback
-               } else {
-                 DateTime parsedDate = DateTime.parse(rawDate);
-                 displayDate = DateFormat('dd MMM yyyy',).format(parsedDate); // e.g., 25 Dec 2024
-               }
-               if(controller.detailsLoading.value == true){
-                 return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
-               }
-               if(offercontroller.selectedOfferDetails.value == "Details"){
-                 return  OngingDetails(name: controller.detailsmodel.value.data?.acceptedOffer?.provider?.fullName.toString() ?? "" ,
-                   ratring: controller.detailsmodel.value.data?.acceptedOffer?.provider?.averageRating.toStringAsFixed(1) ?? "0",
-                   reviewRating: controller.detailsmodel.value.data?.acceptedOffer?.provider?.totalReviews.toStringAsFixed(0).toString() ?? "0",
-                   picAddress: controller.detailsmodel.value.data?.pickupAddress?.address.toString(),
-                   dropAddress: controller.detailsmodel.value.data?.dropoffAddress?.address.toString(),
-                   picLat: controller.detailsmodel.value.data?.pickupAddress?.latitude,
-                   picLong: controller.detailsmodel.value.data?.pickupAddress?.longitude,
-                   drolat: controller.detailsmodel.value.data?.dropoffAddress?.latitude,
-                   drolong: controller.detailsmodel.value.data?.dropoffAddress?.longitude,
-                   data: displayDate,
-                   time: controller.detailsmodel.value.data?.scheduleTime.toString(),
-                   selectedType: controller.detailsmodel.value.data?.houseType.toString(),
-                   listfurniture: controller.detailsmodel.value.data?.furniture,
-                   postId: controller.detailsmodel.value.data?.id.toString(),
-                   videoPath: controller.detailsmodel.value.data?.media?[0].url,
+                  if (rawDate.isEmpty) {
+                    displayDate = "27th November 2025"; // fallback
+                  } else {
+                    DateTime parsedDate = DateTime.parse(rawDate);
+                    displayDate = DateFormat(
+                      'dd MMM yyyy',
+                    ).format(parsedDate); // e.g., 25 Dec 2024
+                  }
+                  if (controller.detailsLoading.value == true) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.secoundaryColor,
+                      ),
+                    );
+                  }
+                  if (offercontroller.selectedOfferDetails.value == "Details") {
+                    return OngingDetails(
+                      name:
+                          controller
+                              .detailsmodel
+                              .value
+                              .data
+                              ?.acceptedOffer
+                              ?.provider
+                              ?.fullName
+                              .toString() ??
+                          "",
+                      ratring:
+                          controller
+                              .detailsmodel
+                              .value
+                              .data
+                              ?.acceptedOffer
+                              ?.provider
+                              ?.averageRating
+                              .toStringAsFixed(1) ??
+                          "0",
+                      reviewRating:
+                          controller
+                              .detailsmodel
+                              .value
+                              .data
+                              ?.acceptedOffer
+                              ?.provider
+                              ?.totalReviews
+                              .toStringAsFixed(0)
+                              .toString() ??
+                          "0",
+                      picAddress: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.pickupAddress
+                          ?.address
+                          .toString(),
+                      dropAddress: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.dropoffAddress
+                          ?.address
+                          .toString(),
+                      picLat: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.pickupAddress
+                          ?.latitude,
+                      picLong: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.pickupAddress
+                          ?.longitude,
+                      drolat: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.dropoffAddress
+                          ?.latitude,
+                      drolong: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.dropoffAddress
+                          ?.longitude,
+                      data: displayDate,
+                      time: controller.detailsmodel.value.data?.scheduleTime
+                          .toString(),
+                      selectedType: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.houseType
+                          .toString(),
+                      listfurniture:
+                          controller.detailsmodel.value.data?.furniture,
+                      postId: controller.detailsmodel.value.data?.id.toString(),
+                      videoPath:
+                          controller.detailsmodel.value.data?.media[0].url,
+                      userId: controller
+                          .detailsmodel
+                          .value
+                          .data
+                          ?.acceptedOffer
+                          ?.providerId,
 
                  ) ;
                }else{

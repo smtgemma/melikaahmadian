@@ -73,7 +73,7 @@ class PaymentDetailsController extends GetxController {
 
   Future<void> databasePaymentConfirm() async {
     final response = await _networkCaller.post(
-      'http://206.162.244.175:6008/api/v1/payments/confirm',
+        AppUrls.payment ,
       data: {"paymentIntentId": paymentIntentId},
     );
     if (response.statusCode == 200) {

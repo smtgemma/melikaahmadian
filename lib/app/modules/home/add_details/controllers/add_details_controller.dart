@@ -125,6 +125,9 @@ class AddDetailsController extends GetxController {
   RxString ai = "".obs;
   RxDouble distance = 0.0.obs;
   RxBool isLoading = false.obs;
+  RxNum totalVolume = RxNum(0);
+  // auto RxInt
+
   RxnString navigatorType = RxnString();
 
   Rx<AnalayzeAiVideo> analayzeAiVideo = AnalayzeAiVideo().obs;
@@ -217,6 +220,7 @@ class AddDetailsController extends GetxController {
           ),
         );
       }
+      totalVolume.value = analayzeAiVideo.value.totalVolumeCubicFeet ?? 0 ;
       Get.to(AllItemView(type: 'ai'));
     } catch (e) {
       debugPrint("ai video ${isLoading.value}");

@@ -264,7 +264,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.AI_GENARED_PRICE,
-      page: () => const AiGenaredPriceView(),
+      page: () =>  AiGenaredPriceView(),
       binding: AiGenaredPriceBinding(),
     ),
     GetPage(

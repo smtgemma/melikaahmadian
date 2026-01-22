@@ -77,7 +77,7 @@ class PaymentDetailsController extends GetxController {
       data: {"paymentIntentId": paymentIntentId},
     );
     if (response.statusCode == 200) {
-      print('payment ok');
+      print('payment okvjhsjfjvjxv');
     }
   }
 

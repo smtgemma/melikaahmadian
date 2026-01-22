@@ -15,7 +15,7 @@ class NavbarController extends GetxController {
   RxList item = [
     HomeView(),
     MoveView(),
-    VideoCmeraView(isbackbutton: true),
+    VideoCmeraView(),
     MoverChatView(),
     SettingView(),
   ].obs;

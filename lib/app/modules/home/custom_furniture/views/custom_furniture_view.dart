@@ -16,6 +16,8 @@ class CustomFurnitureView extends GetView<CustomFurnitureController> {
 
   @override
   Widget build(BuildContext context) {
+    // Get.put(CustomFurnitureController());
+    controller.getCategoryList('');
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -73,20 +75,20 @@ class CustomFurnitureView extends GetView<CustomFurnitureController> {
 
                   // Selected items quantity section
                   Obx(
-                        () => controller.selectedProducts.isNotEmpty
+                    () => controller.selectedProducts.isNotEmpty
                         ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildSectionTitle(
-                          textTheme,
-                          "Selected Items",
-                          "Adjust quantities below",
-                        ),
-                        SizedBox(height: 12.h),
-                        ProductQuantityWidget(),
-                        SizedBox(height: 20.h),
-                      ],
-                    )
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionTitle(
+                                textTheme,
+                                "Selected Items",
+                                "Adjust quantities below",
+                              ),
+                              SizedBox(height: 12.h),
+                              ProductQuantityWidget(),
+                              SizedBox(height: 20.h),
+                            ],
+                          )
                         : SizedBox.shrink(),
                   ),
 
@@ -103,25 +105,21 @@ class CustomFurnitureView extends GetView<CustomFurnitureController> {
   }
 
   Widget _buildSectionTitle(
-      TextTheme textTheme,
-      String title,
-      String subtitle,
-      ) {
+    TextTheme textTheme,
+    String title,
+    String subtitle,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 2.h),
         Text(
           subtitle,
-          style: textTheme.bodySmall?.copyWith(
-            color: Colors.grey[500],
-          ),
+          style: textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
         ),
       ],
     );
@@ -129,15 +127,15 @@ class CustomFurnitureView extends GetView<CustomFurnitureController> {
 
   Widget _buildProceedButton() {
     return Obx(
-          () => AppButton(
+      () => AppButton(
         titel: controller.selectedProducts.isEmpty
             ? "Select Items to Proceed"
             : "Proceed (${controller.getTotalItemsCount()} items)",
         onPress: controller.selectedProducts.isEmpty
             ? null
             : () {
-          Get.toNamed(Routes.ALL_ITEM);
-        },
+                Get.toNamed(Routes.ALL_ITEM);
+              },
         bodycolor: controller.selectedProducts.isEmpty
             ? AppColors.cardColor
             : AppColors.secoundaryColor,

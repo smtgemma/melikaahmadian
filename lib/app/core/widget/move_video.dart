@@ -100,6 +100,158 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
+// class MoveVideo extends StatefulWidget {
+//   final String? videoPath;
+//   final bool isAsset;
+//
+//   const MoveVideo({
+//     super.key,
+//     this.videoPath,
+//     this.isAsset = false,
+//   });
+//
+//   @override
+//   State<MoveVideo> createState() => _MoveVideoState();
+// }
+//
+// class _MoveVideoState extends State<MoveVideo> {
+//   late VideoPlayerController _videoPlayerController;
+//   ChewieController? _chewieController;
+//   bool _isInitialized = false;
+//   bool _hasError = false;
+//   String _errorMessage = '';
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _initializeVideoPlayer();
+//   }
+//
+//   Future<void> _initializeVideoPlayer() async {
+//     try {
+//       if (widget.videoPath == null || widget.videoPath!.isEmpty) {
+//         setState(() {
+//           _hasError = true;
+//           _errorMessage = 'Video path is empty';
+//         });
+//         return;
+//       }
+//
+//       // Initialize video player controller
+//       if (widget.isAsset) {
+//         _videoPlayerController = VideoPlayerController.file(
+//           File(widget.videoPath!),
+//         );
+//       } else {
+//         _videoPlayerController = VideoPlayerController.networkUrl(
+//           Uri.parse(widget.videoPath!),
+//         );
+//       }
+//
+//       // Add listener for errors
+//       _videoPlayerController.addListener(_handleVideoError);
+//
+//       // Initialize the controller
+//       await _videoPlayerController.initialize();
+//
+//       // Create Chewie controller
+//       _chewieController = ChewieController(
+//         videoPlayerController: _videoPlayerController,
+//         autoPlay: true,
+//         looping: false,
+//         progressIndicatorDelay: Duration(milliseconds: 200),
+//         showControlsOnInitialize: true,
+//       );
+//
+//       if (mounted) {
+//         setState(() {
+//           _isInitialized = true;
+//           _hasError = false;
+//         });
+//       }
+//     } catch (e) {
+//       if (mounted) {
+//         setState(() {
+//           _hasError = true;
+//           _errorMessage = 'Failed to load video: ${e.toString()}';
+//         });
+//       }
+//     }
+//   }
+//
+//   void _handleVideoError() {
+//     if (_videoPlayerController.value.hasError && mounted) {
+//       setState(() {
+//         _hasError = true;
+//         _errorMessage = _videoPlayerController.value.errorDescription ??
+//             'Unknown video error occurred';
+//       });
+//     }
+//   }
+//
+//   @override
+//   void dispose() {
+//     _videoPlayerController.removeListener(_handleVideoError);
+//     _chewieController?.dispose();
+//     _videoPlayerController.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     if (_hasError) {
+//       return Container(
+//         height: 200.h,
+//         width: double.infinity,
+//         decoration: BoxDecoration(
+//           color: Colors.grey[300],
+//           borderRadius: BorderRadius.circular(12.w),
+//         ),
+//         child: Center(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Icon(Icons.error_outline, size: 48, color: Colors.red),
+//               SizedBox(height: 12.h),
+//               Expanded(
+//                 child: Text(
+//                   _errorMessage,
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(color: Colors.red),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     }
+//
+//     if (!_isInitialized || _chewieController == null) {
+//       return Container(
+//         height: 200.h,
+//         width: double.infinity,
+//         decoration: BoxDecoration(
+//           color: Colors.grey[300],
+//           borderRadius: BorderRadius.circular(12.w),
+//         ),
+//         child: Center(
+//           child: CircularProgressIndicator(),
+//         ),
+//       );
+//     }
+//
+//     return Container(
+//       height: 200.h,
+//       width: double.infinity,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(12.w),
+//         color: Colors.black,
+//       ),
+//       child: Chewie(controller: _chewieController!),
+//     );
+//   }
+// }
+
 class MoveVideo extends StatefulWidget {
   final String? videoPath;
   final bool isAsset;
@@ -137,6 +289,36 @@ class _MoveVideoState extends State<MoveVideo> {
         return;
       }
 
+      debugPrint('🎥 Video Path: ${widget.videoPath}');
+      debugPrint('🎥 Is Asset: ${widget.isAsset}');
+
+      // Check if file exists
+      if (widget.isAsset) {
+        final file = File(widget.videoPath!);
+        final exists = await file.exists();
+        debugPrint('🎥 File exists: $exists');
+
+        if (!exists) {
+          setState(() {
+            _hasError = true;
+            _errorMessage = 'Video file not found at path: ${widget.videoPath}';
+          });
+          return;
+        }
+
+        // Check file size
+        final fileSize = await file.length();
+        debugPrint('🎥 File size: ${fileSize} bytes');
+
+        if (fileSize == 0) {
+          setState(() {
+            _hasError = true;
+            _errorMessage = 'Video file is empty (0 bytes)';
+          });
+          return;
+        }
+      }
+
       // Initialize video player controller
       if (widget.isAsset) {
         _videoPlayerController = VideoPlayerController.file(
@@ -151,16 +333,40 @@ class _MoveVideoState extends State<MoveVideo> {
       // Add listener for errors
       _videoPlayerController.addListener(_handleVideoError);
 
-      // Initialize the controller
-      await _videoPlayerController.initialize();
+      // Initialize the controller with timeout
+      await _videoPlayerController.initialize().timeout(
+        Duration(seconds: 10),
+        onTimeout: () {
+          throw Exception('Video initialization timeout');
+        },
+      );
+
+      debugPrint('🎥 Video initialized successfully');
+      debugPrint('🎥 Video duration: ${_videoPlayerController.value.duration}');
+      debugPrint('🎥 Video size: ${_videoPlayerController.value.size}');
 
       // Create Chewie controller
       _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
         autoPlay: true,
         looping: false,
-        progressIndicatorDelay: Duration(milliseconds: 200),
-        showControlsOnInitialize: true,
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+        errorBuilder: (context, errorMessage) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 48, color: Colors.red),
+                SizedBox(height: 12),
+                Text(
+                  errorMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
+          );
+        },
       );
 
       if (mounted) {
@@ -169,7 +375,10 @@ class _MoveVideoState extends State<MoveVideo> {
           _hasError = false;
         });
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('🎥 Error: $e');
+      debugPrint('🎥 StackTrace: $stackTrace');
+
       if (mounted) {
         setState(() {
           _hasError = true;
@@ -181,6 +390,7 @@ class _MoveVideoState extends State<MoveVideo> {
 
   void _handleVideoError() {
     if (_videoPlayerController.value.hasError && mounted) {
+      debugPrint('🎥 Video Player Error: ${_videoPlayerController.value.errorDescription}');
       setState(() {
         _hasError = true;
         _errorMessage = _videoPlayerController.value.errorDescription ??
@@ -208,19 +418,33 @@ class _MoveVideoState extends State<MoveVideo> {
           borderRadius: BorderRadius.circular(12.w),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: 48, color: Colors.red),
-              SizedBox(height: 12.h),
-              Expanded(
-                child: Text(
+          child: Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 48, color: Colors.red),
+                SizedBox(height: 12.h),
+                Text(
                   _errorMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+                SizedBox(height: 12.h),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _hasError = false;
+                      _isInitialized = false;
+                    });
+                    _initializeVideoPlayer();
+                  },
+                  child: Text('Retry'),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -235,19 +459,26 @@ class _MoveVideoState extends State<MoveVideo> {
           borderRadius: BorderRadius.circular(12.w),
         ),
         child: Center(
-          child: CircularProgressIndicator(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 12.h),
+              Text('Loading video...'),
+            ],
+          ),
         ),
       );
     }
 
-    return Container(
-      height: 200.h,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.w),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12.w),
+      child: Container(
+        height: 200.h,
+        width: double.infinity,
         color: Colors.black,
+        child: Chewie(controller: _chewieController!),
       ),
-      child: Chewie(controller: _chewieController!),
     );
   }
 }

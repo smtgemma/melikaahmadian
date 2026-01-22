@@ -30,7 +30,7 @@ class ProfileEditView extends GetView<ProfileEditController> {
               Obx(() => controller.selectedImage.value != null ? CircleAvatar(
                 radius: 55,
                 backgroundImage: FileImage(controller.selectedImage.value!),
-              ) : AppImageFrameRadiousWidget(radious: 55), ),
+              ) : AppImageFrameRadiousWidget(radious: 55,imageLink: controller.image,), ),
               Positioned(
                   bottom: 0,
                   right: -5,

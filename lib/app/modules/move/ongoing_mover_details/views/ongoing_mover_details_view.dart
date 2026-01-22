@@ -153,28 +153,19 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
                           ?.acceptedOffer
                           ?.providerId,
 
-                      ProfileImage: controller
-                          .detailsmodel
-                          .value
-                          .data
-                          ?.acceptedOffer
-                          ?.provider
-                          ?.image,
-                    );
-                  } else {
-                    return OngingMoveUpdate(
-                      id: controller.detailsmodel.value.data?.id.toString(),
-                    );
-                  }
-                }),
-              ],
-            ),
-          ),
-        ),
-        onRefresh: () {
-          return controller.getDetails(pram: controller.postId);
-        },
-      ),
+                 ) ;
+               }else{
+               return  OngingMoveUpdate(id:controller.detailsmodel.value.data?.id.toString() ,status:controller.detailsmodel.value.data?.moveStatus ?? "" ,) ;
+               }})
+
+
+           ],
+
+         ),
+       ),
+     ), onRefresh: (){
+       return controller.getDetails(pram: controller.postId);
+     }),
     );
   }
 }

@@ -51,7 +51,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
               ),
               SizedBox(height: 16.h),
 
-              // Video Preview
+             // Video Preview
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.w),
                 child: Container(
@@ -68,6 +68,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
                   child: MoveVideo(videoPath: videoPath, isAsset: true),
                 ),
               ),
+
               SizedBox(height: 24.h),
 
               // Address Details Header
@@ -206,6 +207,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
                       onTap: () {
                         controller.selectedHouseType.value = index;
                         controller.selectedDateText.value = data.titel ?? "";
+                        debugPrint(data.titel.toString());
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 300),
@@ -331,6 +333,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
     debugPrint("navigator type $navigatorType");
 
     if (navigatorType == "ai") {
+
       controller.isLoading.value = true;
       try {
         final file = File(videourl!);
@@ -345,6 +348,9 @@ class AddDetailsView extends GetView<AddDetailsController> {
               double.parse(controller.dropLongitude.value),
             ) /
             1000;
+        debugPrint("distance ${controller.distance.value}");
+
+
 
         // Get.toNamed(Routes.AI_QUOTE);
       } catch (e) {

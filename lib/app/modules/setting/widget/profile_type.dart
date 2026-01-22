@@ -30,7 +30,7 @@ class ProfileType extends StatelessWidget {
           ),
           child: isProfile == true ? ListTile(
             leading: AppImageFrameRadiousWidget(imageLink: profileImage,),
-            title: Text( titel ?? "Mike James",style: textStyele.titleMedium,),
+            title: Text( titel ?? "",style: textStyele.titleMedium,),
             subtitle: Text( subtitel ?? "My profile",style: textStyele.bodyMedium!.copyWith(fontSize: 14)),
             trailing: InkWell(
                 onTap: onpress,

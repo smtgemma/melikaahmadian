@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -123,6 +124,71 @@ class LogInView extends GetView<LogInController> {
                         isLoding: controller.isLoading.value,
                       ),
                     ),
+                    SizedBox(height: 16.h),
+// Terms and Conditions Checkbox
+                    Obx(
+                          () => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 24.h,
+                            width: 24.w,
+                            child: Checkbox(
+                              value: controller.isTermsAccepted.value,
+                              onChanged: (value) {
+                                controller.toggleTerms();
+                              },
+                              activeColor: AppColors.secoundaryColor,
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.toggleTerms();
+                              },
+                              child: Text.rich(
+                                TextSpan(
+                                  text: "I accept the ",
+                                  style: textStyle.bodyMedium,
+                                  children: [
+                                    TextSpan(
+                                      text: "Terms and Conditions",
+                                      style: textStyle.bodyMedium!.copyWith(
+                                        color: AppColors.secoundaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Get.toNamed(Routes.TERMS_CONDITION);
+                                        },
+                                    ),
+                                    TextSpan(
+                                      text: " and ",
+                                      style: textStyle.bodyMedium,
+                                    ),
+                                    TextSpan(
+                                      text: "Privacy Policy",
+                                      style: textStyle.bodyMedium!.copyWith(
+                                        color: AppColors.secoundaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Get.toNamed(Routes.PRIVACY_POLICY);
+                                        },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
                   ],
                 ),
               ),

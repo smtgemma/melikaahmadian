@@ -23,7 +23,7 @@ class Payment extends StatelessWidget {
           Get.toNamed(Routes.NAVBAR);
         },),
         SizedBox(height: 24.h,),
-        AppButton(titel: "Download Receipt",containerColor: 1,)
+        //AppButton(titel: "Download Receipt",containerColor: 1,)
 
       ],
     ));

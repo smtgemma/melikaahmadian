@@ -1,7 +1,7 @@
 class AppUrls {
   static const baseUrl = "http://206.162.244.175:6008/api/v1";
- // static const baseUrl = "http://72.61.159.246:6008/api/v1";
- // static const aibaseUrl = "http://206.162.244.175:3033/api/v1";
+  // static const baseUrl = "http://72.61.159.246:6008/api/v1";
+  // static const aibaseUrl = "http://206.162.244.175:3033/api/v1";
   static const refreshToken = "${baseUrl}/auth/refresh-token";
   static const loginWithGoogle = "${baseUrl}/auth/google-login";
   static const createPaymentIntent = "${baseUrl}/payments/create-intent";
@@ -22,6 +22,8 @@ class AppUrls {
   static const post = "/posts";
   static const sendOffer = "/offers";
   static const uploadProfilePicture = "/users/me/uploads-profile-photo";
+  static getMyEarning(int limit, int page, String month) =>
+      "/provider-earnings?page=$page&limit=$limit&month=$month";
   static const treanAndCondition = "/rules/terms-and-conditions";
   static const privacyAndPolicy = "/rules/privacy-policy";
   static const updateProfileNameSpecialization = "/users/provider/profile";
@@ -51,7 +53,13 @@ class AppUrls {
   static String statusChange(String? id) => "/posts/status/$id";
   static String getMoveStatus(String? id) => "/posts/move-status/$id";
   static String moveStatusChange(String? id) => "/posts/move-status/$id";
-  static String searchAddress({String? pickupState, String? dropoffState, String? pickupCity, String? dropoffCity}) => "/locations/search?pickupState=${pickupState}&dropoffState=${dropoffState}&pickupCity=${pickupCity}&dropoffCity=${dropoffCity}";
+  static String searchAddress({
+    String? pickupState,
+    String? dropoffState,
+    String? pickupCity,
+    String? dropoffCity,
+  }) =>
+      "/locations/search?pickupState=${pickupState}&dropoffState=${dropoffState}&pickupCity=${pickupCity}&dropoffCity=${dropoffCity}";
 }
 
 //https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg

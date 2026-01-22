@@ -17,7 +17,6 @@ class AllItemView extends GetView<AllItemController> {
   const AllItemView({super.key, this.type});
   final String? type;
 
-
   @override
   Widget build(BuildContext context) {
     var textStyle = TextTheme.of(context);

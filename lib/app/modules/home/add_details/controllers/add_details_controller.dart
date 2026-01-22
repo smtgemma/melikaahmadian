@@ -107,7 +107,7 @@ class AddDetailsController extends GetxController {
 
   DateTime? selectedDate;
   RxInt selectedHouseType = 0.obs;
-  RxString selectedDateText = "".obs;
+  RxString selectedDateText = "House".obs;
 
   List<ProductModel> houseType = [
     ProductModel(titel: "House", iconPath: Assets.iconsHouse),

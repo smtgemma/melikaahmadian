@@ -51,7 +51,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
               ),
               SizedBox(height: 16.h),
 
-              // Video Preview
+             // Video Preview
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.w),
                 child: Container(
@@ -68,6 +68,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
                   child: MoveVideo(videoPath: videoPath, isAsset: true),
                 ),
               ),
+
               SizedBox(height: 24.h),
 
               // Address Details Header
@@ -206,6 +207,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
                       onTap: () {
                         controller.selectedHouseType.value = index;
                         controller.selectedDateText.value = data.titel ?? "";
+                        debugPrint(data.titel.toString());
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 300),

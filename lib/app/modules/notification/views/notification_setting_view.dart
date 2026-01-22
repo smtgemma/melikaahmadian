@@ -26,7 +26,7 @@ class NotificationSettingView extends StatelessWidget {
             SizedBox(height: 24.h,),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 12.h),
+              // padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 12.h),
               decoration: BoxDecoration(color: AppColors.cardColor,borderRadius: BorderRadius.circular(12),border: Border.all(color: AppColors.strtoColor)),
               child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

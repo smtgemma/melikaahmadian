@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:melikaahmadian/app/core/const/app_urls.dart';
+import 'package:melikaahmadian/app/core/network/dio_client.dart';
 import 'package:melikaahmadian/app/modules/home/ai_genared_price/model/mopst_request_model.dart';
+import 'package:melikaahmadian/app/modules/mover/mover_chat/views/message_chat_view.dart';
+import 'package:melikaahmadian/app/routes/app_pages.dart';
 
 import '../../../../../generated/assets.dart';
 import '../../../../core/const/app_colors.dart';
@@ -15,10 +19,12 @@ import '../../offer_review/model/details_model.dart';
 import '../../offer_review/repository/offer_review_repository.dart';
 import '../../offer_review/widget/single_information.dart';
 import 'package:get/get.dart';
+
 class OngingDetails extends StatelessWidget {
   bool? isCencel;
 
   String? name;
+  String? userId;
 
   String? starRation;
 
@@ -42,17 +48,37 @@ class OngingDetails extends StatelessWidget {
 
   String? postId;
 
-  String ? picAddress;
+  String? picAddress;
 
   String? dropAddress;
 
   String? videoPath;
 
   String? ratring;
+  String? ProfileImage;
 
-
-  OngingDetails(
-      {super.key, this.name, this.starRation, this.reviewRating, this.isCencel, this.picLat, this.picLong, this.drolat, this.drolong, this.data, this.time, this.selectedType, this.listfurniture, this.postId, this.picAddress, this.dropAddress, this.videoPath, this.ratring});
+  OngingDetails({
+    super.key,
+    this.name,
+    this.starRation,
+    this.reviewRating,
+    this.isCencel,
+    this.picLat,
+    this.picLong,
+    this.drolat,
+    this.drolong,
+    this.data,
+    this.time,
+    this.selectedType,
+    this.listfurniture,
+    this.postId,
+    this.picAddress,
+    this.dropAddress,
+    this.videoPath,
+    this.ratring,
+    this.userId,
+    this.ProfileImage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,98 +86,153 @@ class OngingDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MoveVideo(videoPath: videoPath,),
-        SizedBox(height: 24.h,),
+        MoveVideo(videoPath: videoPath),
+        SizedBox(height: 24.h),
         Text("Your mover", style: textStyele.titleLarge),
         SizedBox(height: 12.h),
-        Stack(children: [
-          Container(
-            //  height: 150.h,
-            padding: EdgeInsets.all(16.w),
-            width: double.infinity,
-            decoration: BoxDecoration(color: AppColors.secoundaryColor,
-                borderRadius: BorderRadius.circular(12)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    AppImageFrameRadiousWidget(radious: 25,),
-                    SizedBox(width: 20.w,),
-                    Column(
-                      children: [
-                        Text(name ?? "Mike James",
-                          style: textStyele.titleMedium!.copyWith(
-                              color: AppColors.primaryColor),),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset(Assets.iconsColorStar),
-                                SizedBox(width: 04,),
-                                Text(ratring ?? "4.5",
-                                  style: textStyele.bodyMedium!.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontSize: 14),)
-                              ],
+        Stack(
+          children: [
+            Container(
+              //  height: 150.h,
+              padding: EdgeInsets.all(16.w),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.secoundaryColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      AppImageFrameRadiousWidget(radious: 25),
+                      SizedBox(width: 20.w),
+                      Column(
+                        children: [
+                          Text(
+                            name ?? "Mike James",
+                            style: textStyele.titleMedium!.copyWith(
+                              color: AppColors.primaryColor,
                             ),
-                            SizedBox(width: 08.w,),
-                            Text("${reviewRating ?? "152"} Reviews",
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(Assets.iconsColorStar),
+                                  SizedBox(width: 04),
+                                  Text(
+                                    ratring ?? "4.5",
+                                    style: textStyele.bodyMedium!.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 08.w),
+                              Text(
+                                "${reviewRating ?? "152"} Reviews",
                                 style: textStyele.bodyMedium!.copyWith(
-                                    color: AppColors.primaryColor)),
-                          ],),
-                      ],
-                    ),
-                  ],
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppButton(
+                          onPress: () {
+                            Get.toNamed(
+                              Routes.AUDIO_CALL,
+                              arguments: {'userId': userId,'image':ProfileImage, 'name': name},
+                            );
+                          },
+                          containerColor: 1,
+                          child: true,
+                          titel: "Call",
+                          iconPath: Assets.iconsCall,
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: AppButton(
+                          onPress: () async {
+                            try {
+                              final response = await DioClient().post(
+                                AppUrls.createConversation,
+                                data: {"receiverId": userId},
+                              );
+
+                              if (response.statusCode == 200) {
+                                final conversationId =
+                                    response.data['data']['id'];
+
+                                debugPrint('conversationId $conversationId');
+
+                                Get.to(
+                                  MessageChatView(
+                                    name: name,
+                                    userId: userId,
+                                    imagePath: ProfileImage,
+                                    conversationId: conversationId,
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              debugPrint("Chat create error: $e");
+                            }
+                          },
+                          borderColor: AppColors.textSecoundaryColor,
+                          child: true,
+                          titel: "Chat",
+                          iconPath: Assets.iconsChat,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: -40,
+              left: -40,
+              child: Container(
+                height: 123.h,
+                width: 123.w,
+                decoration: BoxDecoration(
+                  color: AppColors.shadoColor.withAlpha(10),
+                  shape: BoxShape.circle,
                 ),
-                SizedBox(height: 16.h,),
-                Row(
-                  children: [
-                    Expanded(child: AppButton(containerColor: 1,
-                      child: true,
-                      titel: "Call",
-                      iconPath: Assets.iconsCall,)),
-                    SizedBox(width: 12.w,),
-                    Expanded(child: AppButton(
-                      borderColor: AppColors.textSecoundaryColor,
-                      child: true,
-                      titel: "Chat",
-                      iconPath: Assets.iconsChat,))
-                  ],
-                )
-
-
-              ],
+              ),
             ),
-          ),
-          Positioned(
-            top: -40,
-            left: -40,
-            child: Container(
-              height: 123.h,
-              width: 123.w,
-              decoration: BoxDecoration(
+            Positioned(
+              bottom: -60,
+              right: -60,
+              child: Container(
+                height: 123.h,
+                width: 123.w,
+                decoration: BoxDecoration(
                   color: AppColors.shadoColor.withAlpha(10),
-                  shape: BoxShape.circle),
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
-          ),
-          Positioned(
-            bottom: -60,
-            right: -60,
-            child: Container(
-              height: 123.h,
-              width: 123.w,
-              decoration: BoxDecoration(
-                  color: AppColors.shadoColor.withAlpha(10),
-                  shape: BoxShape.circle),
-            ),
-          )
-        ],),
+          ],
+        ),
         SizedBox(height: 24.h),
         SingleInformation(
-            isChild: true, titel: picAddress ?? "Toronto, Canada"),
+          isChild: true,
+          titel: picAddress ?? "Toronto, Canada",
+        ),
         SizedBox(height: 12.h),
         Container(
           height: 145.h,
@@ -227,27 +308,28 @@ class OngingDetails extends StatelessWidget {
         SizedBox(height: 24.h),
         Text("Selected Furnitures", style: textStyele.titleLarge),
         SizedBox(height: 12.h),
-        ...List.generate(listfurniture?.length ?? 0,
-              (index) {
-            final item = listfurniture?[index];
+        ...List.generate(listfurniture?.length ?? 0, (index) {
+          final item = listfurniture?[index];
 
-            return FurnitureType(
-              titel: item?.name ?? "furniture",
-              quantity: item?.quantity.toString() ?? "1",
-            );
-          },
-        ),
-        isCencel == true ? SizedBox(height: 24.h) : AppButton(
-          titel: "Request To Cancel Move",
-          onPress: () {
-            bottomSheet(context,id: postId);
-          },
-        ),
+          return FurnitureType(
+            titel: item?.name ?? "furniture",
+            quantity: item?.quantity.toString() ?? "1",
+          );
+        }),
+        isCencel == true
+            ? SizedBox(height: 24.h)
+            : AppButton(
+                titel: "Request To Cancel Move",
+                onPress: () {
+                  bottomSheet(context, id: postId);
+                },
+              ),
 
         SizedBox(height: 24.h),
       ],
     );
   }
+
   void bottomSheet(BuildContext context, {String? id}) {
     final controller = Get.put(OfferReviewController());
     var textStyele = TextTheme.of(context);
@@ -265,17 +347,20 @@ class OngingDetails extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Container(
               child: Obx(
-                    () => ListView(
+                () => ListView(
                   children: List.generate(controller.cancelMove.length, (
-                      index,
-                      ) {
+                    index,
+                  ) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 08),
                       child: AppButton(
                         titel: controller.cancelMove[index],
                         onPress: () {
                           Get.back();
-                          OfferReviewRepository.canclMove(reason:controller.cancelMove[index],id: id );
+                          OfferReviewRepository.canclMove(
+                            reason: controller.cancelMove[index],
+                            id: id,
+                          );
                           // OfferReviewRepository
                         },
                         containerColor: 1,
@@ -290,5 +375,4 @@ class OngingDetails extends StatelessWidget {
       },
     );
   }
-
 }

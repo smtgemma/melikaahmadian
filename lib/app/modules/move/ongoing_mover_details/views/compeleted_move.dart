@@ -8,7 +8,8 @@ import '../../../../core/widget/app_background.dart';
 import '../../../auth/application_submit/widget/mark_compeleted.dart';
 import '../controllers/move_compeleted_controller.dart';
 class CompeletedMove extends StatelessWidget {
-  const CompeletedMove({super.key});
+  const CompeletedMove({super.key, required this.id});
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +24,6 @@ class CompeletedMove extends StatelessWidget {
           Image.asset(Assets.iconsCongralation),
           SizedBox(height: 24.h,),
           MarkCompeleted(),
-
-
 
         ],
       ),),

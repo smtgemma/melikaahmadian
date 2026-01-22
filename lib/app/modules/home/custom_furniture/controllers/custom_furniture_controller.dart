@@ -1,9 +1,6 @@
-import 'dart:isolate';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:melikaahmadian/app/core/model/product_model.dart';
-import '../../../../../generated/assets.dart';
 import '../model/get_furniture_model.dart';
 import '../repository/custome_furniture_repository.dart';
 
@@ -48,10 +45,6 @@ class CustomFurnitureController extends GetxController {
   ].obs;
   Rx<GetFurnitureModel> furnitureModel = GetFurnitureModel().obs;
 
-  // Isolate ports for communication
-  ReceivePort? _receivePort;
-  Isolate? _isolate;
-
   @override
   void onInit() {
     super.onInit();
@@ -60,102 +53,40 @@ class CustomFurnitureController extends GetxController {
     _initializeFurnitureData();
   }
 
+  // ✅ FIXED: No isolate needed - just call repository directly
   Future<void> _initializeFurnitureData() async {
     debugPrint("📊 Initializing furniture data...");
     await getFurnitureByCategoryBackground("");
   }
 
-  /// Fetch furniture using isolate for background processing
-  /// ✅ SAFE: No UI calls, all logic in isolate
+  /// ✅ FIXED: Simple async method without isolate
+  /// API calls work fine on main thread with proper error handling
   Future<void> getFurnitureByCategoryBackground(String category) async {
     try {
       furnitureLoading.value = true;
-      debugPrint("🔄 [ISOLATE START] Fetching: '$category'");
+      debugPrint("🔄 Fetching furniture: '$category'");
 
-      final receivePort = ReceivePort();
-
-      // Spawn isolate
-      _isolate = await Isolate.spawn(
-        _furnitureIsolate,
-        _IsolateParams(sendPort: receivePort.sendPort, category: category),
+      // Call repository directly - it handles auth and errors
+      final result = await CustomeFurnitureRepository.getFurnitureByCatagory(
+        category,
       );
 
-      // Listen for result (one-time only)
-      receivePort.listen(
-        (message) {
-          if (message is GetFurnitureModel) {
-            debugPrint(
-              "✅ [ISOLATE DONE] Got ${message.data?.length ?? 0} items",
-            );
-            furnitureModel.value = message;
-            furnitureLoading.value = false;
-            receivePort.close();
-          } else if (message is String) {
-            // Error message from isolate
-            debugPrint("❌ [ISOLATE ERROR] $message");
-            furnitureLoading.value = false;
+      furnitureModel.value = result;
+      debugPrint("✅ Successfully fetched ${result.data?.length ?? 0} items");
 
-            // Handle specific errors
-            if (message.contains("401")) {
-              // Don't handle auth here - let main thread handle it
-              Get.snackbar(
-                "Session Expired",
-                "Please login again",
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.red,
-                colorText: Colors.white,
-              );
-            } else {
-              Get.snackbar(
-                "Error",
-                "Failed to load furniture",
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.red,
-                colorText: Colors.white,
-              );
-            }
-            receivePort.close();
-          }
-        },
-        onError: (error) {
-          debugPrint("❌ [ISOLATE LISTEN ERROR] $error");
-          furnitureLoading.value = false;
-          receivePort.close();
-        },
-      );
+      furnitureLoading.value = false;
     } catch (e) {
       furnitureLoading.value = false;
-      debugPrint("❌ Error spawning isolate: $e");
+      debugPrint("❌ Error loading furniture: $e");
+
+      // Show user-friendly error
       Get.snackbar(
         "Error",
-        "Failed to load furniture",
+        "Failed to load furniture. Please try again.",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-    }
-  }
-
-  /// Static method to run in isolate
-  /// ✅ IMPORTANT: NO UI code here (no Get, no BuildContext, etc.)
-  static Future<void> _furnitureIsolate(_IsolateParams params) async {
-    try {
-      debugPrint("🔄 [ISOLATE WORKER] Started");
-
-      // Call repository (this will make the API call)
-      final result = await CustomeFurnitureRepository.getFurnitureByCatagory(
-        params.category,
-      );
-
-      debugPrint("🔄 [ISOLATE WORKER] Got result, sending back");
-
-      // Send result back to main thread
-      params.sendPort.send(result);
-    } catch (e) {
-      debugPrint("❌ [ISOLATE WORKER ERROR] $e");
-
-      // Send error message back to main thread
-      params.sendPort.send(e.toString());
     }
   }
 
@@ -176,7 +107,6 @@ class CustomFurnitureController extends GetxController {
     final exists = selectedProducts.any(
       (p) => p.titel?.toLowerCase() == product.titel?.toLowerCase(),
     );
-
     if (exists) {
       selectedProducts.removeWhere(
         (p) => p.titel?.toLowerCase() == product.titel?.toLowerCase(),
@@ -234,19 +164,7 @@ class CustomFurnitureController extends GetxController {
 
   @override
   void onClose() {
-    // Kill isolate if still running
-    _isolate?.kill(priority: Isolate.immediate);
-    _receivePort?.close();
-
     debugPrint("🛑 CustomFurnitureController closed");
     super.onClose();
   }
-}
-
-/// Parameters passed to isolate
-class _IsolateParams {
-  final SendPort sendPort;
-  final String category;
-
-  _IsolateParams({required this.sendPort, required this.category});
 }

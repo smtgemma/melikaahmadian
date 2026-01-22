@@ -13,6 +13,7 @@ import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/core/widget/move_video.dart';
+import 'package:melikaahmadian/app/modules/home/custom_furniture/controllers/custom_furniture_controller.dart';
 import 'package:melikaahmadian/app/modules/home/custom_furniture/repository/custome_furniture_repository.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
@@ -22,9 +23,9 @@ import '../views/please_search.dart';
 
 class AddDetailsView extends GetView<AddDetailsController> {
   final String? videoPath;
-  String? navigatorType ;
+  String? navigatorType;
 
-   AddDetailsView({super.key, this.videoPath,this.navigatorType});
+  AddDetailsView({super.key, this.videoPath, this.navigatorType});
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +43,6 @@ class AddDetailsView extends GetView<AddDetailsController> {
 
               // Title Section
               Text("Pickup & Drop-off", style: textStyle.titleLarge),
-
-
 
               SizedBox(height: 4.h),
               Text(
@@ -264,32 +263,45 @@ class AddDetailsView extends GetView<AddDetailsController> {
                 ),
               ),
               SizedBox(height: 12.h),
-              navigatorType == "ai" ?  Text("House Type Selection", style: textStyle.titleLarge) : SizedBox(),
+              navigatorType == "ai"
+                  ? Text("House Type Selection", style: textStyle.titleLarge)
+                  : SizedBox(),
               SizedBox(height: 12.h),
-              navigatorType == "ai" ?  TextFormField(
-                controller: controller.roomTextEditingController,
-                cursorHeight: 16.h,
-                style: textStyle.labelLarge!.copyWith(
-                  color: AppColors.secoundaryColor,
-                ),
-                decoration: InputDecoration(hintText: "Total rooms in the home (bedrooms, kitchen, store, etc.)"),
-              )  : SizedBox() ,
+              navigatorType == "ai"
+                  ? TextFormField(
+                      controller: controller.roomTextEditingController,
+                      cursorHeight: 16.h,
+                      style: textStyle.labelLarge!.copyWith(
+                        color: AppColors.secoundaryColor,
+                      ),
+                      decoration: InputDecoration(
+                        hintText:
+                            "Total rooms in the home (bedrooms, kitchen, store, etc.)",
+                      ),
+                    )
+                  : SizedBox(),
               SizedBox(height: 24.h),
 
               // Submit Button
-             Obx(() =>   AppButton(
-               titel: navigatorType == "ai"
-                   ? "Get AI Quote"
-                   : 'Select Your Items',
-              onPress: () => _handleSubmit(context,navigatorType: navigatorType,videourl: videoPath),
-              //  onPress: (){
-              //    debugPrint("mover");
-              //    final file = File(videoPath!);
-              //
-              //  },
-               isLoding: controller.isLoading.value,
-               child: false,
-             ),),
+              Obx(
+                () => AppButton(
+                  titel: navigatorType == "ai"
+                      ? "Get AI Quote"
+                      : 'Select Your Items',
+                  onPress: () => _handleSubmit(
+                    context,
+                    navigatorType: navigatorType,
+                    videourl: videoPath,
+                  ),
+                  //  onPress: (){
+                  //    debugPrint("mover");
+                  //    final file = File(videoPath!);
+                  //
+                  //  },
+                  isLoding: controller.isLoading.value,
+                  child: false,
+                ),
+              ),
 
               SizedBox(height: 24.h),
             ],
@@ -299,7 +311,11 @@ class AddDetailsView extends GetView<AddDetailsController> {
     );
   }
 
-  Future<void> _handleSubmit(BuildContext context , {String? navigatorType,String? videourl}) async {
+  Future<void> _handleSubmit(
+    BuildContext context, {
+    String? navigatorType,
+    String? videourl,
+  }) async {
     if (!controller.validateAllFields()) {
       Get.snackbar(
         "Required Fields",
@@ -340,7 +356,10 @@ class AddDetailsView extends GetView<AddDetailsController> {
       }
     } else {
       try {
-        await CustomeFurnitureRepository.getFurnitureByCatagory("");
+        if (Get.isRegistered<CustomFurnitureController>()) {
+          Get.delete<CustomFurnitureController>(force: true);
+        }
+
         Get.toNamed(Routes.CUSTOM_FURNITURE);
       } catch (e) {
         Get.snackbar("Error", "Failed to load furniture");

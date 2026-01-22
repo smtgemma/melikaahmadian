@@ -19,7 +19,7 @@ class AllItemView extends GetView<AllItemController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AllItemController()) ;
+    Get.put(AllItemController());
     var textStyle = TextTheme.of(context);
     final furnitureController = Get.find<CustomFurnitureController>();
 
@@ -37,14 +37,18 @@ class AllItemView extends GetView<AllItemController> {
 
                 // Header
                 Text(
-                  "AI Analyzed Furnitures",
+                  type == 'ai'
+                      ? "AI Analyzed Furnitures"
+                      : "Selected Furniture's",
                   style: textStyle.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  "AI analyzed your video and detected these furnitures.",
+                  type == 'ai'
+                      ? "AI analyzed your video and detected these furnitures."
+                      : "Review all the furniture's you added and proceed on last step.",
                   style: textStyle.bodyMedium?.copyWith(
                     color: Colors.grey[600],
                   ),
@@ -80,9 +84,10 @@ class AllItemView extends GetView<AllItemController> {
                     onPress: furnitureController.selectedProducts.isEmpty
                         ? null
                         : () {
-                          controller.estimateCost();
-                            //Get.toNamed(Routes.AI_GENARED_PRICE);
-                          },isLoding: controller.isLoading.value,
+                            // controller.estimateCost();
+                            Get.toNamed(Routes.AI_GENARED_PRICE);
+                          },
+                    isLoding: controller.isLoading.value,
                     bodycolor: furnitureController.selectedProducts.isEmpty
                         ? AppColors.cardColor
                         : AppColors.secoundaryColor,

@@ -1,6 +1,6 @@
 class AnalayzeAiVideo {
   List<Items>? items;
-  int? totalVolumeCubicFeet;
+  num? totalVolumeCubicFeet;
 
   AnalayzeAiVideo({this.items, this.totalVolumeCubicFeet});
 

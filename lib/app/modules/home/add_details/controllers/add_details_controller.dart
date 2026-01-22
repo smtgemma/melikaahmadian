@@ -90,6 +90,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:melikaahmadian/app/core/model/product_model.dart';
+import 'package:melikaahmadian/app/modules/home/all_item/views/all_item_view.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 import '../../../../core/network/shared_prepharence_helper.dart';
@@ -102,8 +103,7 @@ class AddDetailsController extends GetxController {
 
   late TextEditingController dataEditingController;
   late TextEditingController timeEditingController;
-  final roomTextEditingController  = TextEditingController();
-
+  final roomTextEditingController = TextEditingController();
 
   DateTime? selectedDate;
   RxInt selectedHouseType = 0.obs;
@@ -127,16 +127,15 @@ class AddDetailsController extends GetxController {
   RxBool isLoading = false.obs;
   RxnString navigatorType = RxnString();
 
-
-   Rx<AnalayzeAiVideo> analayzeAiVideo = AnalayzeAiVideo().obs;
-
-
+  Rx<AnalayzeAiVideo> analayzeAiVideo = AnalayzeAiVideo().obs;
 
   @override
   void onInit() {
     super.onInit();
     _initializeControllers();
-    navigatorType.value = SharedPrefHelper.getString(SharedPrefHelper.ai).toString();
+    navigatorType.value = SharedPrefHelper.getString(
+      SharedPrefHelper.ai,
+    ).toString();
   }
 
   void _initializeControllers() {
@@ -146,8 +145,8 @@ class AddDetailsController extends GetxController {
 
   @override
   void onClose() {
-   // dataEditingController.dispose();
-   // timeEditingController.dispose();
+    // dataEditingController.dispose();
+    // timeEditingController.dispose();
     super.onClose();
   }
 
@@ -196,31 +195,35 @@ class AddDetailsController extends GetxController {
     timeEditingController.clear();
   }
 
-  Future<void> analayzeVideo({ required File videoFile}) async {
+  Future<void> analayzeVideo({required File videoFile}) async {
     try {
       isLoading.value = true;
       debugPrint("ai video ${isLoading.value}");
 
-
-       int roomvalue = int.parse(roomTextEditingController.text);
-       final response  = await AddDetailsRepository.analyzeVideoApi(videoFile: videoFile, homeType: selectedDateText.value, roomCount: roomvalue);
-      analayzeAiVideo.value = response ;
-      for(var item in analayzeAiVideo.value.items!){
-        customFurniture.selectedProducts.add(ProductModel(titel: item.name,count: item.quantity!.toInt(),category: item.category,size: item.size));
-
+      int roomvalue = int.parse(roomTextEditingController.text);
+      final response = await AddDetailsRepository.analyzeVideoApi(
+        videoFile: videoFile,
+        homeType: selectedDateText.value,
+        roomCount: roomvalue,
+      );
+      analayzeAiVideo.value = response;
+      for (var item in analayzeAiVideo.value.items!) {
+        customFurniture.selectedProducts.add(
+          ProductModel(
+            titel: item.name,
+            count: item.quantity!.toInt(),
+            category: item.category,
+            size: item.size,
+          ),
+        );
       }
-      Get.toNamed(Routes.ALL_ITEM);
-
-
-    }catch(e){
+      Get.to(AllItemView(type: 'ai'));
+    } catch (e) {
       debugPrint("ai video ${isLoading.value}");
       debugPrint("ai error $e");
-
-    }finally{
+    } finally {
       isLoading.value = false;
       debugPrint("ai videos ${isLoading.value}");
-
     }
   }
-
 }

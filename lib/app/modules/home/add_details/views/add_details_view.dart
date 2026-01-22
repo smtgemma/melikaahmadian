@@ -316,7 +316,8 @@ class AddDetailsView extends GetView<AddDetailsController> {
     String? navigatorType,
     String? videourl,
   }) async {
-    if (!controller.validateAllFields()) {
+    // ✅ Validation only for NON-AI flow
+    if (navigatorType != 'ai' && !controller.validateAllFields()) {
       Get.snackbar(
         "Required Fields",
         "Please fill in all fields",
@@ -326,17 +327,15 @@ class AddDetailsView extends GetView<AddDetailsController> {
       );
       return;
     }
-    debugPrint("navigator type ${navigatorType}");
+
+    debugPrint("navigator type $navigatorType");
 
     if (navigatorType == "ai") {
       controller.isLoading.value = true;
       try {
         final file = File(videourl!);
-        // Get.toNamed(Routes.ALL_ITEM,arguments: {
-        //  AppArgumentString.navigatorType : "ai"
-        // });
-       controller.analayzeVideo(videoFile: file);
-        //await AddDetailsRepository.aiGenaredVideo();
+
+        await controller.analayzeVideo(videoFile: file);
 
         controller.distance.value =
             Geolocator.distanceBetween(
@@ -347,7 +346,6 @@ class AddDetailsView extends GetView<AddDetailsController> {
             ) /
             1000;
 
-        // Navigate after success
         // Get.toNamed(Routes.AI_QUOTE);
       } catch (e) {
         Get.snackbar("Error", "Failed to generate quote");

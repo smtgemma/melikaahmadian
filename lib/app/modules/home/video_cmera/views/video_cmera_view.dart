@@ -293,7 +293,7 @@ class VideoCmeraView extends GetView<VideoCmeraController> {
             GestureDetector(
               onTap: () {
                 if (controller.isRecording.value) {
-                  controller.stopRecording();
+                  controller.stopRecording(navigatorType ?? '');
                 } else {
                   controller.startRecording();
                 }

@@ -100,7 +100,7 @@ class VideoCmeraController extends GetxController {
   }
 
   /// Stop recording
-  Future<void> stopRecording() async {
+  Future<void> stopRecording(String type) async {
     try {
       if (!cameraController.value.isRecordingVideo) {
         return;
@@ -122,7 +122,7 @@ class VideoCmeraController extends GetxController {
       await Get.to(
         ReviewVideoView(
           videoPath: video.path,
-          navigatorType: "ai",
+          navigatorType:type,
         ),
       );
     } catch (e) {

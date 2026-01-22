@@ -15,105 +15,10 @@ import 'package:http/http.dart' as http;
 
 import '../model/analayze_ai_video.dart';
 
-
-
-
 class AddDetailsRepository {
   static final videoCameraController = Get.find<VideoCmeraController>();
   static final addDetailsController = Get.find<AddDetailsController>();
 
-  static Future<void> aiGenaredVideo() async {
-    try {
-      final videoPath = videoCameraController.videoPath.value;
-
-      // Validate video path
-      if (videoPath.isEmpty) {
-        throw Exception("Video path is empty");
-      }
-
-      debugPrint("Uploading video from: $videoPath");
-
-      // Create form data with video file
-      final formData = FormData.fromMap({
-        "video_file": await MultipartFile.fromFile(videoPath),
-        "home_type": addDetailsController.selectedDateText.value,
-        "room_count": 2,
-      });
-
-      // Log form data fields
-      for (var field in formData.fields) {
-        debugPrint("FormData field: ${field.key} = ${field.value}");
-      }
-
-      // Make API request with longer timeout for large files
-      addDetailsController.isLoading.value = true;
-
-      final response = await DioClient().post(
-        AppUrls.analyzVideo,
-        data: formData,
-        duration: Duration(minutes: 5),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        addDetailsController.isLoading.value = false;
-        final message = response.data["message"] ?? "Video uploaded successfully";
-        Get.snackbar(
-          "Success",
-          message,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          duration: Duration(seconds: 3),
-        );
-        debugPrint("✅ Video uploaded successfully");
-      } else {
-        throw Exception("Server error: ${response.statusCode}");
-      }
-    } on DioException catch (e) {
-      addDetailsController.isLoading.value = false;
-
-      String errorMessage = "Failed to upload video";
-
-      if (e.response != null) {
-        errorMessage = e.response?.data["message"] ??
-            "Server error: ${e.response?.statusCode}";
-        debugPrint("❌ Error response: ${e.response?.data}");
-      } else if (e.type == DioExceptionType.connectionTimeout) {
-        errorMessage = "Connection timeout. Please check your internet";
-      } else if (e.type == DioExceptionType.receiveTimeout) {
-        errorMessage = "Upload timeout. Please try again";
-      } else {
-        errorMessage = "Error: ${e.message}";
-      }
-
-      debugPrint("Error: $errorMessage");
-
-      Get.snackbar(
-        "Upload Failed",
-        errorMessage,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: Duration(seconds: 3),
-      );
-    } catch (e) {
-      addDetailsController.isLoading.value = false;
-      final errorMessage = e.toString();
-
-      debugPrint("❌ Unexpected error: $errorMessage");
-
-      Get.snackbar(
-        "Error",
-        errorMessage,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: Duration(seconds: 3),
-      );
-    }
-  }
-
-  // Helper method to validate video file
   static Future<bool> validateVideoFile(String videoPath) async {
     try {
       final file = File(videoPath);
@@ -145,8 +50,6 @@ class AddDetailsRepository {
     }
   }
 
-
-
   static Future<AnalayzeAiVideo> analyzeVideoApi({
     required File videoFile,
     required String homeType,
@@ -154,44 +57,66 @@ class AddDetailsRepository {
   }) async {
     try {
       final uri = Uri.parse("http://72.60.126.182:3033/api/v1/analyze-video");
-      debugPrint("url: $uri");
+
+      debugPrint("────────────────────────────────────");
+      debugPrint("➡️ API CALL: Analyze Video");
+      debugPrint("🔗 URL: $uri");
+      debugPrint("📄 Home Type: $homeType");
+      debugPrint("🏠 Room Count: $roomCount");
+      debugPrint("🎥 Video Path: ${videoFile.path}");
+      debugPrint("📦 Video Exists: ${videoFile.existsSync()}");
+      debugPrint("📦 Video Size: ${videoFile.lengthSync()} bytes");
 
       final request = http.MultipartRequest("POST", uri);
 
       // ✅ Text fields
       request.fields["home_type"] = homeType;
-      request.fields["room_count"] = roomCount.toInt().toString();
+      request.fields["room_count"] = roomCount.toString();
 
+      debugPrint("📝 Request Fields: ${request.fields}");
 
       // ✅ File field
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          "video_file",
-          videoFile.path,
-        ),
+      final multipartFile = await http.MultipartFile.fromPath(
+        "video_file",
+        videoFile.path,
       );
+      request.files.add(multipartFile);
+
+      debugPrint("📎 File Field Name: ${multipartFile.field}");
+      debugPrint("📎 File Name: ${multipartFile.filename}");
+      debugPrint("📎 File Length: ${multipartFile.length}");
 
       // ✅ Send request
+      debugPrint("🚀 Sending request...");
       final streamedResponse = await request.send();
+
+      debugPrint("📡 Response Status Code: ${streamedResponse.statusCode}");
+      debugPrint("📡 Response Headers: ${streamedResponse.headers}");
 
       // ✅ Convert stream to normal response
       final response = await http.Response.fromStream(streamedResponse);
 
+      debugPrint("📥 Raw Response Body:");
+      debugPrint(response.body);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        debugPrint("✅ Success: ${response.body}");
+        debugPrint("✅ Video analysis successful");
 
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
         return AnalayzeAiVideo.fromJson(jsonData);
       } else {
-        debugPrint("❌ Failed: ${response.statusCode}");
-        debugPrint(response.body);
+        debugPrint("❌ Video analysis failed");
+        debugPrint("❌ Status Code: ${response.statusCode}");
+        debugPrint("❌ Response Body: ${response.body}");
         throw Exception("Video analyze failed");
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint("🔥 Exception occurred while analyzing video");
       debugPrint("❌ Error: $e");
+      debugPrint("📍 StackTrace: $stackTrace");
       rethrow;
+    } finally {
+      debugPrint("────────────────────────────────────");
     }
   }
-
 }
-

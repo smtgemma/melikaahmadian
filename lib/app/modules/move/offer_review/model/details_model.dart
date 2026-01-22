@@ -34,6 +34,7 @@ class PostDetailsModel {
   final String id;
   final String authorId;
   final String status;
+  final String moveStatus;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final bool isDeleted;
@@ -49,6 +50,7 @@ class PostDetailsModel {
     required this.media,
     required this.pickupAddress,
     required this.dropoffAddress,
+    required this.moveStatus,
     required this.furniture,
     required this.id,
     required this.authorId,
@@ -99,7 +101,8 @@ class PostDetailsModel {
       totalOffers: json['totalOffers'] ?? 0,
       acceptedOffer: json['acceptedOffer'] != null
           ? AcceptedOfferModel.fromJson(json['acceptedOffer'])
-          : null,
+          : null, moveStatus: json['moveStatus'] ?? '',
+
     );
   }
 }

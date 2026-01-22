@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/const/app_argument_string.dart';
+import '../../../mover/mover_profile/profile_profile_edit/repository/profile_profile_edit_repository.dart';
 
 class ProfileEditController extends GetxController {
 
   String? name ;
   String? phone ;
   String? email ;
+  String? image ;
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController phoneController;
@@ -24,6 +26,7 @@ class ProfileEditController extends GetxController {
      name = args?[AppArgumentString.name];
      email = args?[AppArgumentString.email];
      phone = args?[AppArgumentString.phone];
+     image = args?[AppArgumentString.image];
 
     nameController = TextEditingController(text: name ?? "");
     emailController = TextEditingController(text: email ?? "");
@@ -60,6 +63,7 @@ class ProfileEditController extends GetxController {
 
     if (image != null) {
       selectedImage.value = File(image.path);
+      ProfileProfileEditRepository.uploadProfilePicture(imagePath: image.path) ;
     }
   }
 

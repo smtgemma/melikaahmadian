@@ -1,41 +1,48 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
+import 'package:get/get.dart';
+import '../../modules/notification/controllers/notification_controller.dart';
 
 class NotificationService {
   final logger = Logger();
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   static const String channelId = 'high_importance_channel';
   static const String channelName = 'High Importance Notifications';
 
+  // Get NotificationController instance
+  NotificationController get _notificationController {
+    return Get.find<NotificationController>();
+  }
+
   Future<void> initFM() async {
     // ✅ Android initialization with EXACT channel ID
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@mipmap/ic_launcher');
 
     // ✅ iOS initialization
     final DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-          requestAlertPermission: true,
-          requestBadgePermission: true,
-          requestSoundPermission: true,
-        );
+    DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
 
     final InitializationSettings initializationSettings =
-        InitializationSettings(
-          android: initializationSettingsAndroid,
-          iOS: initializationSettingsIOS,
-        );
+    InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (details) {
         logger.i("🔔 Notification tapped: ${details.payload}");
+        _handleNotificationTap(details.payload);
       },
     );
 
@@ -60,22 +67,28 @@ class NotificationService {
 
     // ✅ Listen to foreground messages
     _listenToForegroundMessages();
+
+    // ✅ Listen to background message taps
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      logger.i("📲 App opened from notification");
+      _handleRemoteMessageTap(message);
+    });
+
+    logger.i("✅ Notification Service initialized");
   }
 
   /// Create Android notification channel (REQUIRED for Android 8+)
-  /// Create Android notification channel (REQUIRED for Android 8+)
   Future<void> _createAndroidNotificationChannel() async {
     final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-        flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
-
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+    >();
     if (androidImplementation != null) {
       await androidImplementation.createNotificationChannel(
         AndroidNotificationChannel(
-          channelId, // First positional parameter: id
-          channelName, // Second positional parameter: name
+          channelId,
+          channelName,
           description: 'Important notifications',
           importance: Importance.max,
           enableLights: true,
@@ -92,11 +105,10 @@ class NotificationService {
   Future<void> _requestAndroidPermissions() async {
     if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin
-              >();
-
+      flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+      >();
       if (androidImplementation != null) {
         final bool? granted = await androidImplementation
             .requestNotificationsPermission();
@@ -177,8 +189,7 @@ class NotificationService {
 
       final title =
           message.notification?.title ?? message.data['title'] ?? 'New Message';
-      final body =
-          message.notification?.body ??
+      final body = message.notification?.body ??
           message.data['body'] ??
           'You have a new message';
 
@@ -188,8 +199,31 @@ class NotificationService {
           body: body,
           payload: message.data.toString(),
         );
+
+        // ✅ Add to NotificationController
+        if (Get.isRegistered<NotificationController>()) {
+          _notificationController.addNotification(
+            title: title,
+            body: body,
+            data: message.data.toString(),
+          );
+        }
       }
     });
+  }
+
+  /// Handle notification tap from foreground
+  void _handleNotificationTap(String? payload) {
+    logger.i("🎯 Handling notification tap with payload: $payload");
+    // Add navigation logic here
+  }
+
+  /// Handle remote message tap from background
+  void _handleRemoteMessageTap(RemoteMessage message) {
+    logger.i("🎯 Handling remote message tap");
+    logger.i("Title: ${message.notification?.title}");
+    logger.i("Body: ${message.notification?.body}");
+    // Add navigation logic here
   }
 
   /// Notification UI details for Android & iOS

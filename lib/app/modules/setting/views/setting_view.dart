@@ -130,16 +130,6 @@ class SettingView extends GetView<SettingController> {
                   iconPath: Assets.iconsLogout,
                   textcolor: AppColors.errorColor,
                 ),
-                ProfileType(
-                  titel: "Temporary Switch Mover",
-                  onpress: () {
-                    {
-                      Get.toNamed(Routes.MOVER_NAVBAR);
-                    }
-                  },
-                  iconPath: Assets.iconsLogout,
-                  textcolor: AppColors.errorColor,
-                ),
               ],
             ),
           ),

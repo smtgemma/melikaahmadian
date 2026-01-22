@@ -1414,7 +1414,7 @@ packages:
     source: sdk
     version: "0.0.0"
   smart_auth:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: smart_auth
       sha256: "88aa8fe66e951c78a307f26d1c29672dce2e9eb3da2e12e853864d0e615a73ad"

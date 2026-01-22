@@ -85,7 +85,7 @@ class CustomFurnitureView extends GetView<CustomFurnitureController> {
                                 "Adjust quantities below",
                               ),
                               SizedBox(height: 12.h),
-                              ProductQuantityWidget(),
+                              ProductQuantityWidget(controller: controller,),
                               SizedBox(height: 20.h),
                             ],
                           )

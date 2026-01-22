@@ -56,7 +56,7 @@ class AllItemView extends GetView<AllItemController> {
                 SizedBox(height: 20.h),
 
                 // Products List
-                ProductQuantityWidget(),
+                ProductQuantityWidget(controller: furnitureController,),
                 SizedBox(height: 20.h),
 
                 // Add More Items Button

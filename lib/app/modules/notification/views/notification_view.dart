@@ -24,41 +24,40 @@ class NotificationViewUpdated extends GetView<NotificationController> {
             SizedBox(height: 24.h),
 
             /// Header with Mark All as Read
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Notifications",
-                        style: textStyle.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Notifications",
+                      style: textStyle.titleMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 4.h),
-                      Obx(() => Text(
+                    ),
+                    SizedBox(height: 4.h),
+                    Obx(
+                      () => Text(
                         "You have ${controller.unreadCount.value} unread",
                         style: textStyle.bodyMedium,
-                      )),
-                    ],
-                  ),
-                  Obx(() {
-                    if (controller.unreadCount.value == 0) {
-                      return const SizedBox.shrink();
-                    }
-                    return TextButton.icon(
-                      onPressed: () {
-                        controller.markAllAsRead();
-                      },
-                      icon: const Icon(Icons.done_all),
-                      label: const Text('Mark All Read'),
-                    );
-                  }),
-                ],
-              ),
+                      ),
+                    ),
+                  ],
+                ),
+                Obx(() {
+                  if (controller.unreadCount.value == 0) {
+                    return const SizedBox.shrink();
+                  }
+                  return TextButton.icon(
+                    onPressed: () {
+                      controller.markAllAsRead();
+                    },
+                    icon: const Icon(Icons.done_all),
+                    label: const Text('Mark All Read'),
+                  );
+                }),
+              ],
             ),
             SizedBox(height: 16.h),
 
@@ -96,7 +95,7 @@ class NotificationViewUpdated extends GetView<NotificationController> {
                 }
 
                 return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  // padding: EdgeInsets.symmetric(horizontal: 16.w),
                   itemCount: controller.notifications.length,
                   itemBuilder: (context, index) {
                     final notification = controller.notifications[index];
@@ -127,8 +126,9 @@ class NotificationViewUpdated extends GetView<NotificationController> {
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 12.h),
-                      backgroundColor:
-                      AppColors.secoundaryColor.withOpacity(0.1),
+                      backgroundColor: AppColors.secoundaryColor.withOpacity(
+                        0.1,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -151,13 +151,16 @@ class NotificationViewUpdated extends GetView<NotificationController> {
   }
 
   void _showClearAllDialog(
-      BuildContext context, NotificationController controller) {
+    BuildContext context,
+    NotificationController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Clear All Notifications'),
-        content:
-        const Text('Are you sure you want to delete all notifications?'),
+        content: const Text(
+          'Are you sure you want to delete all notifications?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -168,14 +171,10 @@ class NotificationViewUpdated extends GetView<NotificationController> {
               controller.clearAllNotifications();
               Navigator.pop(context);
             },
-            child: const Text(
-              'Clear All',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Clear All', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
     );
   }
 }
-

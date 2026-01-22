@@ -28,12 +28,22 @@ class AudioCallController extends GetxController {
 
   final accessToken = ''.obs;
   final myUserId = ''.obs;
+  final profileImage = ''.obs;
+  final userName = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    final args = Get.arguments ?? '';
-    otherUserId.value = args['userId'];
+
+    final args = Get.arguments as Map<String, dynamic>?;
+
+    if (args != null) {
+      otherUserId.value = args['userId'] ?? '';
+      profileImage.value = args['image'] ?? '';
+      userName.value = args['name'] ?? '';
+      print('profile image is ${profileImage.value}');
+    }
+
     debugPrint("🎧 AudioCallController initialized");
     initCall();
   }

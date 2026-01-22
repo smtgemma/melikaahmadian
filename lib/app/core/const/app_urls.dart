@@ -14,6 +14,7 @@ class AppUrls {
   static const verfyEmail = "/auth/email-verify";
   static const getMyProfile = "/users/me";
   static const getAddress = "/locations/all";
+  static const giveReview = "/reviews";
   static const updateProfile = "/users/update-profile";
   static const chnagePassword = "/auth/change-password";
   static const providerOnbording = "/users/provider-onboarding";

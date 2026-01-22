@@ -413,7 +413,11 @@ class _MessageChatViewState extends State<MessageChatView>
             onPressed: () {
               Get.toNamed(
                 Routes.AUDIO_CALL,
-                arguments: {'userId': widget.userId},
+                arguments: {
+                  'userId': widget.userId,
+                  'image': widget.imagePath,
+                  'name': widget.name,
+                },
               );
             },
             icon: Icon(Icons.call, size: 20.sp),

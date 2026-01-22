@@ -1,91 +1,151 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_urls.dart';
+import 'package:melikaahmadian/app/core/network/dio_client.dart';
+import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/App_button.dart';
 import '../../../../routes/app_pages.dart';
+
 class MoveCompeletedController extends GetxController {
-  
-  RxList rating = [].obs ;
-  RxInt ratingValue = 0.obs ;
+  RxInt ratingValue = 0.obs;
 
   final consumerController = TextEditingController();
-
+  final _networkCaller = DioClient();
+  final myId = ''.obs;
+  final isLoading = false.obs;
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
-    print("max");
-    bottomSheet( Get.context!) ;
+    getMyId();
+    bottomSheet(Get.context!);
+  }
+
+  Future<void> getMyId() async {
+    myId.value =
+        await SharedPrefHelper.getString(SharedPrefHelper.userId) ?? '';
   }
 
   void bottomSheet(BuildContext context) {
-    var textStyele = TextTheme.of(context);
-    showModalBottomSheet(context: context, builder: (context) {
-      return Container(
-        width: double.infinity,
-        height: 300.h,
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24.w),
-            topRight: Radius.circular(24.w),
+    var textStyle = Theme.of(context).textTheme;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          height: 320.h,
+          padding: EdgeInsets.all(20.w),
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.w)),
           ),
-        ),
-        child: Column(
-          children: [
-            Text("Rate The Mover", style: textStyele.titleMedium),
-            SizedBox(height: 12.h),
-            // rating
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(5, (index) {
-                  return InkWell(
-                    onTap: () {
-                      rating.clear();
-                      for (int i = 0; i <= index; i++) {
-                        rating.add((i + 1).toString());
-                      }
-                      ratingValue.value = index + 1;
-                      update();
-                      debugPrint(ratingValue.value.toString());},
-                    child: Obx(() =>
-                    rating.length > index
-                        ? Image.asset(Assets.iconsYellowStar)
-                        : Image.asset(Assets.iconsWhiteStar),
-                    ),
-                  );
-                }),
-              ),
-            ),
-            SizedBox(height: 12.w,),
-            Expanded(
-              child: TextField(
-                controller: consumerController,
-                maxLines: 4,
-                cursorHeight: 20,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.strtoColor.withAlpha(5) ,
-                  hintText: "The mover completed his move in a very organized way. Recommended."
+          child: Column(
+            children: [
+              Text("Rate The Mover", style: textStyle.titleMedium),
+              SizedBox(height: 12.h),
+
+              /// ⭐ STAR RATING
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    return InkWell(
+                      onTap: () {
+                        ratingValue.value = index + 1;
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        child: Image.asset(
+                          ratingValue.value > index
+                              ? Assets.iconsYellowStar
+                              : Assets.iconsWhiteStar,
+                          width: 28.w,
+                        ),
+                      ),
+                    );
+                  }),
                 ),
               ),
-            ),
-            SizedBox(height: 12.w,),
-           AppButton(titel: "Submit",onPress: (){Get.toNamed(Routes.NAVBAR);},)
-          ],
-        ),
-      );
 
-    },) ;
+              SizedBox(height: 16.h),
 
+              /// ✍ COMMENT
+              TextField(
+                controller: consumerController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: AppColors.strtoColor.withAlpha(8),
+                  hintText:
+                      "The mover completed his move in a very organized way. Recommended.",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.w),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 16.h),
+
+              /// 🚀 SUBMIT
+              Obx(() {
+                return SizedBox(
+                  height: 48.h,
+                  child: isLoading.value
+                      ? const Center(child: CircularProgressIndicator())
+                      : AppButton(
+                          titel: "Submit",
+                          onPress: () {
+                            giveReview("695cda03145644bdceeeb3ce");
+                          },
+                        ),
+                );
+              }),
+            ],
+          ),
+        );
+      },
+    );
   }
 
+  /// ✅ API CALL (DYNAMIC)
+  Future<void> giveReview(String postId) async {
+    if (ratingValue.value == 0) {
+      Get.snackbar(
+        "Rating Required",
+        "Please select at least 1 star",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
 
+    isLoading.value = true;
+
+    try {
+      final response = await _networkCaller.post(
+        AppUrls.giveReview,
+        data: {
+          "revieweeId": myId.value,
+          "postId": postId,
+          "rating": ratingValue.value.toDouble(),
+          "comment": consumerController.text.trim(),
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.back();
+        Get.toNamed(Routes.NAVBAR);
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Something went wrong");
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

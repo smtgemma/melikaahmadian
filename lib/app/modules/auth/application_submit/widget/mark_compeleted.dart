@@ -12,12 +12,25 @@ class MarkCompeleted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textStyele = TextTheme.of(context);
-    return  Container(child: Column(
-      children: [
-        Center(child: Text("Move Completed",style: textStyele.headlineLarge,textAlign: TextAlign.center,)),
-        SizedBox(height: 8.h,),
-        Center(child: Text("Your move completed successfully. ",style: textStyele.bodyMedium,)),
-      ],
-    ));
+    return Container(
+      child: Column(
+        children: [
+          Center(
+            child: Text(
+              "Move Completed",
+              style: textStyele.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Center(
+            child: Text(
+              "Your move completed successfully. ",
+              style: textStyele.bodyMedium,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

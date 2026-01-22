@@ -122,7 +122,7 @@ class VideoCmeraController extends GetxController {
       await Get.to(
         ReviewVideoView(
           videoPath: video.path,
-          navigatorType: Get.arguments?['navigatorType'],
+          navigatorType: "ai",
         ),
       );
     } catch (e) {

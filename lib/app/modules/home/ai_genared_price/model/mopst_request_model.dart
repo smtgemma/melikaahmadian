@@ -78,7 +78,7 @@ class PickupAddress {
 
 class Furniture {
   String? name;
-  int? quantity;
+  num? quantity;
 
   Furniture({this.name, this.quantity});
 

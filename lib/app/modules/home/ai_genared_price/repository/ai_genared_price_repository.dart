@@ -37,7 +37,7 @@ class AiGenaredPriceRepository {
       // ✅ Convert ProductModel → Furniture with logging
       final List<Furniture> furnitureList = customFurnitureController.selectedProducts
           .map((product) {
-        final int qty = (product.count < 1)
+        final num qty = (product.count < 1)
             ? 1
             : product.count;
         debugPrint("🪑 Furniture: ${product.titel}, fixed qty: $qty");

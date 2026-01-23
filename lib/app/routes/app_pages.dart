@@ -90,6 +90,8 @@ import '../modules/mover/mover_move/mover_move_detils/views/mover_move_detils_vi
 import '../modules/mover/mover_move/views/mover_move_view.dart';
 import '../modules/mover/mover_navbar/bindings/mover_navbar_binding.dart';
 import '../modules/mover/mover_navbar/views/mover_navbar_view.dart';
+import '../modules/mover/mover_profile/Mover_account/bindings/mover_account_binding.dart';
+import '../modules/mover/mover_profile/Mover_account/views/mover_account_view.dart';
 import '../modules/mover/mover_profile/my_eraning/bindings/my_eraning_binding.dart';
 import '../modules/mover/mover_profile/my_eraning/views/my_eraning_view.dart';
 import '../modules/mover/mover_profile/privacy_policy/bindings/privacy_policy_binding.dart';
@@ -249,7 +251,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ALL_ITEM,
-      page: () =>  AllItemView(),
+      page: () => AllItemView(),
       binding: AllItemBinding(),
     ),
     GetPage(
@@ -264,7 +266,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.AI_GENARED_PRICE,
-      page: () =>  AiGenaredPriceView(),
+      page: () => AiGenaredPriceView(),
       binding: AiGenaredPriceBinding(),
     ),
     GetPage(
@@ -441,6 +443,11 @@ class AppPages {
       name: _Paths.PRIVACY_POLICY,
       page: () => const PrivacyPolicyView(),
       binding: PrivacyPolicyBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_ACCOUNT,
+      page: () => const MoverAccountView(),
+      binding: MoverAccountBinding(),
     ),
   ];
 }

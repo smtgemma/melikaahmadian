@@ -70,6 +70,7 @@ abstract class Routes {
   static const AUDIO_CALL = _Paths.AUDIO_CALL;
   static const TERMS_CONDITION = _Paths.TERMS_CONDITION;
   static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
+  static const MOVER_ACCOUNT = _Paths.MOVER_ACCOUNT;
 }
 
 abstract class _Paths {
@@ -140,4 +141,5 @@ abstract class _Paths {
   static const AUDIO_CALL = '/audio-call';
   static const TERMS_CONDITION = '/terms-condition';
   static const PRIVACY_POLICY = '/privacy-policy';
+  static const MOVER_ACCOUNT = '/mover-account';
 }

@@ -111,4 +111,6 @@ class MoverMoveDetilsController extends GetxController {
     }
 
   }
+
+
 }

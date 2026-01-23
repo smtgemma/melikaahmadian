@@ -33,6 +33,7 @@ class AppUrls {
   static const resetPassword = "/auth/reset-password";
   static const verifyResetPasswordotp = "/auth/verify-reset-password-otp";
   static const payment = "/payments/confirm";
+  static const paymentMatodeaddByprovider = "/payout-methods";
 
   static const my_post = "/posts/my-posts";
   static const getAllChat = "$baseUrl/conversations/my-conversations";

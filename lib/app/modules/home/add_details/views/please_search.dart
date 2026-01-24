@@ -177,7 +177,8 @@ class _PleaseSearchState extends State<PleaseSearch> {
   bool isLoading = false;
   String? errorMessage;
 
-  static const String _placesApiKey = "AIzaSyBxtzHCf2JEjUgx8aS6eFNpV_-s9vGNfo0";
+ // static const String _placesApiKey = "AIzaSyBxtzHCf2JEjUgx8aS6eFNpV_-s9vGNfo0";
+  static const String _placesApiKey = "AIzaSyAgWfx3lfVIs3jVJHTsxsniY9ogTZpCjrA";
   static const String _baseURL =
       'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 

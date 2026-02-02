@@ -54,12 +54,10 @@ abstract class Routes {
   static const MOVER_SEARCH_POST = _Paths.MOVER_SEARCH_POST;
   static const MOVER_LOCATION_CITY = _Paths.MOVER_LOCATION_CITY;
   static const MOVER_SERCHED_LOCATIONED = _Paths.MOVER_SERCHED_LOCATIONED;
-  static const MOVER_MOVE_DETILS_SEND_OFFER =
-      _Paths.MOVER_MOVE_DETILS_SEND_OFFER;
+  static const MOVER_MOVE_DETILS_SEND_OFFER = _Paths.MOVER_MOVE_DETILS_SEND_OFFER;
   static const MOVER_MOVE_DETILS = _Paths.MOVER_MOVE_DETILS;
   static const MOVER_MOVE_COMPLEDET_DETILS = _Paths.MOVER_MOVE_COMPLEDET_DETILS;
-  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION =
-      _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION;
+  static const MOVER_INFORMATION_ABOUT_THE_CANCALATION = _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION;
   static const MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED =
       _Paths.MOVER_INFORMATION_ABOUT_THE_CANCALATION_CENCELED;
   static const PROFILE_MY_PROFILE = _Paths.PROFILE_MY_PROFILE;
@@ -71,6 +69,7 @@ abstract class Routes {
   static const TERMS_CONDITION = _Paths.TERMS_CONDITION;
   static const PRIVACY_POLICY = _Paths.PRIVACY_POLICY;
   static const MOVER_ACCOUNT = _Paths.MOVER_ACCOUNT;
+  static const MOVER_SELECTED_ACCOUNT = _Paths.MOVER_SELECTED_ACCOUNT;
 }
 
 abstract class _Paths {
@@ -142,4 +141,5 @@ abstract class _Paths {
   static const TERMS_CONDITION = '/terms-condition';
   static const PRIVACY_POLICY = '/privacy-policy';
   static const MOVER_ACCOUNT = '/mover-account';
+  static const MOVER_SELECTED_ACCOUNT = '/mover-selected-account';
 }

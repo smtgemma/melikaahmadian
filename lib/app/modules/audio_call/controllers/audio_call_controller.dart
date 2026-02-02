@@ -68,7 +68,7 @@ class AudioCallController extends GetxController {
 
   Future<void> _fetchAgoraToken() async {
     final url =
-        "http://206.162.244.175:6008/api/v1/agora/generate-token?otherUserId=${otherUserId.value}";
+        "https://api.ablefellasmoving.com/agora/generate-token?otherUserId=${otherUserId.value}";
     debugPrint("🌍 GET $url");
     debugPrint("🧾 Authorization Bearer token sending...");
 

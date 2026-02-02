@@ -132,9 +132,16 @@ class MoverProfileView extends GetView<MoverProfileController> {
                       iconPath: Assets.iconsRoudedDolar,
                     ),
                     ProfileType(
-                      titel: "Set Account",
+                      titel: "Set Bank Account",
                       onpress: () {
                         Get.toNamed(Routes.MOVER_ACCOUNT);
+                      },
+                      iconPath: Assets.iconsRoudedDolar,
+                    ),
+                    ProfileType(
+                      titel: "Selected Bank Account",
+                      onpress: () {
+                        Get.toNamed(Routes.MOVER_SELECTED_ACCOUNT);
                       },
                       iconPath: Assets.iconsRoudedDolar,
                     ),

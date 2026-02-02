@@ -102,6 +102,8 @@ import '../modules/mover/mover_profile/profile_profile_edit/bindings/profile_pro
 import '../modules/mover/mover_profile/profile_profile_edit/views/profile_profile_edit_view.dart';
 import '../modules/mover/mover_profile/terms_condition/bindings/terms_condition_binding.dart';
 import '../modules/mover/mover_profile/terms_condition/views/terms_condition_view.dart';
+import '../modules/mover/mover_selected_account/bindings/mover_selected_account_binding.dart';
+import '../modules/mover/mover_selected_account/views/mover_selected_account_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/notification/bindings/notification_binding.dart';
@@ -448,6 +450,11 @@ class AppPages {
       name: _Paths.MOVER_ACCOUNT,
       page: () => const MoverAccountView(),
       binding: MoverAccountBinding(),
+    ),
+    GetPage(
+      name: _Paths.MOVER_SELECTED_ACCOUNT,
+      page: () => const MoverSelectedAccountView(),
+      binding: MoverSelectedAccountBinding(),
     ),
   ];
 }

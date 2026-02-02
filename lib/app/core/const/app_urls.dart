@@ -1,6 +1,6 @@
 class AppUrls {
-  static const baseUrl = "http://206.162.244.175:6008/api/v1";
-  // static const baseUrl = "http://72.61.159.246:6008/api/v1";
+  //static const baseUrl = "http://206.162.244.175:6008/api/v1";
+   static const baseUrl = "https://api.ablefellasmoving.com/api/v1";
   // static const aibaseUrl = "http://206.162.244.175:3033/api/v1";
   static const refreshToken = "${baseUrl}/auth/refresh-token";
   static const loginWithGoogle = "${baseUrl}/auth/google-login";
@@ -18,6 +18,7 @@ class AppUrls {
   static const updateProfile = "/users/update-profile";
   static const chnagePassword = "/auth/change-password";
   static const providerOnbording = "/users/provider-onboarding";
+  static const myPaymentMathode = "/payout-methods/my-method";
   static const getFurnitureByCatagory = "/furniture";
   static const post = "/posts";
   static const sendOffer = "/offers";

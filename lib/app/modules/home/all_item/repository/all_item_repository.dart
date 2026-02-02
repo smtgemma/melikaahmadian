@@ -33,7 +33,7 @@ class AllItemRepository {
      };
 
      final response = await dio.post(
-       "http://72.60.126.182:3033/api/v1/estimate-cost",
+       "http://167.88.39.51:3033/api/v1/estimate-cost",
        data: body,
        options: Options(headers: {
          "Content-Type": "application/json",

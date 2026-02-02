@@ -56,7 +56,7 @@ class AddDetailsRepository {
     required int roomCount,
   }) async {
     try {
-      final uri = Uri.parse("http://72.60.126.182:3033/api/v1/analyze-video");
+      final uri = Uri.parse("http://167.88.39.51:3033/api/v1/analyze-video");
 
       debugPrint("────────────────────────────────────");
       debugPrint("➡️ API CALL: Analyze Video");

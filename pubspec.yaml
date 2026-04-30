@@ -67,6 +67,7 @@ dependencies:
   flutter_markdown_plus: ^1.0.7
   http: ^1.6.0
   smart_auth: ^2.0.0
+  flutter_google_places_sdk: ^0.4.0
 
 
 dev_dependencies:

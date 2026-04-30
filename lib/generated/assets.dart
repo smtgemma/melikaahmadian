@@ -9,7 +9,8 @@ class Assets {
   static const String iconsAdd = 'assets/icons/add.png';
   static const String iconsAlmari = 'assets/icons/almari.png';
   static const String iconsAppartment = 'assets/icons/appartment.png';
-  static const String iconsBack = 'assets/icons/backButton.svg';
+  static const String iconsBack = 'assets/icons/back.png';
+  static const String iconsBackButton = 'assets/icons/backButton.svg';
   static const String iconsBag = 'assets/icons/bag.png';
   static const String iconsBed = 'assets/icons/bed.png';
   static const String iconsBook = 'assets/icons/book.png';
@@ -38,6 +39,7 @@ class Assets {
   static const String iconsMoveCencel = 'assets/icons/move_cencel.png';
   static const String iconsOven = 'assets/icons/oven.png';
   static const String iconsPassword = 'assets/icons/password.png';
+  static const String iconsPerson = 'assets/icons/person.png';
   static const String iconsPlant = 'assets/icons/plant.png';
   static const String iconsPrivacy = 'assets/icons/privacy.png';
   static const String iconsProfileEdit = 'assets/icons/profile_edit.png';

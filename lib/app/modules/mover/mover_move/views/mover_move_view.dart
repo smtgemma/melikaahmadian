@@ -8,6 +8,7 @@ import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/app_background.dart';
 import '../../../../core/widget/move_status_video.dart';
 import '../../../../core/widget/mover_move_video_status.dart';
+import '../../../../core/widget/shimmer_loader.dart';
 import '../../../home/custom_furniture/widget/catagory.dart';
 import '../controllers/mover_move_controller.dart';
 import '../widget/mover_move_catagory.dart';
@@ -33,11 +34,7 @@ class MoverMoveView extends GetView<MoverMoveController> {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.secoundaryColor,
-                    ),
-                  );
+                  return const ShimmerList(shimmerItem: MoverMoveStatusShimmer());
                 }
 
                 final data = controller.moveModel.value.data?.data;

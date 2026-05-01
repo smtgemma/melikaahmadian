@@ -57,7 +57,9 @@ Future<void> main() async {
   // ✅ Register background handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  debugPrint("🚀 Starting app...");
   runApp(const MyApp());
+  debugPrint("✅ runApp() called");
 }
 
 class MyApp extends StatelessWidget {

@@ -25,11 +25,6 @@ class VideoCmeraView extends GetView<VideoCmeraController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 25.h),
-            if (!isBackButton)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: AppBackButton(),
-              ),
             SizedBox(height: 20.h),
 
             /// CAMERA PREVIEW WITH TIMER
@@ -49,6 +44,46 @@ class VideoCmeraView extends GetView<VideoCmeraController> {
       children: [
         // Camera preview - ✅ FIXED: Use controller directly, not .value
         Obx(() {
+          if (controller.hasError.value) {
+            return Container(
+              color: Colors.black,
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(24.w),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.camera_alt_outlined, color: Colors.red, size: 64.sp),
+                      SizedBox(height: 16.h),
+                      Text(
+                        'Camera Not Available',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        controller.errorMessage.value,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+                      ),
+                      SizedBox(height: 24.h),
+                      ElevatedButton(
+                        onPressed: () => Get.back(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.secoundaryColor,
+                          padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
+                        ),
+                        child: Text('Go Back', style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
           if (!controller.isCameraInitialized.value) {
             return Container(
               color: Colors.black,
@@ -292,6 +327,7 @@ class VideoCmeraView extends GetView<VideoCmeraController> {
             // Record button with advanced animation
             GestureDetector(
               onTap: () {
+                if (controller.hasError.value) return;
                 if (controller.isRecording.value) {
                   controller.stopRecording(navigatorType ?? '');
                 } else {
@@ -323,9 +359,11 @@ class VideoCmeraView extends GetView<VideoCmeraController> {
                   duration: Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: controller.isRecording.value
-                        ? AppColors.errorColor
-                        : AppColors.secoundaryColor,
+                    color: controller.hasError.value
+                        ? Colors.grey
+                        : controller.isRecording.value
+                            ? AppColors.errorColor
+                            : AppColors.secoundaryColor,
                   ),
                 ),
               ),

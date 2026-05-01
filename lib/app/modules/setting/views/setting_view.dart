@@ -14,7 +14,6 @@ import '../../../core/const/app_argument_string.dart';
 import '../../../core/network/shared_prepharence_helper.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/setting_controller.dart';
-import '../repository/setting_reository.dart';
 import '../widget/profile_type.dart';
 
 class SettingView extends GetView<SettingController> {

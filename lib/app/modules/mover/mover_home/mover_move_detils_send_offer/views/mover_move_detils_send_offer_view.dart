@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 
 import '../controllers/mover_move_detils_send_offer_controller.dart';
 import '../widget/mover_detils.dart';
@@ -42,7 +42,7 @@ class MoverMoveDetilsSendOfferView
                   displayDate = DateFormat('dd MMM yyyy',).format(parsedDate); // e.g., 25 Dec 2024
                 }
                 if(controller.detailsLoading.value == true){
-                  return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
+                  return const MoverDetailsShimmer();
                 }else{
                   return  MoverDetils(videoPath: controller.detailsmodel.value.data?.media[0].url ?? "",
                     picAddress:  controller.detailsmodel.value.data?.pickupAddress?.address ?? "",

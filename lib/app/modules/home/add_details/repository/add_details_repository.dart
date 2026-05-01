@@ -1,16 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
-import 'package:logger/logger.dart';
-import 'package:melikaahmadian/app/core/const/app_urls.dart';
-import 'package:melikaahmadian/app/core/network/dio_client.dart';
+
 import '../../video_cmera/controllers/video_cmera_controller.dart';
 import '../controllers/add_details_controller.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../model/analayze_ai_video.dart';

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 
 import '../../ongoing_mover_details/widget/onging_details.dart';
 import '../controllers/cencel_mover_details_controller.dart';
@@ -43,7 +44,7 @@ class CencelMoverDetailsView extends GetView<CencelMoverDetailsController> {
 
 
               if(controller.detailsLoading.value == true){
-                return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
+                return const MoverDetailsShimmer();
               }
                 return OngingDetails(isCencel: true,name: controller.detailsmodel.value?.data?.acceptedOffer?.provider?.fullName.toString() ?? "" ,
                   ratring: controller.detailsmodel.value.data?.acceptedOffer?.provider?.averageRating.toStringAsFixed(1) ?? "0",

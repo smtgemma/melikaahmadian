@@ -10,6 +10,7 @@ import '../../../../core/const/app_colors.dart';
 import '../../offer_review/controllers/offer_review_controller.dart';
 import '../../offer_review/widget/move_offer_details.dart';
 import '../controllers/ongoing_mover_details_controller.dart';
+import '../../../../core/widget/shimmer_loader.dart';
 import '../widget/onging_details.dart';
 import '../widget/onging_move_update.dart';
 
@@ -55,11 +56,7 @@ class OngoingMoverDetailsView extends GetView<OngoingMoverDetailsController> {
                     ).format(parsedDate); // e.g., 25 Dec 2024
                   }
                   if (controller.detailsLoading.value == true) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.secoundaryColor,
-                      ),
-                    );
+                    return const MoverDetailsShimmer();
                   }
                   if (offercontroller.selectedOfferDetails.value == "Details") {
                     return OngingDetails(

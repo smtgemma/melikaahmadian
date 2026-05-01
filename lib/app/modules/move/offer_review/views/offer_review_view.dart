@@ -16,33 +16,49 @@ class OfferReviewView extends GetView<OfferReviewController> {
   const OfferReviewView({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(OfferReviewController()) ;
+    final controller = Get.put(OfferReviewController());
     final Map<String, dynamic>? argu = Get.arguments as Map<String, dynamic>?;
     controller.offerId = argu?[AppArgumentString.postId];
     var textStyele = TextTheme.of(context);
     return Scaffold(
       body: RefreshIndicator(
-          child:AppBackground(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppBackButton(),
-            SizedBox(height: 24.h,),
-            Text("Offers (${argu?[AppArgumentString.offer]})",style: textStyele.titleLarge,),
-            SizedBox(height: 04.h,),
-            Text("Offers you received from Different movers.",style: textStyele.bodyMedium,),
-            SizedBox(height: 12.h,),
-            MoveOfferDetails(offer: "Details",details: "Offer"),
-            SizedBox(height: 12.h,),
-            Obx(() => controller.selectedOfferDetails.value == "Offer" ? Offer() : Detils(),),
-
-
-
-          ],
+        onRefresh: () => controller.refresh(),
+        child: AppBackground(
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            // padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 12.h),
+                AppBackButton(),
+                SizedBox(height: 24.h),
+                Text(
+                  "Offers (${argu?[AppArgumentString.offer] ?? '0'})",
+                  style: textStyele.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  "Review all offers received from available movers.",
+                  style: textStyele.bodyMedium!.copyWith(
+                    color: Colors.grey[600],
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                MoveOfferDetails(offer: "Details", details: "Offer"),
+                SizedBox(height: 16.h),
+                Obx(
+                  () => controller.selectedOfferDetails.value == "Offer"
+                      ? Offer()
+                      : Detils(),
+                ),
+              ],
+            ),
+          ),
         ),
-      ), onRefresh: (){
-        return controller.refresh() ;
-      }),
+      ),
     );
   }
 }

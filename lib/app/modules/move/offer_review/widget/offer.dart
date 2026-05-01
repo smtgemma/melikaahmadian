@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,12 +7,11 @@ import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_image_frame_radious_widget.dart';
 import 'package:melikaahmadian/app/core/widget/move_video.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
-import 'package:melikaahmadian/generated/assets.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 
 import '../../../../core/network/shared_prepharence_helper.dart';
 import '../../mover_profiel_details/controllers/mover_profiel_details_controller.dart';
 import '../../mover_profiel_details/views/mover_profiel_details_view.dart';
-import '../../mover_profiel_details/widget/experence_box.dart';
 import '../controllers/offer_review_controller.dart';
 
 class Offer extends StatelessWidget {
@@ -40,110 +38,141 @@ class Offer extends StatelessWidget {
     var textStyele = TextTheme.of(context);
     //return Text("data") ;
 
-    return Expanded(
-      child: Obx(() {
-        var data = controller.offerModel.value.data;
-        if (controller.offerLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(color: AppColors.secoundaryColor),
-          );
-        } else if (data == null || data.isEmpty) {
-          return ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              SizedBox(height: 200),
-              Center(child: Text("No Offer", style: textStyele.bodyLarge)),
-            ],
-          );
-        }
+    return Obx(() {
+      var data = controller.offerModel.value.data;
+      if (controller.offerLoading.value) {
+        return const ShimmerList(shimmerItem: OfferShimmer());
+      } else if (data == null || data.isEmpty) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 100.h),
+            Center(child: Text("No Offer", style: textStyele.bodyLarge)),
+          ],
+        );
+      }
 
-        // return ListView.builder(
-        //   itemCount: 10,
-        //   itemBuilder: (context, index) {
-        //   return Text("data");
-        // },) ;
-        return ListView.builder(
-          itemCount: controller.offerModel.value.data?.length ?? 0,
-          itemBuilder: (context, index) {
-            final data = controller.offerModel.value.data?[index];
-            // return Text("data");
-            return Column(
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: controller.offerModel.value.data?.length ?? 0,
+        itemBuilder: (context, index) {
+          final data = controller.offerModel.value.data?[index];
+          return Container(
+            margin: EdgeInsets.only(bottom: 20.h),
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(16.w),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 200,
-                  child: MoveVideo(
-                    videoPath: data?.postMedia?[0].url ?? "",
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16.w),
+                  ),
+                  child: SizedBox(
+                    height: 180.h,
+                    width: double.infinity,
+                    child: MoveVideo(videoPath: data?.postMedia?[0].url ?? ""),
                   ),
                 ),
 
-
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.cardColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.all(12),
+                Padding(
+                  padding: EdgeInsets.all(16.w),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListTile(
-                        leading: AppImageFrameRadiousWidget(radious: 30),
-                        title: Text(
-                          data?.provider?.fullName ?? "Mike James",
-                          style: textStyele.titleMedium,
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Row(
+                      Row(
+                        children: [
+                          AppImageFrameRadiousWidget(
+                            radious: 24.w,
+                            imageLink: data?.provider?.image,
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Safe icon loading
-                                Icon(
-                                  Icons.star,
-                                  color: AppColors.secoundaryColor,
-                                  size: 16,
-                                ),
-                                SizedBox(width: 04),
                                 Text(
-                                  data?.provider?.averageRating.toString() ??
-                                      "0",
-                                  style: textStyele.bodyMedium!.copyWith(
-                                    color: AppColors.secoundaryColor,
-                                    fontSize: 14,
+                                  data?.provider?.fullName ?? "Unknown Mover",
+                                  style: textStyele.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
                                   ),
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppColors.secoundaryColor,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Text(
+                                      data?.provider?.averageRating
+                                              ?.toStringAsFixed(1) ??
+                                          "0.0",
+                                      style: textStyele.bodyMedium?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.secoundaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      "(${data?.provider?.totalReview ?? 0} Reviews)",
+                                      style: textStyele.bodySmall?.copyWith(
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            SizedBox(width: 08.w),
-                            Text(
-                              "${data?.provider?.totalReview.toString() ?? "152"} Reviews",
-                              style: textStyele.bodyMedium,
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-
-                      // GridView with safety
-                      GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data?.provider?.specialization?.length ?? 0,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 5,
-                          crossAxisSpacing: 5,
-                          childAspectRatio: 3 / 1,
+                      SizedBox(height: 16.h),
+                      if (data?.provider?.specialization != null &&
+                          data!.provider!.specialization!.isNotEmpty) ...[
+                        Wrap(
+                          spacing: 8.w,
+                          runSpacing: 8.h,
+                          children: data.provider!.specialization!.map((spec) {
+                            return Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.secoundaryColor.withOpacity(
+                                  0.05,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: AppColors.secoundaryColor.withOpacity(
+                                    0.2,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                spec,
+                                style: textStyele.bodySmall?.copyWith(
+                                  color: AppColors.secoundaryColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
-                        itemBuilder: (context, index) {
-                          return AppButton(
-                            containerColor: 1,
-                            titel: data?.provider?.specialization?[index] ?? "",
-                            hight: 40,
-                            bodycolor: AppColors.primaryColor,
-                            borderColor: AppColors.textSecoundaryColor,
-                          );
-                        },
-                      ),
-
-                      SizedBox(height: 12.h),
+                        SizedBox(height: 20.h),
+                      ],
 
                       // Offer price section (unchanged)
                       Stack(
@@ -199,7 +228,7 @@ class Offer extends StatelessWidget {
                       SizedBox(height: 24.h),
 
                       Obx(
-                        () => (controller.isLoading.value)
+                        () => controller.isLoading.value
                             ? Center(child: CircularProgressIndicator())
                             : AppButton(
                                 titel: "Accept Offer",
@@ -218,30 +247,18 @@ class Offer extends StatelessWidget {
                       AppButton(
                         containerColor: 1,
                         titel: "View Profile",
-                        bodycolor: AppColors.primaryColor,
+                        bodycolor: Colors.white,
                         borderColor: AppColors.secoundaryColor,
                         onPress: () {
-                          debugPrint("View Profile id : ${data?.providerId}");
                           SharedPrefHelper.setString(
                             SharedPrefHelper.postMoverId,
                             data?.providerId ?? "",
                           );
-                          final postMoverId = SharedPrefHelper.getString(
-                            SharedPrefHelper.postMoverId,
-                          );
-                          debugPrint("postMoverId: $postMoverId");
-
                           Get.put(MoverProfielDetailsController());
                           Get.to(
                             () => MoverProfielDetailsView(),
                             arguments: {
-                              "bio":
-                                  "Professional mover with 5 years experience",
-                              "name": "Mike James",
-                              "rating": "4.5",
-                              "reviews": "152",
-                              AppArgumentString.providrId:
-                                  data?.providerId ?? "sdcs",
+                              AppArgumentString.providrId: data?.providerId ?? "",
                             },
                           );
                         },
@@ -252,10 +269,10 @@ class Offer extends StatelessWidget {
                   ),
                 ),
               ],
-            );
-          },
-        );
-      }),
-    );
+            ),
+          );
+        },
+      );
+    });
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,8 +17,8 @@ import 'package:melikaahmadian/generated/assets.dart';
 import 'package:video_player/video_player.dart';
 import '../../modules/move/controllers/move_controller.dart';
 import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
-import 'move_post_video.dart';
 import 'moves_post_video.dart';
+import 'shimmer_loader.dart';
 
 class MoveStatusVideo extends StatefulWidget {
   String? offer;
@@ -55,7 +57,7 @@ class MoveStatusVideo extends StatefulWidget {
 }
 
 class _MoveStatusVideoState extends State<MoveStatusVideo> {
-  late VideoPlayerController? _videoController;
+  VideoPlayerController? _videoController;
   bool _isVideoReady = false;
   bool _videoError = false;
 
@@ -65,32 +67,29 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
     _initializeVideo();
   }
 
-  void _initializeVideo() {
+  Future<void> _initializeVideo() async {
     if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
       try {
-        _videoController = VideoPlayerController.networkUrl(
-          Uri.parse(widget.videoUrl!),
-        )..initialize().then((_) {
-          if (mounted) {
-            setState(() {
-              _isVideoReady = true;
-              _videoError = false;
-            });
-          }
-        }).catchError((e) {
-          debugPrint("Video initialization error: $e");
-          if (mounted) {
-            setState(() {
-              _videoError = true;
-              _isVideoReady = false;
-            });
-          }
-        });
+        debugPrint("⏳ Starting video cache process for: ${widget.videoUrl}");
+        
+        final file = await DefaultCacheManager().getSingleFile(widget.videoUrl!);
+        
+        _videoController = VideoPlayerController.file(file);
+        
+        await _videoController!.initialize();
+        
+        if (mounted) {
+          setState(() {
+            _isVideoReady = true;
+            _videoError = false;
+          });
+        }
       } catch (e) {
-        debugPrint("Video URL error: $e");
+        debugPrint("❌ Video initialization error: $e");
         if (mounted) {
           setState(() {
             _videoError = true;
+            _isVideoReady = false;
           });
         }
       }
@@ -104,7 +103,34 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
   }
 
   Widget _buildVideoWidget() {
-    if (_videoError || widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+    if (_videoError) {
+      return Container(
+        color: AppColors.cardColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.refresh, color: AppColors.secoundaryColor, size: 30),
+                onPressed: () {
+                  setState(() {
+                    _videoError = false;
+                    _isVideoReady = false;
+                  });
+                  _initializeVideo();
+                },
+              ),
+              Text(
+                'Retry',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    
+    if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
       return Container(
         color: AppColors.cardColor,
         child: Center(
@@ -125,18 +151,9 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
     }
 
     if (!_isVideoReady) {
-      return Container(
-        color: AppColors.cardColor,
-        child: Center(
-          child: SizedBox(
-            width: 30,
-            height: 30,
-            child: CircularProgressIndicator(
-              color: AppColors.secoundaryColor,
-              strokeWidth: 2,
-            ),
-          ),
-        ),
+      return ShimmerWidget.rounded(
+        height: double.infinity,
+        width: double.infinity,
       );
     }
 
@@ -162,26 +179,20 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
     if (widget.isNavigator == true && widget.offer != "") {
       if (widget.isType == AppArgumentString.posted) {
         debugPrint("postid: ${widget.postId}");
-        final offercontroller = Get.find<OfferReviewController>();
-        offercontroller.getDetails(pram: widget.postId);
-        offercontroller.getOffer(pram: widget.postId);
 
         Get.toNamed(
           Routes.OFFER_REVIEW,
           arguments: {
             AppArgumentString.offer: widget.offer ?? 5,
             AppArgumentString.postId: widget.postId,
+            'initialTab': 'offer',
           },
         );
-        offercontroller.selectedOfferDetails.value = "offer";
-        offercontroller.offerDetailsControole(isoffer: 1);
       } else if (widget.isType == AppArgumentString.ongoing) {
         Get.toNamed(Routes.ONGOING_MOVER_DETAILS, arguments: {
           AppArgumentString.postId: widget.postId,
+          'initialTab': 'Details',
         });
-        final offercontroller = Get.find<OfferReviewController>();
-        offercontroller.offerDetailsControole(isoffer: 1);
-        offercontroller.selectedOfferDetails.value = "Details";
       } else if (widget.isType == AppArgumentString.cancelled) {
         debugPrint("postid: ${widget.postId}");
         Get.toNamed(Routes.CENCEL_MOVER_DETAILS, arguments: {

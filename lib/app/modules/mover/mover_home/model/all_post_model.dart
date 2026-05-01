@@ -104,23 +104,29 @@ class PostData {
           ? List<Furniture>.from(
           json['furniture'].map((x) => Furniture.fromJson(x)))
           : [],
-      id: json['id'],
-      authorId: json['authorId'],
-      status: json['status'],
-      moveStatus: json['moveStatus'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
+      id: json['id']?.toString(),
+      authorId: json['authorId'] is Map
+          ? json['authorId']['id']?.toString()
+          : json['authorId']?.toString(),
+      status: json['status']?.toString(),
+      moveStatus: json['moveStatus']?.toString(),
+      createdAt: json['createdAt']?.toString(),
+      updatedAt: json['updatedAt']?.toString(),
       isDeleted: json['isDeleted'],
-      scheduleDate: json['scheduleDate'],
-      scheduleTime: json['scheduleTime'],
-      houseType: json['houseType'],
+      scheduleDate: json['scheduleDate']?.toString(),
+      scheduleTime: json['scheduleTime']?.toString(),
+      houseType: json['houseType']?.toString(),
       offerPrice: json['offerPrice'] != null
           ? (json['offerPrice'] as num).toDouble()
           : null,
-      cancellationReason: json['cancellationReason'],
+      cancellationReason: json['cancellationReason']?.toString(),
       author: json['author'] != null ? Author.fromJson(json['author']) : null,
-      totalOffers: json['totalOffers'],
-      assignedProvider: json['assignedProvider'],
+      totalOffers: json['totalOffers'] is int
+          ? json['totalOffers']
+          : (json['totalOffers'] as num?)?.toInt(),
+      assignedProvider: json['assignedProvider'] is Map
+          ? json['assignedProvider']['id']?.toString()
+          : json['assignedProvider']?.toString(),
     );
   }
 }

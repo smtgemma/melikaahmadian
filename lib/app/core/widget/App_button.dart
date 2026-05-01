@@ -31,14 +31,21 @@ class AppButton extends StatelessWidget {
         child: child == true ? Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(iconPath.toString(),color: color ,),
+            if (iconPath != null) Image.asset(iconPath!, color: color),
             SizedBox(width: 10.w,),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 10),
-              child: Expanded(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: (containerColor == 0 ? AppColors.primaryColor  : AppColors.secoundaryColor ),fontSize: textSize,fontWeight: FontWeight.bold,),)),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  titel ?? "Save",
+                  style: textStyele.bodyLarge!.copyWith(
+                    color: (containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor),
+                    fontSize: textSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
-
-
           ],
         ) :
         isLoding == true ? Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),) : Center(child: Text(titel ?? "Save",style: textStyele.bodyLarge!.copyWith(color: containerColor == 0 ? AppColors.primaryColor : AppColors.secoundaryColor,fontSize: textSize,fontWeight: FontWeight.bold,),),),

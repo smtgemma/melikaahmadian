@@ -8,16 +8,22 @@ class MoveModel {
   MoveModel(
       {this.success, this.statusCode, this.message, this.meta, this.data});
 
+  static MoveModel parseMoveModel(Map<String, dynamic> json) {
+    return MoveModel.fromJson(json);
+  }
+
   MoveModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     statusCode = json['statusCode'];
-    message = json['message'];
+    message = json['message']?.toString();
     meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
-    if (json['data'] != null) {
+    if (json['data'] is List) {
       data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
+      for (var v in json['data']) {
+        if (v is Map<String, dynamic>) {
+          data!.add(Data.fromJson(v));
+        }
+      }
     }
   }
 
@@ -45,10 +51,10 @@ class Meta {
   Meta({this.total, this.page, this.limit, this.totalPage});
 
   Meta.fromJson(Map<String, dynamic> json) {
-    total = json['total'];
-    page = json['page'];
-    limit = json['limit'];
-    totalPage = json['totalPage'];
+    total = json['total'] is int ? json['total'] : int.tryParse(json['total']?.toString() ?? '');
+    page = json['page'] is int ? json['page'] : int.tryParse(json['page']?.toString() ?? '');
+    limit = json['limit'] is int ? json['limit'] : int.tryParse(json['limit']?.toString() ?? '');
+    totalPage = json['totalPage'] is int ? json['totalPage'] : int.tryParse(json['totalPage']?.toString() ?? '');
   }
 
   Map<String, dynamic> toJson() {
@@ -94,34 +100,34 @@ class Data {
         this.totalOffers});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    authorId = json['authorId'];
-    if (json['media'] != null) {
+    id = json['id']?.toString();
+    authorId = json['authorId'] is Map ? json['authorId']['id']?.toString() : json['authorId']?.toString();
+    if (json['media'] is List) {
       media = <Media>[];
       json['media'].forEach((v) {
         media!.add(new Media.fromJson(v));
       });
     }
-    status = json['status'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    pickupAddress = json['pickupAddress'] != null
+    status = json['status']?.toString();
+    createdAt = json['createdAt']?.toString();
+    updatedAt = json['updatedAt']?.toString();
+    pickupAddress = json['pickupAddress'] != null && json['pickupAddress'] is Map<String, dynamic>
         ? new PickupAddress.fromJson(json['pickupAddress'])
         : null;
-    dropoffAddress = json['dropoffAddress'] != null
+    dropoffAddress = json['dropoffAddress'] != null && json['dropoffAddress'] is Map<String, dynamic>
         ? new PickupAddress.fromJson(json['dropoffAddress'])
         : null;
-    scheduleDate = json['scheduleDate'];
-    scheduleTime = json['scheduleTime'];
-    houseType = json['houseType'];
-    if (json['furniture'] != null) {
+    scheduleDate = json['scheduleDate']?.toString();
+    scheduleTime = json['scheduleTime']?.toString();
+    houseType = json['houseType']?.toString();
+    if (json['furniture'] is List) {
       furniture = <Furniture>[];
       json['furniture'].forEach((v) {
         furniture!.add(new Furniture.fromJson(v));
       });
     }
-    offerPrice = json['offerPrice'];
-    totalOffers = json['totalOffers'];
+    offerPrice = json['offerPrice'] is int ? json['offerPrice'] : (json['offerPrice'] as num?)?.toInt();
+    totalOffers = json['totalOffers'] is int ? json['totalOffers'] : (json['totalOffers'] as num?)?.toInt();
   }
 
   Map<String, dynamic> toJson() {
@@ -157,12 +163,14 @@ class Media {
   String? url;
   String? key;
 
-  Media({this.type, this.url, this.key});
+  Media({this.type, this.url, this.key, this.thumbnail});
+  String? thumbnail;
 
   Media.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    url = json['url'];
-    key = json['key'];
+    type = json['type']?.toString();
+    url = json['url']?.toString();
+    key = json['key']?.toString();
+    thumbnail = json['thumbnail']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -170,6 +178,7 @@ class Media {
     data['type'] = this.type;
     data['url'] = this.url;
     data['key'] = this.key;
+    data['thumbnail'] = this.thumbnail;
     return data;
   }
 }
@@ -182,9 +191,9 @@ class PickupAddress {
   PickupAddress({this.address, this.latitude, this.longitude});
 
   PickupAddress.fromJson(Map<String, dynamic> json) {
-    address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    address = json['address']?.toString();
+    latitude = json['latitude'] is num ? (json['latitude'] as num).toDouble() : double.tryParse(json['latitude']?.toString() ?? '');
+    longitude = json['longitude'] is num ? (json['longitude'] as num).toDouble() : double.tryParse(json['longitude']?.toString() ?? '');
   }
 
   Map<String, dynamic> toJson() {
@@ -203,8 +212,8 @@ class Furniture {
   Furniture({this.name, this.quantity});
 
   Furniture.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    quantity = json['quantity'];
+    name = json['name']?.toString();
+    quantity = json['quantity'] is int ? json['quantity'] : (json['quantity'] as num?)?.toInt();
   }
 
   Map<String, dynamic> toJson() {

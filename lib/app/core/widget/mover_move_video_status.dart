@@ -12,12 +12,14 @@ import 'package:melikaahmadian/app/core/widget/status.dart';
 import 'package:melikaahmadian/app/modules/move/offer_review/widget/offer.dart';
 import 'package:melikaahmadian/app/routes/app_pages.dart';
 import 'package:melikaahmadian/generated/assets.dart';
+import 'dart:io';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
 import '../../modules/move/controllers/move_controller.dart';
 import '../../modules/move/offer_review/controllers/offer_review_controller.dart';
 import '../../modules/mover/mover_move/mover_move_detils/controllers/mover_move_detils_controller.dart';
-import 'move_post_video.dart';
 import 'moves_post_video.dart';
+import 'shimmer_loader.dart';
 
 class MoverMoveStatusVideo extends StatefulWidget {
   String? offer;
@@ -56,7 +58,7 @@ class MoverMoveStatusVideo extends StatefulWidget {
 }
 
 class _MoverMoveStatusVideoState extends State<MoverMoveStatusVideo> {
-  late VideoPlayerController? _videoController;
+  VideoPlayerController? _videoController;
   bool _isVideoReady = false;
   bool _videoError = false;
 
@@ -66,29 +68,27 @@ class _MoverMoveStatusVideoState extends State<MoverMoveStatusVideo> {
     _initializeVideo();
   }
 
-  void _initializeVideo() {
+  Future<void> _initializeVideo() async {
     if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
       try {
-        _videoController =
-            VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!))
-              ..initialize()
-                  .then((_) {
-                    if (mounted) {
-                      setState(() {
-                        _isVideoReady = true;
-                        _videoError = false;
-                      });
-                    }
-                  })
-                  .catchError((e) {
-                    debugPrint("Video initialization error: $e");
-                    if (mounted) {
-                      setState(() {
-                        _videoError = true;
-                        _isVideoReady = false;
-                      });
-                    }
-                  });
+        var file = await DefaultCacheManager().getSingleFile(widget.videoUrl!);
+        _videoController = VideoPlayerController.file(file)
+          ..initialize().then((_) {
+            if (mounted) {
+              setState(() {
+                _isVideoReady = true;
+                _videoError = false;
+              });
+            }
+          }).catchError((e) {
+            debugPrint("Video initialization error: $e");
+            if (mounted) {
+              setState(() {
+                _videoError = true;
+                _isVideoReady = false;
+              });
+            }
+          });
       } catch (e) {
         debugPrint("Video URL error: $e");
         if (mounted) {
@@ -128,25 +128,16 @@ class _MoverMoveStatusVideoState extends State<MoverMoveStatusVideo> {
     }
 
     if (!_isVideoReady) {
-      return Container(
-        color: AppColors.cardColor,
-        child: Center(
-          child: SizedBox(
-            width: 30,
-            height: 30,
-            child: CircularProgressIndicator(
-              color: AppColors.secoundaryColor,
-              strokeWidth: 2,
-            ),
-          ),
-        ),
+      return ShimmerWidget.rounded(
+        height: double.infinity,
+        width: double.infinity,
       );
     }
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        VideoPlayer(_videoController!),
+        if (_videoController != null) VideoPlayer(_videoController!),
         Center(
           child: Container(
             decoration: BoxDecoration(

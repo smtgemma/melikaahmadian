@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/move_video.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 import 'package:melikaahmadian/app/modules/move/offer_review/widget/single_information.dart';
 import 'package:melikaahmadian/generated/assets.dart';
 
@@ -26,29 +27,23 @@ class Detils extends StatelessWidget {
     final controller = Get.find<OfferReviewController>();
     var textStyele = TextTheme.of(context);
     // return Text("Detais data") ;
-    return Expanded(
-      child: Obx(() {
-        var data = controller.detailsmodel.value.data ;
-        if (controller.detailsLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(color: AppColors.secoundaryColor),
-          );
-        }else if (data == null ) {
-          return ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              SizedBox(height: 200),
-              Center(
-                child: Text(
-                  "No Offer",
-                  style: textStyele.bodyLarge,
-                ),
-              ),
-            ],
-          );
-        }
-        return ListView.builder(
-          itemCount: 1,
+    return Obx(() {
+      var data = controller.detailsmodel.value.data;
+      if (controller.detailsLoading.value) {
+        return const MoverDetailsShimmer();
+      } else if (data == null) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 100.h),
+            Center(child: Text("No Offer", style: textStyele.bodyLarge)),
+          ],
+        );
+      }
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 1,
           itemBuilder: (context, index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,8 +210,7 @@ class Detils extends StatelessWidget {
             );
           },
         );
-      }),
-    );
+      });
   }
 
   void bottomSheet(BuildContext context, {String? id}) {

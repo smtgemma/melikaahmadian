@@ -9,7 +9,7 @@ import '../../../core/network/dio_client.dart';
 
 class MoveRepository {
 
-  static Future<MoveModel> getMoves({String? pram}) async {
+  static Future<dynamic> getMoves({String? pram}) async {
     try {
       String? url ;
       if(pram == null){
@@ -19,10 +19,9 @@ class MoveRepository {
       }
       var response = await DioClient().get(url);
       if(response.statusCode == 200){
-        return MoveModel.fromJson(response.data);
+        return response.data;
       }else{
         throw Exception("Failed to load posts");
-
       }
   }on DioError catch (e) {
     debugPrint("⚠️ API Error: ${e.response?.statusCode}");

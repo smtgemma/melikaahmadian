@@ -36,11 +36,29 @@ class OfferReviewController extends GetxController {
 
   @override
   void onInit() {
-    //postMoveId =
-
     super.onInit();
-    getOffer(pram: offerId);
-    getDetails(pram: offerId);
+    final arguments = Get.arguments;
+    if (arguments != null && arguments is Map) {
+      postMoveId = arguments[AppArgumentString.postId];
+      offerId = arguments[AppArgumentString.offer]?.toString();
+      final initialTab = arguments['initialTab'];
+      if (initialTab != null) {
+        selectedOfferDetails.value = initialTab;
+        if (initialTab == 'offer') {
+          offerDetailsControole(isoffer: 1);
+        } else {
+          offerDetailsControole(isdetails: 1);
+        }
+      }
+    }
+    
+    debugPrint("🚀 OfferReviewController onInit with postId: $postMoveId");
+    
+    if (postMoveId != null) {
+      getOffer(pram: postMoveId);
+      getDetails(pram: postMoveId);
+    }
+    
     selectedOfferDetails.value = "Details";
   }
 
@@ -51,7 +69,6 @@ class OfferReviewController extends GetxController {
 
   @override
   void onClose() {
-    Get.delete<OfferReviewController>();
     super.onClose();
   }
 

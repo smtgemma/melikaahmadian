@@ -6,6 +6,7 @@ import 'package:melikaahmadian/app/routes/app_pages.dart';
 import '../../../../core/const/app_colors.dart';
 import '../../../../core/widget/app_background.dart';
 import '../../../../core/widget/mover_move_video_status.dart';
+import '../../../../core/widget/shimmer_loader.dart';
 import '../controllers/mover_home_controller.dart';
 import '../widget/stat_of_day_poseted_move.dart';
 
@@ -130,24 +131,13 @@ class MoverHomeView extends GetView<MoverHomeController> {
               /// Moves List Section
               Obx(() {
                 if (controller.isLoading.value) {
-                  return SliverFillRemaining(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(
-                            color: AppColors.secoundaryColor,
-                            strokeWidth: 2.5,
-                          ),
-                          SizedBox(height: 12.h),
-                          Text(
-                            "Loading moves...",
-                            style: textStyle.bodyMedium?.copyWith(
-                              color: AppColors.secoundaryColor,
-                            ),
-                          ),
-                        ],
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 0),
+                        child: MoverMoveStatusShimmer(),
                       ),
+                      childCount: 5,
                     ),
                   );
                 }

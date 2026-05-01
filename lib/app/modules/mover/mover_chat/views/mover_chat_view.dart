@@ -5,6 +5,7 @@ import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/modules/mover/mover_chat/controllers/mover_chat_controller.dart';
 import 'package:melikaahmadian/app/modules/mover/mover_chat/model/chat_list_model.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 import 'message_chat_view.dart';
 
 class MoverChatView extends GetView<MoverChatController> {
@@ -71,16 +72,7 @@ class MoverChatView extends GetView<MoverChatController> {
 
                 // Loading state
                 if (model == null) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircularProgressIndicator(),
-                        SizedBox(height: 16.h),
-                        Text('Loading chats...', style: textStyle.bodyMedium),
-                      ],
-                    ),
-                  );
+                  return const ShimmerList(shimmerItem: ChatTileShimmer());
                 }
 
                 // Empty state

@@ -7,9 +7,11 @@ import 'package:melikaahmadian/app/core/widget/App_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_back_button.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
 import 'package:melikaahmadian/app/core/widget/app_image_frame_radious_widget.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 
 import '../../../../../generated/assets.dart';
 import '../../../../core/const/app_colors.dart';
+import '../../../../core/widget/shimmer_loader.dart';
 import '../../../auth/image_uplod/controllers/image_uplod_controller.dart';
 import '../widget/about.dart';
 import '../widget/experence_box.dart';
@@ -43,11 +45,7 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
         child: RefreshIndicator(
           child: Obx(() {
             if (controller.profileLoading.value) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.secoundaryColor,
-                ),
-              );
+              return const MoverDetailsShimmer();
             }
             return  SingleChildScrollView(
               child: Column(
@@ -284,12 +282,7 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child; // image loaded
 
-                              return Container(
-                                color: Colors.grey[300],
-                                child:  Center(
-                                  child: CircularProgressIndicator(strokeWidth: 2,color: AppColors.secoundaryColor,),
-                                ),
-                              );
+                              return const ShimmerWidget.rounded(height: double.infinity);
                             },
                             // This handles invalid URLs
                             errorBuilder: (context, error, stackTrace) {

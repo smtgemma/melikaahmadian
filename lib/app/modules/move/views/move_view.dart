@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
-import 'package:melikaahmadian/app/core/const/app_argument_string.dart';
 import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:melikaahmadian/app/core/widget/app_background.dart';
+import 'package:melikaahmadian/app/core/widget/shimmer_loader.dart';
 import 'package:melikaahmadian/app/core/widget/move_status_video.dart';
-import 'package:melikaahmadian/app/modules/home/custom_furniture/widget/catagory.dart';
 
-import '../../../core/widget/move_video.dart';
 import '../controllers/move_controller.dart';
 import '../widget/move_catagory.dart';
 
@@ -34,11 +31,7 @@ class MoveView extends GetView<MoveController> {
         Expanded(
           child: Obx(() {
             if (controller.isLoading.value) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.secoundaryColor,
-                ),
-              );
+              return const ShimmerList(shimmerItem: MoverMoveStatusShimmer());
             }
 
             final data = controller.moveModel.value.data;
@@ -58,40 +51,65 @@ class MoveView extends GetView<MoveController> {
               itemBuilder: (context, index) {
                 final item = data[index];
                 String apiDate = item.scheduleDate ?? "";
-
                 String formattedDate = apiDate.split("T").first;
 
-                print(formattedDate); // 2026-01-10
+                final mediaList = item.media;
+                final videoUrl = (mediaList != null && mediaList.isNotEmpty) ? mediaList[0].url : null;
+
                 return Padding(
-                  padding:  EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: 10),
                   child: MoveStatusVideo(
-                    isOffer:item?.status == "CANCELLED" ? true : item?.status == "ONGOING" ? true :  item?.status == "COMPLETED" ? true : false ,
-                    postId: item?.id,
-                    videoUrl: item?.media?[0].url,
-                    from: item?.dropoffAddress?.address ?? "",
-                    to: item?.pickupAddress?.address ?? "",
-                    offer:  item?.status == "CANCELLED" ? "-1": item?.totalOffers.toString() ?? "",
+                    isOffer: item.status == "CANCELLED" || item.status == "ONGOING" || item.status == "COMPLETED",
+                    postId: item.id,
+                    videoUrl: videoUrl,
+                    from: item.dropoffAddress?.address ?? "",
+                    to: item.pickupAddress?.address ?? "",
+                    offer: item.status == "CANCELLED" ? "-1" : (item.totalOffers?.toString() ?? "0"),
                     date: formattedDate,
                     isNavigator: true,
                     titel: item.status ?? "",
-                    color: item?.status == "POSTED" ?   AppColors.BurntOrange.withAlpha(10) : item?.status == "ONGOING" ?  AppColors.blueColor.withAlpha(10) : item?.status == "COMPLETED" ?  AppColors.greenColor.withAlpha(10) : item?.status == "CANCELLED" ?  AppColors.errorColor.withAlpha(10) : AppColors.errorColor.withAlpha(10),
-                    textColor: item?.status == "POSTED" ?  AppColors.BurntOrange : item?.status == "ONGOING" ?  AppColors.blueColor : item?.status == "COMPLETED" ?  AppColors.greenColor : item?.status == "CANCELLED" ?  AppColors.errorColor : AppColors.errorColor ,
-                    isType: item?.status ?? "",
+                    color: _getStatusColor(item.status),
+                    textColor: _getStatusTextColor(item.status),
+                    isType: item.status ?? "",
                   ),
                 );
               },
             );
           }),
         ),
-
-            // SizedBox(height: 10.h,),
-            // MoveStatusVideo(isNavigator: true,titel: "Ongoing",color: AppColors.hardBlueColor.withAlpha(10),textColor: AppColors.hardBlueColor,isType: AppArgumentString.ongoing,),
-            // SizedBox(height: 10.h,),
-            // MoveStatusVideo(isNavigator: true,titel: "Cancel Requested",color: AppColors.errorColor.withAlpha(10),textColor: AppColors.errorColor,isType: AppArgumentString.cancelled,)
-
           ],
         ),
       ),
     );
+  }
+
+  Color _getStatusColor(String? status) {
+    switch (status) {
+      case "POSTED":
+        return AppColors.BurntOrange.withAlpha(25);
+      case "ONGOING":
+        return AppColors.blueColor.withAlpha(25);
+      case "COMPLETED":
+        return AppColors.greenColor.withAlpha(25);
+      case "CANCELLED":
+        return AppColors.errorColor.withAlpha(25);
+      default:
+        return AppColors.errorColor.withAlpha(25);
+    }
+  }
+
+  Color _getStatusTextColor(String? status) {
+    switch (status) {
+      case "POSTED":
+        return AppColors.BurntOrange;
+      case "ONGOING":
+        return AppColors.blueColor;
+      case "COMPLETED":
+        return AppColors.greenColor;
+      case "CANCELLED":
+        return AppColors.errorColor;
+      default:
+        return AppColors.errorColor;
+    }
   }
 }

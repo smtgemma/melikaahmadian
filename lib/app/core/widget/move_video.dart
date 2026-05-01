@@ -98,7 +98,10 @@ import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:melikaahmadian/app/core/const/app_colors.dart';
 import 'package:video_player/video_player.dart';
+import 'shimmer_loader.dart';
 
 // class MoveVideo extends StatefulWidget {
 //   final String? videoPath;
@@ -267,7 +270,7 @@ class MoveVideo extends StatefulWidget {
 }
 
 class _MoveVideoState extends State<MoveVideo> {
-  late VideoPlayerController _videoPlayerController;
+  VideoPlayerController? _videoPlayerController;
   ChewieController? _chewieController;
   bool _isInitialized = false;
   bool _hasError = false;
@@ -325,16 +328,16 @@ class _MoveVideoState extends State<MoveVideo> {
           File(widget.videoPath!),
         );
       } else {
-        _videoPlayerController = VideoPlayerController.networkUrl(
-          Uri.parse(widget.videoPath!),
-        );
+        debugPrint("⏳ Caching network video: ${widget.videoPath}");
+        final file = await DefaultCacheManager().getSingleFile(widget.videoPath!);
+        _videoPlayerController = VideoPlayerController.file(file);
       }
 
       // Add listener for errors
-      _videoPlayerController.addListener(_handleVideoError);
+      _videoPlayerController?.addListener(_handleVideoError);
 
       // Initialize the controller with timeout
-      await _videoPlayerController.initialize().timeout(
+      await _videoPlayerController?.initialize().timeout(
         Duration(seconds: 10),
         onTimeout: () {
           throw Exception('Video initialization timeout');
@@ -342,15 +345,13 @@ class _MoveVideoState extends State<MoveVideo> {
       );
 
       debugPrint('🎥 Video initialized successfully');
-      debugPrint('🎥 Video duration: ${_videoPlayerController.value.duration}');
-      debugPrint('🎥 Video size: ${_videoPlayerController.value.size}');
 
       // Create Chewie controller
       _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
+        videoPlayerController: _videoPlayerController!,
         autoPlay: true,
         looping: false,
-        aspectRatio: _videoPlayerController.value.aspectRatio,
+        aspectRatio: _videoPlayerController!.value.aspectRatio,
         errorBuilder: (context, errorMessage) {
           return Center(
             child: Column(
@@ -389,11 +390,11 @@ class _MoveVideoState extends State<MoveVideo> {
   }
 
   void _handleVideoError() {
-    if (_videoPlayerController.value.hasError && mounted) {
-      debugPrint('🎥 Video Player Error: ${_videoPlayerController.value.errorDescription}');
+    if (_videoPlayerController != null && _videoPlayerController!.value.hasError && mounted) {
+      debugPrint('🎥 Video Player Error: ${_videoPlayerController!.value.errorDescription}');
       setState(() {
         _hasError = true;
-        _errorMessage = _videoPlayerController.value.errorDescription ??
+        _errorMessage = _videoPlayerController!.value.errorDescription ??
             'Unknown video error occurred';
       });
     }
@@ -401,9 +402,9 @@ class _MoveVideoState extends State<MoveVideo> {
 
   @override
   void dispose() {
-    _videoPlayerController.removeListener(_handleVideoError);
+    _videoPlayerController?.removeListener(_handleVideoError);
     _chewieController?.dispose();
-    _videoPlayerController.dispose();
+    _videoPlayerController?.dispose();
     super.dispose();
   }
 
@@ -414,26 +415,43 @@ class _MoveVideoState extends State<MoveVideo> {
         height: 200.h,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.grey[300],
+          color: Colors.grey[100],
           borderRadius: BorderRadius.circular(12.w),
+          border: Border.all(color: Colors.grey[300]!),
         ),
         child: Center(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: EdgeInsets.all(16.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.error_outline, size: 48, color: Colors.red),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.videocam_off_outlined, size: 40, color: Colors.red[400]),
+                ),
                 SizedBox(height: 12.h),
+                Text(
+                  'Video Unavailable',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                    fontSize: 14.sp,
+                  ),
+                ),
+                SizedBox(height: 4.h),
                 Text(
                   _errorMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.red, fontSize: 12),
-                  maxLines: 5,
+                  style: TextStyle(color: Colors.grey[600], fontSize: 11.sp),
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 12.h),
-                ElevatedButton(
+                SizedBox(height: 16.h),
+                ElevatedButton.icon(
                   onPressed: () {
                     setState(() {
                       _hasError = false;
@@ -441,7 +459,16 @@ class _MoveVideoState extends State<MoveVideo> {
                     });
                     _initializeVideoPlayer();
                   },
-                  child: Text('Retry'),
+                  icon: Icon(Icons.refresh, size: 18),
+                  label: Text('Retry'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.secoundaryColor,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -451,23 +478,8 @@ class _MoveVideoState extends State<MoveVideo> {
     }
 
     if (!_isInitialized || _chewieController == null) {
-      return Container(
+      return ShimmerWidget.rectangular(
         height: 200.h,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(12.w),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 12.h),
-              Text('Loading video...'),
-            ],
-          ),
-        ),
       );
     }
 

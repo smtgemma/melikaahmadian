@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
@@ -42,7 +43,10 @@ class MoveController extends GetxController {
   Future<void> getMoves({String? pram}) async {
     try {
       isLoading.value = true;
-      moveModel.value = await MoveRepository.getMoves(pram: pram);
+      final responseData = await MoveRepository.getMoves(pram: pram);
+      if (responseData != null) {
+        moveModel.value = await compute(MoveModel.parseMoveModel, responseData as Map<String, dynamic>);
+      }
     } catch (e) {
       isLoading.value = false;
       debugPrint("moves controller Error: $e");

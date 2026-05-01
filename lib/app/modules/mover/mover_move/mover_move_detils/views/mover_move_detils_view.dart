@@ -13,6 +13,7 @@ import '../../../../move/offer_review/widget/move_offer_details.dart';
 import '../../../../move/ongoing_mover_details/widget/onging_details.dart';
 import '../../../../move/ongoing_mover_details/widget/onging_move_update.dart';
 import '../controllers/mover_move_detils_controller.dart';
+import '../../../../../core/widget/shimmer_loader.dart';
 import '../widget/mover_move_detils.dart';
 import '../widget/update_status.dart';
 
@@ -54,7 +55,7 @@ class MoverMoveDetilsView extends GetView<MoverMoveDetilsController> {
 
 
                 if(controller.detailsLoading.value == true){
-                  return Center(child: CircularProgressIndicator(color: AppColors.secoundaryColor,),);
+                  return const MoverDetailsShimmer();
                 }
                 return MoverMoveDetils(isCencel: true,name: moverController.detailsmodel.value?.data?[0]?.author?.fullName.toString() ?? "" ,
                   ratring: moverController.detailsmodel.value?.data?[0]?.author?.averageRating?.toStringAsFixed(1) ?? "0",

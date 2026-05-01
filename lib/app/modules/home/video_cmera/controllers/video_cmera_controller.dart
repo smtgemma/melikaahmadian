@@ -13,6 +13,8 @@ class VideoCmeraController extends GetxController {
   final videoPath = "".obs;
   final recordingTime = "00:00".obs;
   final isCameraInitialized = false.obs;
+  final hasError = false.obs;
+  final errorMessage = "".obs;
 
   // Timer
   Timer? _recordingTimer;
@@ -47,18 +49,15 @@ class VideoCmeraController extends GetxController {
 
       await cameraController.initialize();
       isCameraInitialized.value = true;
+      hasError.value = false;
 
       update();
       debugPrint("✅ Camera initialized successfully");
     } catch (e) {
       isCameraInitialized.value = false;
+      hasError.value = true;
+      errorMessage.value = e.toString();
       debugPrint("❌ Camera initialization error: $e");
-      Get.snackbar(
-        "Camera Error",
-        "Failed to initialize camera: $e",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
     }
   }
 
@@ -176,7 +175,9 @@ class VideoCmeraController extends GetxController {
   @override
   void onClose() {
     _stopTimer();
-    cameraController.dispose();
+    if (isCameraInitialized.value) {
+      cameraController.dispose();
+    }
     debugPrint("🛑 VideoCameraController closed");
     super.onClose();
   }

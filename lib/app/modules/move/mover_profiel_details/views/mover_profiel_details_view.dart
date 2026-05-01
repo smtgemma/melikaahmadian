@@ -47,7 +47,7 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
             if (controller.profileLoading.value) {
               return const MoverDetailsShimmer();
             }
-            return  SingleChildScrollView(
+            return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -74,14 +74,14 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                                 return AppImageFrameRadiousWidget(
                                   radious: 50,
                                   imageLink:
-                                  "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
+                                      "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
                                 );
                               }
 
                               return AppImageFrameRadiousWidget(
                                 radious: 50,
                                 imageLink:
-                                controller.profileModel.value?.data?.image,
+                                    controller.profileModel.value?.data?.image,
                               );
                             }),
 
@@ -90,8 +90,13 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                               child: Column(
                                 children: [
                                   Obx(
-                                        () => Text(
-                                      controller.profileModel.value?.data?.fullName ?? "",
+                                    () => Text(
+                                      controller
+                                              .profileModel
+                                              .value
+                                              ?.data
+                                              ?.fullName ??
+                                          "",
                                       style: textStyele.titleLarge!.copyWith(
                                         color: AppColors.primaryColor,
                                       ),
@@ -106,44 +111,65 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                                           SizedBox(width: 04),
                                           Obx(() {
                                             // Get average rating safely, fallback to 4.5 if null
-                                            double rating = controller.profileModel.value?.data?.averageRating ?? 4.5;
+                                            double rating =
+                                                controller
+                                                    .profileModel
+                                                    .value
+                                                    ?.data
+                                                    ?.averageRating ??
+                                                4.5;
 
                                             // Convert to string, remove trailing .0 if whole number
-                                            String displayRating = rating % 1 == 0
-                                                ? rating.toInt().toString()   // 4.0 -> 4
-                                                : rating.toStringAsFixed(1);  // 4.5 -> 4.5
+                                            String displayRating =
+                                                rating % 1 == 0
+                                                ? rating
+                                                      .toInt()
+                                                      .toString() // 4.0 -> 4
+                                                : rating.toStringAsFixed(
+                                                    1,
+                                                  ); // 4.5 -> 4.5
 
                                             return Text(
                                               displayRating,
-                                              style: textStyele.bodyMedium!.copyWith(
-                                                color: AppColors.primaryColor,
-                                                fontSize: 14,
-                                              ),
+                                              style: textStyele.bodyMedium!
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    fontSize: 14,
+                                                  ),
                                             );
-                                          })
-
-
+                                          }),
                                         ],
                                       ),
                                       SizedBox(width: 08.w),
                                       Obx(() {
                                         // Get average rating safely
-                                        double rating = controller.profileModel.value?.data?.averageRating ?? 0;
+                                        double rating =
+                                            controller
+                                                .profileModel
+                                                .value
+                                                ?.data
+                                                ?.averageRating ??
+                                            0;
 
                                         // Convert to string, remove trailing .0 if whole number
                                         String displayRating = rating % 1 == 0
-                                            ? rating.toInt().toString()   // 4.0 -> 4
-                                            : rating.toStringAsFixed(1);  // 4.5 -> 4.5
+                                            ? rating
+                                                  .toInt()
+                                                  .toString() // 4.0 -> 4
+                                            : rating.toStringAsFixed(
+                                                1,
+                                              ); // 4.5 -> 4.5
 
                                         return Text(
                                           "$displayRating Reviews",
-                                          style: textStyele.bodyMedium!.copyWith(
-                                            color: AppColors.primaryColor,
-                                            fontSize: 14,
-                                          ),
+                                          style: textStyele.bodyMedium!
+                                              .copyWith(
+                                                color: AppColors.primaryColor,
+                                                fontSize: 14,
+                                              ),
                                         );
-                                      })
-
+                                      }),
                                     ],
                                   ),
                                 ],
@@ -185,33 +211,25 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                     children: [
                       Expanded(
                         child: Obx(() {
-                          String createdAt = controller.profileModel.value?.data?.createdAt.toString() ?? "";
+                          final data = controller.profileModel.value?.data;
+                          String createdAt = data?.createdAt?.toString() ?? "";
 
-                          DateTime date = DateTime.parse(createdAt);
-                          int year = date.year;
-
-                          print(year); // 2026
+                          DateTime? date = DateTime.tryParse(createdAt);
 
                           return ExperenceBo(
-                            rating:
-                            controller.profileModel.value?.data?.moves
-                                .toString() ??
-                                "",
+                            rating: data?.moves?.toString() ?? "0",
                           );
                         }),
                       ),
                       SizedBox(width: 12.w),
                       Obx(() {
-                        String createdAt =
-                            controller.profileModel.value?.data?.createdAt
-                                .toString() ??
-                                "";
+                        final data = controller.profileModel.value?.data;
+                        String createdAt = data?.createdAt?.toString() ?? "";
 
-                        if (createdAt.isEmpty) {
+                        DateTime? joinDate = DateTime.tryParse(createdAt);
+                        if (joinDate == null) {
                           return const SizedBox(); // prevent crash
                         }
-
-                        DateTime joinDate = DateTime.parse(createdAt);
                         DateTime now = DateTime.now();
 
                         int years = now.year - joinDate.year;
@@ -239,12 +257,14 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                   ),
                   SizedBox(height: 24.h),
                   //About
-                  Obx(() => About(bio: controller.profileModel.value?.data?.bio)),
+                  Obx(
+                    () => About(bio: controller.profileModel.value?.data?.bio),
+                  ),
                   SizedBox(height: 24.h),
                   Obx(
-                        () => Specialties(
+                    () => Specialties(
                       specialties:
-                      controller.profileModel.value?.data?.specialization ??
+                          controller.profileModel.value?.data?.specialization ??
                           [],
                     ),
                   ),
@@ -255,54 +275,57 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                   ),
                   SizedBox(height: 12.h),
 
+                  SizedBox(
+                    height: 250.h,
+                    child: Obx(
+                      () => GridView.builder(
+                        itemCount: controller.vehicleImages.value.length ?? 0,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 5,
+                              mainAxisSpacing: 5,
+                            ),
+                        itemBuilder: (context, index) {
+                          final data = controller.vehicleImages.value[index];
 
-                SizedBox(
-                  height: 250.h,
-                  child: Obx(
-                        () => GridView.builder(
-                      itemCount: controller.vehicleImages.value.length ?? 0,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
+                          // If URL is null or empty, show placeholder
+                          if (data == null || data.isEmpty) {
+                            return AppImageFrameRadiousWidget(radious: 50);
+                          }
+
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              data,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null)
+                                      return child; // image loaded
+
+                                    return const ShimmerWidget.rounded(
+                                      height: double.infinity,
+                                    );
+                                  },
+                              // This handles invalid URLs
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: Colors.grey[300],
+                                  child: const Icon(
+                                    Icons.broken_image,
+                                    size: 50,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        final data = controller.vehicleImages.value[index];
-
-                        // If URL is null or empty, show placeholder
-                        if (data == null || data.isEmpty) {
-                          return AppImageFrameRadiousWidget(radious: 50);
-                        }
-
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            data,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child; // image loaded
-
-                              return const ShimmerWidget.rounded(height: double.infinity);
-                            },
-                            // This handles invalid URLs
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey[300],
-                                child: const Icon(
-                                  Icons.broken_image,
-                                  size: 50,
-                                  color: Colors.grey,
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
                     ),
                   ),
-                ),
                   SizedBox(height: 12.h),
-
 
                   // SizedBox(
                   //   height: 250.h,
@@ -321,14 +344,17 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                   //mover review
                   MoverReview(),
                   SizedBox(height: 24.h),
-                  AppButton(titel: "Back",onPress: (){
-                    Get.back();
-                  },),
+                  AppButton(
+                    titel: "Back",
+                    onPress: () {
+                      Get.back();
+                    },
+                  ),
                   SizedBox(height: 24.h),
                 ],
               ),
-            ) ;
-          },),
+            );
+          }),
           onRefresh: () {
             return controller.refresh();
           },

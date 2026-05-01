@@ -96,6 +96,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
                 latitude: controller.picupLatitude,
                 longitude: controller.picupLongitude,
                 address: controller.picupAddress,
+                isPickup: true,
               ),
               SizedBox(height: 16.h),
 
@@ -118,6 +119,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
                 latitude: controller.dropLatitude,
                 longitude: controller.dropLongitude,
                 address: controller.dropAddress,
+                isPickup: false,
               ),
               SizedBox(height: 24.h),
 
@@ -439,6 +441,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
     required RxString latitude,
     required RxString longitude,
     required RxString address,
+    required bool isPickup,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.w),
@@ -455,6 +458,7 @@ class AddDetailsView extends GetView<AddDetailsController> {
           ],
         ),
         child: Obx(() {
+          // Accessing these inside Obx ensures GetX tracks them as dependencies
           final double lat = double.tryParse(latitude.value) ?? 23.8103;
           final double lng = double.tryParse(longitude.value) ?? 90.4125;
           final String addr = address.value;
@@ -464,17 +468,20 @@ class AddDetailsView extends GetView<AddDetailsController> {
               target: LatLng(lat, lng),
               zoom: 15,
             ),
+            onMapCreated: (mapController) {
+              if (isPickup) {
+                controller.pickupMapController = mapController;
+                controller.movePickupCamera();
+              } else {
+                controller.dropMapController = mapController;
+                controller.moveDropCamera();
+              }
+            },
             myLocationEnabled: true,
             zoomControlsEnabled: false,
-            markers: addr.isNotEmpty
-                ? {
-                    Marker(
-                      markerId: MarkerId("location"),
-                      position: LatLng(lat, lng),
-                      infoWindow: InfoWindow(title: addr),
-                    ),
-                  }
-                : {},
+            markers: isPickup 
+                ? controller.picupMarkers.toSet() 
+                : controller.dropMarkers.toSet(),
           );
         }),
       ),

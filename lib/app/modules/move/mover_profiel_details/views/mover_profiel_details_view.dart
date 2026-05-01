@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -72,14 +73,14 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                                   controller.profileModel.value?.data?.image;
                               if (data == null || data.isEmpty) {
                                 return AppImageFrameRadiousWidget(
-                                  radious: 50,
+                                  radious: 35,
                                   imageLink:
                                       "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
                                 );
                               }
 
                               return AppImageFrameRadiousWidget(
-                                radious: 50,
+                                radious: 35,
                                 imageLink:
                                     controller.profileModel.value?.data?.image,
                               );
@@ -270,77 +271,92 @@ class MoverProfielDetailsView extends GetView<MoverProfielDetailsController> {
                   ),
                   SizedBox(height: 24.h),
                   Text(
-                    "Upload Photo For Client To See in Profiloe",
+                    "Upload Photo For Client To See in Profile",
                     style: textStyele.titleLarge,
                   ),
                   SizedBox(height: 12.h),
 
-                  SizedBox(
-                    height: 250.h,
-                    child: Obx(
-                      () => GridView.builder(
-                        itemCount: controller.vehicleImages.value.length ?? 0,
+                  Obx(() {
+                    if (controller.profileLoading.value) {
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 4,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              childAspectRatio: 1.2,
                             ),
-                        itemBuilder: (context, index) {
-                          final data = controller.vehicleImages.value[index];
+                        itemBuilder: (context, index) =>
+                            const ShimmerWidget.rounded(height: 100),
+                      );
+                    }
 
-                          // If URL is null or empty, show placeholder
-                          if (data == null || data.isEmpty) {
-                            return AppImageFrameRadiousWidget(radious: 50);
-                          }
-
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              data,
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                    if (loadingProgress == null)
-                                      return child; // image loaded
-
-                                    return const ShimmerWidget.rounded(
-                                      height: double.infinity,
-                                    );
-                                  },
-                              // This handles invalid URLs
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color: Colors.grey[300],
-                                  child: const Icon(
-                                    Icons.broken_image,
-                                    size: 50,
-                                    color: Colors.grey,
-                                  ),
-                                );
-                              },
+                    if (controller.vehicleImages.isEmpty) {
+                      return Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 40.h),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey[300]!),
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.image_not_supported_outlined,
+                              color: Colors.grey[400],
+                              size: 48,
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                            SizedBox(height: 8.h),
+                            Text(
+                              "No images uploaded yet",
+                              style: textStyele.bodyMedium?.copyWith(
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    final displayImages = controller.vehicleImages;
+
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: displayImages.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 1.2,
+                          ),
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            imageUrl: displayImages[index],
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                const ShimmerWidget.rounded(height: 100),
+                            errorWidget: (context, url, error) => Container(
+                              color: Colors.grey[200],
+                              child: const Icon(
+                                Icons.broken_image_outlined,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
                   SizedBox(height: 12.h),
 
-                  // SizedBox(
-                  //   height: 250.h,
-                  //   child: GridView.builder(
-                  //
-                  //     itemCount: 2,
-                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //         crossAxisCount: 2,
-                  //         crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
-                  //     return ClipRRect(
-                  //         borderRadius: BorderRadius.circular(12),
-                  //         child: Image.asset(Assets.imagesTruck)
-                  //     );
-                  //   },),
-                  // ),
                   //mover review
                   MoverReview(),
                   SizedBox(height: 24.h),

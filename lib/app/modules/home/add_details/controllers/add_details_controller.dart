@@ -88,6 +88,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:melikaahmadian/app/core/model/product_model.dart';
 import 'package:melikaahmadian/app/modules/home/all_item/views/all_item_view.dart';
@@ -130,6 +131,10 @@ class AddDetailsController extends GetxController {
   RxnString navigatorType = RxnString();
 
   Rx<AnalayzeAiVideo> analayzeAiVideo = AnalayzeAiVideo().obs;
+  GoogleMapController? pickupMapController;
+  GoogleMapController? dropMapController;
+  RxSet<Marker> picupMarkers = <Marker>{}.obs;
+  RxSet<Marker> dropMarkers = <Marker>{}.obs;
 
   @override
   void onInit() {
@@ -138,6 +143,54 @@ class AddDetailsController extends GetxController {
     navigatorType.value = SharedPrefHelper.getString(
       SharedPrefHelper.ai,
     ).toString();
+    
+    // Add listeners to move camera when coordinates change
+    ever(picupLatitude, (_) => movePickupCamera());
+    ever(picupLongitude, (_) => movePickupCamera());
+    ever(dropLatitude, (_) => moveDropCamera());
+    ever(dropLongitude, (_) => moveDropCamera());
+  }
+
+  void movePickupCamera() {
+    if (picupLatitude.isNotEmpty && picupLongitude.isNotEmpty) {
+      double? lat = double.tryParse(picupLatitude.value);
+      double? lng = double.tryParse(picupLongitude.value);
+      if (lat != null && lng != null) {
+        // Update Marker
+        picupMarkers.value = {
+          Marker(
+            markerId: const MarkerId("pickup"),
+            position: LatLng(lat, lng),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            infoWindow: InfoWindow(title: picupAddress.value),
+          ),
+        };
+
+        // Move Camera
+        pickupMapController?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+      }
+    }
+  }
+
+  void moveDropCamera() {
+    if (dropLatitude.isNotEmpty && dropLongitude.isNotEmpty) {
+      double? lat = double.tryParse(dropLatitude.value);
+      double? lng = double.tryParse(dropLongitude.value);
+      if (lat != null && lng != null) {
+        // Update Marker
+        dropMarkers.value = {
+          Marker(
+            markerId: const MarkerId("drop"),
+            position: LatLng(lat, lng),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            infoWindow: InfoWindow(title: dropAddress.value),
+          ),
+        };
+
+        // Move Camera
+        dropMapController?.moveCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+      }
+    }
   }
 
   void _initializeControllers() {

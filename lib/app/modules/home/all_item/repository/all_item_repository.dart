@@ -19,18 +19,26 @@ class AllItemRepository {
        return {
          "name": product.titel,
          "quantity": product.count,
-         "size": product.size,
-         "category": product.category,
+         "size": product.size ?? "",
+         "category": product.category ?? "",
        };
      }).toList();
 
-     final body = {
-       "items": itemsList,
-       "total_volume_cubic_feet": addcontroller.totalVolume.value,
-       "distance_km": addcontroller.distance.value,
-      // "move_date": addcontroller.selectedDateText.value,
-       "move_date": "28 Nov 2026",
-     };
+      final body = {
+        "items": itemsList.map((item) {
+          return {
+            ...item,
+            "quantity": (item["quantity"] as num).toInt(),
+          };
+        }).toList(),
+        "total_volume_cubic_feet": (addcontroller.totalVolume.value ?? 0).toDouble(),
+        "distance_km": (addcontroller.distance.value ?? 0.0).toDouble(),
+        "move_date": addcontroller.dataEditingController.text.isNotEmpty 
+            ? addcontroller.dataEditingController.text 
+            : "01 May 2026",
+      };
+
+      print("🚀 Sending Request Body: ${body}");
 
      final response = await dio.post(
        "http://167.88.39.51:3033/api/v1/estimate-cost",

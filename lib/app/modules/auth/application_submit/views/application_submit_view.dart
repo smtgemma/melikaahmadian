@@ -22,22 +22,30 @@ class ApplicationSubmitView extends GetView<ApplicationSubmitController> {
   const ApplicationSubmitView({super.key});
   @override
   Widget build(BuildContext context) {
-
-    var argu = Get.arguments ;
+    final Map<String, dynamic> argu = (Get.arguments is Map) ? Get.arguments : {};
 
     return Scaffold(
-     body: AppBackground(child: Column(
-       crossAxisAlignment: CrossAxisAlignment.start,
-       children: [
-         AppBackButton(),
-         SizedBox(height: 82.h,),
-         Image.asset(Assets.iconsCongralation),
-         SizedBox(height: 24.h,),
-         argu[AppArgumentString.mover] == AppArgumentString.mover ? Mover() :
-         argu[AppArgumentString.payment] == AppArgumentString.payment ? Payment() :
-         argu[AppArgumentString.markAsCompleted] == AppArgumentString.markAsCompleted ? MarkCompeleted() :
-         argu[AppArgumentString.moverSendOffer] == AppArgumentString.moverSendOffer ?   MoverSendOffer(): Application()],
-     ),),
+      body: AppBackground(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppBackButton(),
+            SizedBox(height: 82.h),
+            Image.asset(Assets.iconsCongralation),
+            SizedBox(height: 24.h),
+            if (argu[AppArgumentString.mover] == AppArgumentString.mover)
+              const Mover()
+            else if (argu[AppArgumentString.payment] == AppArgumentString.payment)
+              const Payment()
+            else if (argu[AppArgumentString.markAsCompleted] == AppArgumentString.markAsCompleted)
+              const MarkCompeleted()
+            else if (argu[AppArgumentString.moverSendOffer] == AppArgumentString.moverSendOffer)
+              const MoverSendOffer()
+            else
+              const Application(),
+          ],
+        ),
+      ),
     );
   }
 }

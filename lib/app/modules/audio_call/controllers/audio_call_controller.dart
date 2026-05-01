@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:melikaahmadian/app/core/const/app_urls.dart';
 import 'package:melikaahmadian/app/core/network/shared_prepharence_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
@@ -68,7 +69,7 @@ class AudioCallController extends GetxController {
 
   Future<void> _fetchAgoraToken() async {
     final url =
-        "https://api.ablefellasmoving.com/agora/generate-token?otherUserId=${otherUserId.value}";
+        "${AppUrls.baseUrl}/agora/generate-token?otherUserId=${otherUserId.value}";
     debugPrint("🌍 GET $url");
     debugPrint("🧾 Authorization Bearer token sending...");
 

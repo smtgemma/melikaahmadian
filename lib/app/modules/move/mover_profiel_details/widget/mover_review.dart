@@ -101,12 +101,12 @@ class MoverReview extends StatelessWidget {
                         /// ✅ PROFILE IMAGE
                         (imageReviewer == null || imageReviewer.isEmpty)
                             ? AppImageFrameRadiousWidget(
-                          radious: 50,
+                          radious: 30,
                           imageLink:
                           "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LWtsaGN3ZWNtLmpwZw.jpg",
                         )
                             : AppImageFrameRadiousWidget(
-                          radious: 50,
+                          radious: 30,
                           imageLink: imageReviewer,
                         ),
 

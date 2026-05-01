@@ -60,14 +60,17 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
   VideoPlayerController? _videoController;
   bool _isVideoReady = false;
   bool _videoError = false;
+  bool _userWantsToPlay = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeVideo();
+    // Lazy loading
   }
 
   Future<void> _initializeVideo() async {
+    if (_isVideoReady) return;
+
     if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
       try {
         debugPrint("⏳ Starting video cache process for: ${widget.videoUrl}");
@@ -116,6 +119,7 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
                   setState(() {
                     _videoError = false;
                     _isVideoReady = false;
+                    _userWantsToPlay = true;
                   });
                   _initializeVideo();
                 },
@@ -150,10 +154,33 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
       );
     }
 
+    if (!_userWantsToPlay) {
+      return GestureDetector(
+        onTap: () {
+          setState(() {
+            _userWantsToPlay = true;
+          });
+          _initializeVideo();
+        },
+        child: Container(
+          color: AppColors.cardColor,
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black26,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.play_arrow, color: Colors.white, size: 32),
+            ),
+          ),
+        ),
+      );
+    }
+
     if (!_isVideoReady) {
-      return ShimmerWidget.rounded(
-        height: double.infinity,
-        width: double.infinity,
+      return const Center(
+        child: CircularProgressIndicator(strokeWidth: 2),
       );
     }
 
@@ -161,14 +188,9 @@ class _MoveStatusVideoState extends State<MoveStatusVideo> {
       fit: StackFit.expand,
       children: [
         VideoPlayer(_videoController!),
-        Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black26,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(Icons.play_arrow,
-                color: Colors.white, size: 32),
+        const Center(
+          child: IgnorePointer(
+            child: Icon(Icons.play_circle_outline, color: Colors.white54, size: 40),
           ),
         ),
       ],

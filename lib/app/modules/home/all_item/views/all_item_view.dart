@@ -84,8 +84,11 @@ class AllItemView extends GetView<AllItemController> {
                     onPress: furnitureController.selectedProducts.isEmpty
                         ? null
                         : () {
-                            // controller.estimateCost();
-                            Get.toNamed(Routes.AI_GENARED_PRICE);
+                            if (type == 'ai') {
+                              controller.estimateCost();
+                            } else {
+                              Get.toNamed(Routes.AI_GENARED_PRICE);
+                            }
                           },
                     isLoding: controller.isLoading.value,
                     bodycolor: furnitureController.selectedProducts.isEmpty

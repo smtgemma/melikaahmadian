@@ -9,7 +9,6 @@ import 'package:melikaahmadian/app/modules/move/offer_review/widget/offer.dart';
 import '../../../../core/const/app_argument_string.dart';
 import '../controllers/offer_review_controller.dart';
 import '../widget/detils.dart';
-import '../../mover_profiel_details/widget/experence_box.dart';
 import '../widget/move_offer_details.dart';
 
 class OfferReviewView extends GetView<OfferReviewController> {

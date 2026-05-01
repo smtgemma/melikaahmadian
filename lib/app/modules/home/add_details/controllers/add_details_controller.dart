@@ -202,7 +202,18 @@ class AddDetailsController extends GetxController {
       isLoading.value = true;
       debugPrint("ai video ${isLoading.value}");
 
-      int roomvalue = int.parse(roomTextEditingController.text);
+      String roomText = roomTextEditingController.text.trim();
+      if (roomText.isEmpty) {
+        Get.snackbar("Missing Info", "Please enter the number of rooms.");
+        return;
+      }
+      
+      int? roomvalue = int.tryParse(roomText);
+      if (roomvalue == null) {
+        Get.snackbar("Invalid Input", "Room count must be a number.");
+        return;
+      }
+
       final response = await AddDetailsRepository.analyzeVideoApi(
         videoFile: videoFile,
         homeType: selectedDateText.value,

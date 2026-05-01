@@ -30,6 +30,8 @@ class AddDetailsView extends GetView<AddDetailsController> {
   @override
   Widget build(BuildContext context) {
     var textStyle = Theme.of(context).textTheme;
+    // Fallback to controller value if constructor param is null
+    final currentType = navigatorType ?? controller.navigatorType.value;
 
     return Scaffold(
       body: AppBackground(
@@ -265,13 +267,14 @@ class AddDetailsView extends GetView<AddDetailsController> {
                 ),
               ),
               SizedBox(height: 12.h),
-              navigatorType == "ai"
-                  ? Text("House Type Selection", style: textStyle.titleLarge)
+              currentType == "ai"
+                  ? Text("Room Count", style: textStyle.titleLarge)
                   : SizedBox(),
               SizedBox(height: 12.h),
-              navigatorType == "ai"
+              currentType == "ai"
                   ? TextFormField(
                       controller: controller.roomTextEditingController,
+                      keyboardType: TextInputType.number,
                       cursorHeight: 16.h,
                       style: textStyle.labelLarge!.copyWith(
                         color: AppColors.secoundaryColor,
@@ -287,12 +290,12 @@ class AddDetailsView extends GetView<AddDetailsController> {
               // Submit Button
               Obx(
                 () => AppButton(
-                  titel: navigatorType == "ai"
+                  titel: currentType == "ai"
                       ? "Get AI Quote"
                       : 'Select Your Items',
                   onPress: () => _handleSubmit(
                     context,
-                    navigatorType: navigatorType,
+                    navigatorType: currentType,
                     videourl: videoPath,
                   ),
                   //  onPress: (){
@@ -318,11 +321,11 @@ class AddDetailsView extends GetView<AddDetailsController> {
     String? navigatorType,
     String? videourl,
   }) async {
-    // ✅ Validation only for NON-AI flow
-    if (navigatorType != 'ai' && !controller.validateAllFields()) {
+    // ✅ Common validation for both flows (Addresses and Date/Time)
+    if (!controller.validateAllFields()) {
       Get.snackbar(
         "Required Fields",
-        "Please fill in all fields",
+        "Please select locations, date and time.",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -333,6 +336,17 @@ class AddDetailsView extends GetView<AddDetailsController> {
     debugPrint("navigator type $navigatorType");
 
     if (navigatorType == "ai") {
+      // ✅ AI Specific Validation: Room Count
+      if (controller.roomTextEditingController.text.trim().isEmpty) {
+        Get.snackbar(
+          "Missing Info",
+          "Please enter the total rooms to get an accurate AI quote.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+        );
+        return;
+      }
 
       controller.isLoading.value = true;
       try {
@@ -340,21 +354,22 @@ class AddDetailsView extends GetView<AddDetailsController> {
 
         await controller.analayzeVideo(videoFile: file);
 
-        controller.distance.value =
-            Geolocator.distanceBetween(
-              double.parse(controller.picupLatitude.value),
-              double.parse(controller.picupLongitude.value),
-              double.parse(controller.dropLatitude.value),
-              double.parse(controller.dropLongitude.value),
-            ) /
-            1000;
-        debugPrint("distance ${controller.distance.value}");
+        // Safe coordinate parsing
+        double? pLat = double.tryParse(controller.picupLatitude.value);
+        double? pLng = double.tryParse(controller.picupLongitude.value);
+        double? dLat = double.tryParse(controller.dropLatitude.value);
+        double? dLng = double.tryParse(controller.dropLongitude.value);
 
-
+        if (pLat != null && pLng != null && dLat != null && dLng != null) {
+          controller.distance.value =
+              Geolocator.distanceBetween(pLat, pLng, dLat, dLng) / 1000;
+          debugPrint("distance ${controller.distance.value}");
+        }
 
         // Get.toNamed(Routes.AI_QUOTE);
       } catch (e) {
-        Get.snackbar("Error", "Failed to generate quote");
+        debugPrint("AI HandleSubmit Error: $e");
+        Get.snackbar("Error", "Failed to generate AI quote. Please check your internet connection.");
       } finally {
         controller.isLoading.value = false;
       }

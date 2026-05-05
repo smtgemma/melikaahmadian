@@ -43,6 +43,7 @@ class ProfileType extends StatelessWidget {
                 ? ListTile(
                     leading: AppImageFrameRadiousWidget(
                       imageLink: profileImage,
+                      radious: 25,
                     ),
                     title: Text(titel ?? "", style: textStyele.titleMedium),
                     subtitle: Text(

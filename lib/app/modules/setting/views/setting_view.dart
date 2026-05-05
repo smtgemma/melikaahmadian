@@ -30,52 +30,42 @@ class SettingView extends GetView<SettingController> {
               children: [
                 SizedBox(height: 35.h),
                 Center(
-                  child: Column(
+                  child: Obx(() => Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AppImageFrameRadiousWidget(radious: 50,imageLink: controller.profileModel.value.data?.image,),
+                      AppImageFrameRadiousWidget(
+                        radious: 50,
+                        imageLink: controller.profileModel.value.data?.image,
+                      ),
                       SizedBox(height: 12.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Obx(
-                            () => Text(
-                              controller.profileModel.value.data?.fullName ??
-                                  "Name",
-                              style: textStyele.titleLarge,
-                            ),
+                          Text(
+                            controller.profileModel.value.data?.fullName ??
+                                "Name",
+                            style: textStyele.titleLarge,
                           ),
                           SizedBox(width: 08.w),
                           Row(
                             children: [
                               Image.asset(Assets.iconsColorStar),
                               SizedBox(width: 12),
-                              Obx(() {
-                                final rating = controller
-                                    .profileModel
-                                    .value
-                                    .data
-                                    ?.averageRating;
-
-                                return Text(
-                                  rating != null
-                                      ? rating.toStringAsFixed(1)
-                                      : "0.0",
-                                  style: textStyele.titleMedium,
-                                );
-                              }),
+                              Text(
+                                (controller.profileModel.value.data?.averageRating ?? 0.0)
+                                    .toStringAsFixed(1),
+                                style: textStyele.titleMedium,
+                              ),
                             ],
                           ),
                         ],
                       ),
-                      Obx(
-                        () => Text(
-                          controller.profileModel.value.data?.email ?? "Email",
-                          style: textStyele.bodyMedium,
-                        ),
+                      Text(
+                        controller.profileModel.value.data?.email ?? "Email",
+                        style: textStyele.bodyMedium,
                       ),
                     ],
-                  ),
+                  )),
                 ),
                 SizedBox(height: 24.h),
                   Obx(() => ProfileType(
